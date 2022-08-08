@@ -834,15 +834,13 @@ class CallHierarchyIncomingCallsParams(TypedDict):
 @since 3.16.0 """
 	item: 'CallHierarchyItem'
 
-class CallHierarchyIncomingCall(TypedDict):
-	""" Represents an incoming call, e.g. a caller of a method or constructor.
+CallHierarchyIncomingCall = TypedDict('CallHierarchyIncomingCall', {
+	'from': 'CallHierarchyItem',
+	'fromRanges': List['Range'],
+})
+""" Represents an incoming call, e.g. a caller of a method or constructor.
 
 @since 3.16.0 """
-	from: 'CallHierarchyItem'
-	""" The item that makes the call. """
-	fromRanges: List['Range']
-	""" The ranges at which the calls appear. This is relative to the caller
-denoted by [`this.from`](#CallHierarchyIncomingCall.from). """
 
 class CallHierarchyOutgoingCallsParams(TypedDict):
 	""" The parameter of a `callHierarchy/outgoingCalls` request.

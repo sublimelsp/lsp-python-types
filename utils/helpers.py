@@ -1,5 +1,6 @@
-from typing import List, Optional, TypedDict, Union
+from typing import Any, List, Optional, TypedDict, Union
 from lsp_schema import _Type, BaseType, MapKeyType, Property
+import keyword
 
 
 def capitalize(text: str) -> str:
@@ -57,10 +58,12 @@ def format_type(type: _Type, context: FormatTypeContext) -> str:
 
 		root_symbol_name = capitalize(context['root_symbol_name'])
 		literal_symbol_name = f"{root_symbol_name}_Type_{literal_count}"
-		properties = format_properties(type['value']['properties'])
+		properties = get_formatted_properties(type['value']['properties'])
+		formatted_properties = format_class_properties(properties)
+
 		new_literal_structures.append(f"""
 class {literal_symbol_name}(TypedDict):
-	{properties or 'pass'}
+	{formatted_properties or 'pass'}
 """)
 		literal_count += 1
 		return f"'{literal_symbol_name}'"
@@ -93,8 +96,12 @@ def format_base_types(base_type: Union[BaseType, MapKeyType]):
 	return f"'{base_type['name']}'"
 
 
-def format_properties(properties: List[Property]) -> str:
-	result = []
+class FormattedProperty(TypedDict):
+	name: str
+	value: Any
+	documentation: str
+def get_formatted_properties(properties: List[Property]) -> List[FormattedProperty]:
+	result: List[FormattedProperty] = []
 	for p in properties:
 		key = p['name']
 		value = format_type(p['type'], {
@@ -104,6 +111,28 @@ def format_properties(properties: List[Property]) -> str:
 			value = f"NotRequired[{value}]"
 		documentation = format_comment(p.get('documentation'), '\n\t')
 
-		result.append(f"{key}: {value}{documentation}")
+		result.append({
+			'name': key,
+			'value': value,
+			'documentation': documentation
+		}) #f"{key}: {value}{documentation}"
 
+	return result # "\n\t".join(result)
+
+def has_invalid_property_name(properties: List[Property]):
+	for p in properties:
+		if keyword.iskeyword(p['name']):
+			return True
+	return False
+
+def format_class_properties(properties: List[FormattedProperty]) -> str:
+	result: List[str] = []
+	for p in properties:
+		result.append(f"{p['name']}: {p['value']}{p['documentation']}")
+	return "\n\t".join(result)
+
+def format_dict_properties(properties: List[FormattedProperty]) -> str:
+	result: List[str] = []
+	for p in properties:
+		result.append(f"'{p['name']}': {p['value']},")
 	return "\n\t".join(result)
