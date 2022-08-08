@@ -60,7 +60,7 @@ def format_type(type: _Type, context: FormatTypeContext) -> str:
 			return 'dict'
 
 		root_symbol_name = capitalize(context['root_symbol_name'])
-		literal_symbol_name = f"{root_symbol_name}_Type_{literal_count}"
+		literal_symbol_name = f"__{root_symbol_name}_Type_{literal_count}"
 		properties = get_formatted_properties(type['value']['properties'])
 		formatted_properties = format_class_properties(properties)
 
