@@ -1,4 +1,4 @@
-from typing import Any, List
+from typing import List
 from lsp_schema import Structure
 from utils.helpers import FormattedProperty, format_comment, format_class_properties, format_dict_properties, get_formatted_properties, has_invalid_property_name
 
