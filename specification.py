@@ -686,6 +686,11 @@ class ImplementationParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class Location(TypedDict):
 	""" Represents a location inside a resource, such as a line
@@ -697,17 +702,28 @@ class ImplementationRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class TypeDefinitionParams(TypedDict):
 	textDocument: 'TextDocumentIdentifier'
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class TypeDefinitionRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class WorkspaceFolder(TypedDict):
 	""" A workspace folder inside a client. """
@@ -735,6 +751,11 @@ class DocumentColorParams(TypedDict):
 	""" Parameters for a [DocumentColorRequest](#DocumentColorRequest). """
 	textDocument: 'TextDocumentIdentifier'
 	""" The text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class ColorInformation(TypedDict):
 	""" Represents a color range from a document. """
@@ -747,6 +768,9 @@ class DocumentColorRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class ColorPresentationParams(TypedDict):
 	""" Parameters for a [ColorPresentationRequest](#ColorPresentationRequest). """
@@ -756,6 +780,11 @@ class ColorPresentationParams(TypedDict):
 	""" The color to request presentations for. """
 	range: 'Range'
 	""" The range where the color would be inserted. Serves as a context. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class ColorPresentation(TypedDict):
 	label: str
@@ -783,6 +812,11 @@ class FoldingRangeParams(TypedDict):
 	""" Parameters for a [FoldingRangeRequest](#FoldingRangeRequest). """
 	textDocument: 'TextDocumentIdentifier'
 	""" The text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class FoldingRange(TypedDict):
 	""" Represents a folding range. To be valid, start and end line must be bigger than zero and smaller
@@ -812,17 +846,28 @@ class FoldingRangeRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class DeclarationParams(TypedDict):
 	textDocument: 'TextDocumentIdentifier'
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class DeclarationRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class SelectionRangeParams(TypedDict):
 	""" A parameter literal used in selection range requests. """
@@ -830,6 +875,11 @@ class SelectionRangeParams(TypedDict):
 	""" The text document. """
 	positions: List['Position']
 	""" The positions inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class SelectionRange(TypedDict):
 	""" A selection range represents a part of a selection hierarchy. A selection range
@@ -843,6 +893,9 @@ class SelectionRangeRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class WorkDoneProgressCreateParams(TypedDict):
 	token: 'ProgressToken'
@@ -860,6 +913,8 @@ class CallHierarchyPrepareParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class CallHierarchyItem(TypedDict):
 	""" Represents programming constructs like functions or constructors in the context
@@ -892,12 +947,20 @@ class CallHierarchyRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class CallHierarchyIncomingCallsParams(TypedDict):
 	""" The parameter of a `callHierarchy/incomingCalls` request.
 
 @since 3.16.0 """
 	item: 'CallHierarchyItem'
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 CallHierarchyIncomingCall = TypedDict('CallHierarchyIncomingCall', {
 	'from': 'CallHierarchyItem',
@@ -912,6 +975,11 @@ class CallHierarchyOutgoingCallsParams(TypedDict):
 
 @since 3.16.0 """
 	item: 'CallHierarchyItem'
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class CallHierarchyOutgoingCall(TypedDict):
 	""" Represents an outgoing call, e.g. calling a getter from a method or a method from a constructor etc.
@@ -928,6 +996,11 @@ class SemanticTokensParams(TypedDict):
 	""" @since 3.16.0 """
 	textDocument: 'TextDocumentIdentifier'
 	""" The text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class SemanticTokens(TypedDict):
 	""" @since 3.16.0 """
@@ -955,6 +1028,9 @@ the document selector provided on the client side will be used. """
 of a document. """
 	full: NotRequired[Union[bool, '__Full_Type_12']]
 	""" Server supports providing semantic tokens for a full document. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class SemanticTokensDeltaParams(TypedDict):
 	""" @since 3.16.0 """
@@ -963,6 +1039,11 @@ class SemanticTokensDeltaParams(TypedDict):
 	previousResultId: str
 	""" The result id of a previous response. The result Id can either point to a full response
 or a delta response depending on what was received last. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class SemanticTokensDelta(TypedDict):
 	""" @since 3.16.0 """
@@ -980,6 +1061,11 @@ class SemanticTokensRangeParams(TypedDict):
 	""" The text document. """
 	range: 'Range'
 	""" The range the semantic tokens are requested for. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class ShowDocumentParams(TypedDict):
 	""" Params to show a document.
@@ -1014,6 +1100,8 @@ class LinkedEditingRangeParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class LinkedEditingRanges(TypedDict):
 	""" The result of a linked editing range request.
@@ -1031,6 +1119,9 @@ class LinkedEditingRangeRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class CreateFilesParams(TypedDict):
 	""" The parameters sent in notifications/requests for user-initiated creation of
@@ -1103,6 +1194,11 @@ class MonikerParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class Moniker(TypedDict):
 	""" Moniker definition to match LSIF 0.5 moniker definition.
@@ -1131,6 +1227,8 @@ class TypeHierarchyPrepareParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class TypeHierarchyItem(TypedDict):
 	""" @since 3.17.0 """
@@ -1164,18 +1262,31 @@ class TypeHierarchyRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class TypeHierarchySupertypesParams(TypedDict):
 	""" The parameter of a `typeHierarchy/supertypes` request.
 
 @since 3.17.0 """
 	item: 'TypeHierarchyItem'
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class TypeHierarchySubtypesParams(TypedDict):
 	""" The parameter of a `typeHierarchy/subtypes` request.
 
 @since 3.17.0 """
 	item: 'TypeHierarchyItem'
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class InlineValueParams(TypedDict):
 	""" A parameter literal used in inline value requests.
@@ -1188,6 +1299,8 @@ class InlineValueParams(TypedDict):
 	context: 'InlineValueContext'
 	""" Additional information about the context in which inline values were
 requested. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class InlineValueRegistrationOptions(TypedDict):
 	""" Inline value options used during static or dynamic registration.
@@ -1196,6 +1309,9 @@ class InlineValueRegistrationOptions(TypedDict):
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class InlayHintParams(TypedDict):
 	""" A parameter literal used in inlay hint requests.
@@ -1205,6 +1321,8 @@ class InlayHintParams(TypedDict):
 	""" The text document. """
 	range: 'Range'
 	""" The document range for which inlay hints should be computed. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class InlayHint(TypedDict):
 	""" Inlay hint information.
@@ -1254,6 +1372,9 @@ information for an inlay hint item. """
 	documentSelector: Union['DocumentSelector', None]
 	""" A document selector to identify the scope of the registration. If set to null
 the document selector provided on the client side will be used. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class DocumentDiagnosticParams(TypedDict):
 	""" Parameters of the document diagnostic request.
@@ -1265,6 +1386,11 @@ class DocumentDiagnosticParams(TypedDict):
 	""" The additional identifier  provided during registration. """
 	previousResultId: NotRequired[str]
 	""" The result id of a previous response if provided. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class DocumentDiagnosticReportPartialResult(TypedDict):
 	""" A partial result for a document diagnostic report.
@@ -1295,6 +1421,9 @@ set in another file. Inter file dependencies are common for
 most programming languages and typically uncommon for linters. """
 	workspaceDiagnostics: bool
 	""" The server provides support for workspace diagnostics as well. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class WorkspaceDiagnosticParams(TypedDict):
 	""" Parameters of the workspace diagnostic request.
@@ -1305,6 +1434,11 @@ class WorkspaceDiagnosticParams(TypedDict):
 	previousResultIds: List['PreviousResultId']
 	""" The currently known diagnostic reports with their
 previous result ids. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class WorkspaceDiagnosticReport(TypedDict):
 	""" A workspace diagnostic report.
@@ -1575,6 +1709,11 @@ to send this using the client capability `textDocument.completion.contextSupport
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class CompletionItem(TypedDict):
 	""" A completion item represents a text snippet that is
@@ -1760,6 +1899,8 @@ class HoverParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class Hover(TypedDict):
 	""" The result of a hover request. """
@@ -1786,6 +1927,8 @@ to send this using the client capability `textDocument.signatureHelp.contextSupp
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class SignatureHelp(TypedDict):
 	""" Signature help represents the signature of something
@@ -1833,6 +1976,11 @@ class DefinitionParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class DefinitionRegistrationOptions(TypedDict):
 	""" Registration options for a [DefinitionRequest](#DefinitionRequest). """
@@ -1847,6 +1995,11 @@ class ReferenceParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class ReferenceRegistrationOptions(TypedDict):
 	""" Registration options for a [ReferencesRequest](#ReferencesRequest). """
@@ -1860,6 +2013,11 @@ class DocumentHighlightParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class DocumentHighlight(TypedDict):
 	""" A document highlight is a range inside a text document which deserves
@@ -1880,6 +2038,11 @@ class DocumentSymbolParams(TypedDict):
 	""" Parameters for a [DocumentSymbolRequest](#DocumentSymbolRequest). """
 	textDocument: 'TextDocumentIdentifier'
 	""" The text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class SymbolInformation(TypedDict):
 	""" Represents information about programming constructs like variables, classes,
@@ -1961,6 +2124,11 @@ class CodeActionParams(TypedDict):
 	""" The range for which the command was invoked. """
 	context: 'CodeActionContext'
 	""" Context carrying additional information. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class Command(TypedDict):
 	""" Represents a reference to a command. Provides a title which
@@ -2045,6 +2213,11 @@ class WorkspaceSymbolParams(TypedDict):
 	query: str
 	""" A query string to filter symbols by. Clients may send an empty
 string here to request all symbols. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class WorkspaceSymbol(TypedDict):
 	""" A special workspace symbol that supports locations without a range.
@@ -2087,6 +2260,11 @@ class CodeLensParams(TypedDict):
 	""" The parameters of a [CodeLensRequest](#CodeLensRequest). """
 	textDocument: 'TextDocumentIdentifier'
 	""" The document to request code lens for. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class CodeLens(TypedDict):
 	""" A code lens represents a [command](#Command) that should be shown along with
@@ -2115,6 +2293,11 @@ class DocumentLinkParams(TypedDict):
 	""" The parameters of a [DocumentLinkRequest](#DocumentLinkRequest). """
 	textDocument: 'TextDocumentIdentifier'
 	""" The document to provide document links for. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
+	partialResultToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report partial results (e.g. streaming) to
+the client. """
 
 class DocumentLink(TypedDict):
 	""" A document link is a range in a text document that links to an internal or external resource, like another
@@ -2149,6 +2332,8 @@ class DocumentFormattingParams(TypedDict):
 	""" The document to format. """
 	options: 'FormattingOptions'
 	""" The format options. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class DocumentFormattingRegistrationOptions(TypedDict):
 	""" Registration options for a [DocumentFormattingRequest](#DocumentFormattingRequest). """
@@ -2164,6 +2349,8 @@ class DocumentRangeFormattingParams(TypedDict):
 	""" The range to format """
 	options: 'FormattingOptions'
 	""" The format options """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class DocumentRangeFormattingRegistrationOptions(TypedDict):
 	""" Registration options for a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
@@ -2207,6 +2394,8 @@ class RenameParams(TypedDict):
 	""" The new name of the symbol. If the given name is not valid the
 request must return a [ResponseError](#ResponseError) with an
 appropriate message set. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class RenameRegistrationOptions(TypedDict):
 	""" Registration options for a [RenameRequest](#RenameRequest). """
@@ -2223,6 +2412,8 @@ class PrepareRenameParams(TypedDict):
 	""" The text document. """
 	position: 'Position'
 	""" The position inside the text document. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class ExecuteCommandParams(TypedDict):
 	""" The parameters of a [ExecuteCommandRequest](#ExecuteCommandRequest). """
@@ -2230,6 +2421,8 @@ class ExecuteCommandParams(TypedDict):
 	""" The identifier of the actual command handler. """
 	arguments: NotRequired[List['LSPAny']]
 	""" Arguments that the command should be invoked with. """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class ExecuteCommandRegistrationOptions(TypedDict):
 	""" Registration options for a [ExecuteCommandRequest](#ExecuteCommandRequest). """
@@ -2377,7 +2570,7 @@ For example:
 	""" The range's end position. """
 
 class ImplementationOptions(TypedDict):
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class StaticRegistrationOptions(TypedDict):
 	""" Static registration options to be returned in the initialize
@@ -2387,7 +2580,7 @@ request. """
 the request again. See also Registration#id. """
 
 class TypeDefinitionOptions(TypedDict):
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class WorkspaceFoldersChangeEvent(TypedDict):
 	""" The workspace folder change event. """
@@ -2419,13 +2612,13 @@ class Color(TypedDict):
 	""" The alpha component of this color in the range [0-1]. """
 
 class DocumentColorOptions(TypedDict):
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class FoldingRangeOptions(TypedDict):
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class DeclarationOptions(TypedDict):
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class Position(TypedDict):
 	""" Position in a text document expressed as zero-based line and character
@@ -2470,13 +2663,13 @@ If the character value is greater than the line length it defaults back to the
 line length. """
 
 class SelectionRangeOptions(TypedDict):
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class CallHierarchyOptions(TypedDict):
 	""" Call hierarchy options used during static registration.
 
 @since 3.16.0 """
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class SemanticTokensOptions(TypedDict):
 	""" @since 3.16.0 """
@@ -2487,6 +2680,7 @@ class SemanticTokensOptions(TypedDict):
 of a document. """
 	full: NotRequired[Union[bool, '__Full_Type_20']]
 	""" Server supports providing semantic tokens for a full document. """
+	workDoneProgress: NotRequired[bool]
 
 class SemanticTokensEdit(TypedDict):
 	""" @since 3.16.0 """
@@ -2498,7 +2692,7 @@ class SemanticTokensEdit(TypedDict):
 	""" The elements to insert. """
 
 class LinkedEditingRangeOptions(TypedDict):
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class FileCreate(TypedDict):
 	""" Represents information on a file/folder create.
@@ -2602,13 +2796,13 @@ class FileDelete(TypedDict):
 	""" A file:// URI for the location of the file/folder being deleted. """
 
 class MonikerOptions(TypedDict):
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class TypeHierarchyOptions(TypedDict):
 	""" Type hierarchy options used during static registration.
 
 @since 3.17.0 """
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class InlineValueContext(TypedDict):
 	""" @since 3.17.0 """
@@ -2657,7 +2851,7 @@ class InlineValueOptions(TypedDict):
 	""" Inline value options used during static registration.
 
 @since 3.17.0 """
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class InlayHintLabelPart(TypedDict):
 	""" An inlay hint label part allows for interactive and composite labels
@@ -2723,6 +2917,7 @@ class InlayHintOptions(TypedDict):
 	resolveProvider: NotRequired[bool]
 	""" The server provides support to resolve additional
 information for an inlay hint item. """
+	workDoneProgress: NotRequired[bool]
 
 class RelatedFullDocumentDiagnosticReport(TypedDict):
 	""" A full diagnostic report with a set of related documents.
@@ -2807,6 +3002,7 @@ set in another file. Inter file dependencies are common for
 most programming languages and typically uncommon for linters. """
 	workspaceDiagnostics: bool
 	""" The server provides support for workspace diagnostics as well. """
+	workDoneProgress: NotRequired[bool]
 
 class PreviousResultId(TypedDict):
 	""" A previous result id in a workspace pull request.
@@ -2933,6 +3129,8 @@ folder is open. If both `rootPath` and `rootUri` are set
 	""" User provided initialization options. """
 	trace: NotRequired[Union[Literal['off'], Literal['messages'], Literal['compact'], Literal['verbose']]]
 	""" The initial trace setting. If omitted trace is disabled ('off'). """
+	workDoneToken: NotRequired['ProgressToken']
+	""" An optional token that a server can use to report work done progress. """
 
 class WorkspaceFoldersInitializeParams(TypedDict):
 	workspaceFolders: NotRequired[Union[List['WorkspaceFolder'], None]]
@@ -3171,10 +3369,11 @@ information for a completion item. """
 capabilities.
 
 @since 3.17.0 """
+	workDoneProgress: NotRequired[bool]
 
 class HoverOptions(TypedDict):
 	""" Hover options. """
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class SignatureHelpContext(TypedDict):
 	""" Additional information about the context in which a signature help request was triggered.
@@ -3227,10 +3426,11 @@ These trigger characters are only active when signature help is already showing.
 are also counted as re-trigger characters.
 
 @since 3.15.0 """
+	workDoneProgress: NotRequired[bool]
 
 class DefinitionOptions(TypedDict):
 	""" Server Capabilities for a [DefinitionRequest](#DefinitionRequest). """
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class ReferenceContext(TypedDict):
 	""" Value-object that contains additional information when
@@ -3240,11 +3440,11 @@ requesting references. """
 
 class ReferenceOptions(TypedDict):
 	""" Reference options. """
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class DocumentHighlightOptions(TypedDict):
 	""" Provider options for a [DocumentHighlightRequest](#DocumentHighlightRequest). """
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class BaseSymbolInformation(TypedDict):
 	""" A base for all symbol information. """
@@ -3269,6 +3469,7 @@ class DocumentSymbolOptions(TypedDict):
 are shown for the same document.
 
 @since 3.16.0 """
+	workDoneProgress: NotRequired[bool]
 
 class CodeActionContext(TypedDict):
 	""" Contains additional diagnostic information about the context in which
@@ -3301,6 +3502,7 @@ may list out every specific kind they provide. """
 information for a code action.
 
 @since 3.16.0 """
+	workDoneProgress: NotRequired[bool]
 
 class WorkspaceSymbolOptions(TypedDict):
 	""" Server capabilities for a [WorkspaceSymbolRequest](#WorkspaceSymbolRequest). """
@@ -3309,16 +3511,19 @@ class WorkspaceSymbolOptions(TypedDict):
 information for a workspace symbol.
 
 @since 3.17.0 """
+	workDoneProgress: NotRequired[bool]
 
 class CodeLensOptions(TypedDict):
 	""" Code Lens provider options of a [CodeLensRequest](#CodeLensRequest). """
 	resolveProvider: NotRequired[bool]
 	""" Code lens has a resolve provider as well. """
+	workDoneProgress: NotRequired[bool]
 
 class DocumentLinkOptions(TypedDict):
 	""" Provider options for a [DocumentLinkRequest](#DocumentLinkRequest). """
 	resolveProvider: NotRequired[bool]
 	""" Document links have a resolve provider as well. """
+	workDoneProgress: NotRequired[bool]
 
 class FormattingOptions(TypedDict):
 	""" Value-object describing what options formatting should use. """
@@ -3341,11 +3546,11 @@ class FormattingOptions(TypedDict):
 
 class DocumentFormattingOptions(TypedDict):
 	""" Provider options for a [DocumentFormattingRequest](#DocumentFormattingRequest). """
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class DocumentRangeFormattingOptions(TypedDict):
 	""" Provider options for a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
-	pass
+	workDoneProgress: NotRequired[bool]
 
 class DocumentOnTypeFormattingOptions(TypedDict):
 	""" Provider options for a [DocumentOnTypeFormattingRequest](#DocumentOnTypeFormattingRequest). """
@@ -3360,11 +3565,13 @@ class RenameOptions(TypedDict):
 	""" Renames should be checked and tested before being executed.
 
 @since version 3.12.0 """
+	workDoneProgress: NotRequired[bool]
 
 class ExecuteCommandOptions(TypedDict):
 	""" The server capabilities of a [ExecuteCommandRequest](#ExecuteCommandRequest). """
 	commands: List[str]
 	""" The commands to be executed on the server """
+	workDoneProgress: NotRequired[bool]
 
 class SemanticTokensLegend(TypedDict):
 	""" @since 3.16.0 """
@@ -3586,6 +3793,9 @@ class NotebookDocumentSyncRegistrationOptions(TypedDict):
 	save: NotRequired[bool]
 	""" Whether save notification should be forwarded to
 the server. Will only be honored if mode === `notebook`. """
+	id: NotRequired[str]
+	""" The id used to register the request. The id can be used to deregister
+the request again. See also Registration#id. """
 
 class WorkspaceFoldersServerCapabilities(TypedDict):
 	supported: NotRequired[bool]

@@ -12,31 +12,32 @@ def generate_structures(structures: List[Structure]) -> str:
 			result += generate_class_type(structure, structures)
 	return result
 
-def get_extends_properties(for_structure: Structure, structures: List[Structure]) -> List[FormattedProperty]:
+def get_additional_properties(for_structure: Structure, structures: List[Structure]) -> List[FormattedProperty]:
+	"""Returns properties from extended and mixin types. """
 	result: List[FormattedProperty] = []
-	extends = for_structure.get('extends') or []
-	for e in extends:
-		if e['kind'] != 'reference':
-			raise Exception("Cannot generate extends. Currently only supports kind: 'reference', but recieved:", e['kind'])
-		extended_structure = next(structure for structure in structures if structure["name"] == e['name'])
-		if extended_structure:
-			properties = get_formatted_properties(extended_structure['properties'])
+	additional_structures = for_structure.get('extends') or []
+	additional_structures.extend(for_structure.get('mixins') or [])
+	for additional_structure in additional_structures:
+		if additional_structure['kind'] != 'reference':
+			raise Exception("Cannot generate extends. Currently only supports kind: 'reference', but received:", additional_structure['kind'])
+		structure = next(structure for structure in structures if structure["name"] == additional_structure['name'])
+		if structure:
+			properties = get_formatted_properties(structure['properties'])
 			result.extend(properties)
 	return result
-
 
 def generate_class_type(structure: Structure, structures: List[Structure]) -> str:
 	result = ""
 	symbol_name = structure['name']
 	documentation = format_comment(structure.get('documentation'))
 	properties = get_formatted_properties(structure['properties'])
-	extended_properties = get_extends_properties(structure, structures)
+	additional_properties = get_additional_properties(structure, structures)
 
 	# add extended properties
 	taken_property_names = [property['name'] for property in properties]
-	for extended_property in extended_properties:
-		if extended_property['name'] not in taken_property_names:
-			properties.append(extended_property)
+	for additional_property in additional_properties:
+		if additional_property['name'] not in taken_property_names:
+			properties.append(additional_property)
 
 	formatted_properties = format_class_properties(properties)
 	result += f"class {symbol_name}(TypedDict):\n"
@@ -56,13 +57,13 @@ def generate_function_type(structure: Structure, structures: List[Structure]) ->
 	properties = get_formatted_properties(structure['properties'])
 	formatted_properties = format_dict_properties(properties)
 
-	extended_properties = get_extends_properties(structure, structures)
+	additional_properties = get_additional_properties(structure, structures)
 
 	# add extended properties
 	taken_property_names = [property['name'] for property in properties]
-	for extended_property in extended_properties:
-		if extended_property['name'] not in taken_property_names:
-			properties.append(extended_property)
+	for additional_property in additional_properties:
+		if additional_property['name'] not in taken_property_names:
+			properties.append(additional_property)
 
 	# TODO improvement
 	# MyType = TypedDict('MyType', {}), doesn't support inheritance,
