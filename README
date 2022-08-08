@@ -1,3 +1,15 @@
 # setup
 
+Install dependecies:
+```
 pip install -r requirements.txt
+```
+
+Generate the types:
+```
+python ./generate.py
+```
+
+Copy the `specification.py` file to your project.
+
+Requires py3.8 and up.
