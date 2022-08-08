@@ -55,6 +55,9 @@ def format_type(type: _Type, context: FormatTypeContext) -> str:
 		return f"Tuple[{', '.join(tuple)}]"
 
 	elif type['kind'] == 'literal':
+		if not type['value']['properties']:
+			# fixes https://github.com/microsoft/language-server-protocol/issues/1532
+			return 'dict'
 
 		root_symbol_name = capitalize(context['root_symbol_name'])
 		literal_symbol_name = f"{root_symbol_name}_Type_{literal_count}"
