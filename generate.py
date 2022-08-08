@@ -28,7 +28,7 @@ def generate():
 
 		content += get_new_literal_structures()
 
-		with open('./generated_types.py', "w") as new_file:
+		with open('./types.py', "w") as new_file:
 			new_file.write(content)
 
 generate()
