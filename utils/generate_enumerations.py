@@ -1,6 +1,6 @@
 from typing import List
 from lsp_schema import Enumeration, EnumerationEntry
-from utils.helpers import capitalize, format_comment
+from utils.helpers import capitalize, format_comment, indentation
 
 
 def format_enumeration_values(values: List[EnumerationEntry]) -> str:
@@ -15,11 +15,11 @@ def format_enumeration_values(values: List[EnumerationEntry]) -> str:
 			value = int(value)
 		except ValueError:
 			value = f"'{value}'"
-		documentation = format_comment(v.get('documentation'), '\n\t')
+		documentation = format_comment(v.get('documentation'), f'\n{indentation}')
 
 		result.append(f"{key} = {value}{documentation}")
 
-	return "\n\t".join(result)
+	return f"\n{indentation}".join(result)
 
 
 def generate_enumerations(enumerations: List[Enumeration]) -> str:
@@ -31,7 +31,7 @@ def generate_enumerations(enumerations: List[Enumeration]) -> str:
 		values = format_enumeration_values(enumeration['values'])
 		result += f"\nclass {symbol_name}(Enum):\n"
 		if documentation:
-			result += f"\t{documentation}\n"
-		result += '\t' + values
+			result += f"{indentation}{documentation}\n"
+		result += f'{indentation}' + values
 		result += "\n"
 	return result

@@ -2,6 +2,7 @@ from typing import Any, List, Optional, TypedDict, Union
 from lsp_schema import _Type, BaseType, MapKeyType, Property
 import keyword
 
+indentation = "    "
 
 def capitalize(text: str) -> str:
 	return  text[0].upper() + text[1:]
@@ -66,7 +67,7 @@ def format_type(type: _Type, context: FormatTypeContext) -> str:
 
 		new_literal_structures.append(f"""
 class {literal_symbol_name}(TypedDict):
-	{formatted_properties or 'pass'}
+{indentation}{formatted_properties or 'pass'}
 """)
 		literal_count += 1
 		return f"'{literal_symbol_name}'"
@@ -112,7 +113,7 @@ def get_formatted_properties(properties: List[Property]) -> List[FormattedProper
 		})
 		if p.get('optional'):
 			value = f"NotRequired[{value}]"
-		documentation = format_comment(p.get('documentation'), '\n\t')
+		documentation = format_comment(p.get('documentation'), f'\n{indentation}')
 
 		result.append({
 			'name': key,
@@ -132,10 +133,10 @@ def format_class_properties(properties: List[FormattedProperty]) -> str:
 	result: List[str] = []
 	for p in properties:
 		result.append(f"{p['name']}: {p['value']}{p['documentation']}")
-	return "\n\t".join(result)
+	return f"\n{indentation}".join(result)
 
 def format_dict_properties(properties: List[FormattedProperty]) -> str:
 	result: List[str] = []
 	for p in properties:
 		result.append(f"'{p['name']}': {p['value']},")
-	return "\n\t".join(result)
+	return f"\n{indentation}".join(result)

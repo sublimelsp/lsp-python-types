@@ -1,6 +1,6 @@
 from typing import List
 from lsp_schema import Structure
-from utils.helpers import FormattedProperty, format_comment, format_class_properties, format_dict_properties, get_formatted_properties, has_invalid_property_name
+from utils.helpers import FormattedProperty, format_comment, indentation, format_class_properties, format_dict_properties, get_formatted_properties, has_invalid_property_name
 
 def generate_structures(structures: List[Structure]) -> str:
 	result = ""
@@ -42,8 +42,8 @@ def generate_class_type(structure: Structure, structures: List[Structure]) -> st
 	formatted_properties = format_class_properties(properties)
 	result += f"class {symbol_name}(TypedDict):\n"
 	if documentation:
-		result += f"\t{documentation}\n"
-	result += f"\t{formatted_properties or 'pass'}\n\n"
+		result += f"{indentation}{documentation}\n"
+	result += f"{indentation}{formatted_properties or 'pass'}\n\n"
 	return result
 
 
@@ -70,7 +70,7 @@ def generate_function_type(structure: Structure, structures: List[Structure]) ->
 	# Add properties from structure['extends'] types in the properties list
 	result += f"{symbol_name} = TypedDict('{symbol_name}', "
 	result += "{\n"
-	result += f"\t{formatted_properties}\n"
+	result += f"{indentation}{formatted_properties}\n"
 	result += "})"
 	if documentation:
 		result += f"\n{documentation}"
