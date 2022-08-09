@@ -60,7 +60,6 @@ def format_type(type: _Type, context: FormatTypeContext) -> str:
 
 	elif type['kind'] == 'literal':
 		if not type['value']['properties']:
-			# fixes https://github.com/microsoft/language-server-protocol/issues/1532
 			return 'dict'
 
 		root_symbol_name = capitalize(context['root_symbol_name'])
