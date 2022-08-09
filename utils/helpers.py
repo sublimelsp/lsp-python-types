@@ -7,11 +7,11 @@ indentation = "    "
 def capitalize(text: str) -> str:
 	return  text[0].upper() + text[1:]
 
-def format_comment(text: Optional[str], prefix="") -> str:
+def format_comment(text: Optional[str], indent="") -> str:
 	if text:
 		lines = text.splitlines(keepends=True)
-		text = indentation.join(lines)
-	return prefix + f'""" {text} """' if text else ""
+		text = indent.join(lines)
+	return indent + f'""" {text} """' if text else ""
 
 literal_count = 1
 new_literal_structures = []
@@ -115,8 +115,7 @@ def get_formatted_properties(properties: List[Property]) -> List[FormattedProper
 		})
 		if p.get('optional'):
 			value = f"NotRequired[{value}]"
-		documentation = format_comment(p.get('documentation'), f'\n{indentation}')
-
+		documentation = format_comment(p.get('documentation'), indentation)
 		result.append({
 			'name': key,
 			'value': value,
@@ -134,7 +133,10 @@ def has_invalid_property_name(properties: List[Property]):
 def format_class_properties(properties: List[FormattedProperty]) -> str:
 	result: List[str] = []
 	for p in properties:
-		result.append(f"{p['name']}: {p['value']}{p['documentation']}")
+		line = f"{p['name']}: {p['value']}"
+		if p['documentation']:
+			line += f"\n{p['documentation']}"
+		result.append(line)
 	return f"\n{indentation}".join(result)
 
 def format_dict_properties(properties: List[FormattedProperty]) -> str:

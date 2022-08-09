@@ -537,29 +537,29 @@ class TokenFormat(Enum):
 
 Definition = Union['Location', List['Location']]
 """ The definition of a symbol represented as one or many [locations](#Location).
-    For most programming languages there is only one location at which a symbol is
-    defined.
+For most programming languages there is only one location at which a symbol is
+defined.
 
-    Servers should prefer returning `DefinitionLink` over `Definition` if supported
-    by the client. """
+Servers should prefer returning `DefinitionLink` over `Definition` if supported
+by the client. """
 
 DefinitionLink = 'LocationLink'
 """ Information about where a symbol is defined.
 
-    Provides additional metadata over normal [location](#Location) definitions, including the range of
-    the defining symbol """
+Provides additional metadata over normal [location](#Location) definitions, including the range of
+the defining symbol """
 
 LSPArray = List['LSPAny']
 """ LSP arrays.
-    @since 3.17.0 """
+@since 3.17.0 """
 
 LSPAny = Union['LSPObject', 'LSPArray', str, int, Uint, float, bool, None]
 """ The LSP any type.
-    Please note that strictly speaking a property with the value `undefined`
-    can't be converted into JSON preserving the property name. However for
-    convenience it is allowed and assumed that all these properties are
-    optional as well.
-    @since 3.17.0 """
+Please note that strictly speaking a property with the value `undefined`
+can't be converted into JSON preserving the property name. However for
+convenience it is allowed and assumed that all these properties are
+optional as well.
+@since 3.17.0 """
 
 Declaration = Union['Location', List['Location']]
 """ The declaration of a symbol representation as one or many [locations](#Location). """
@@ -567,29 +567,29 @@ Declaration = Union['Location', List['Location']]
 DeclarationLink = 'LocationLink'
 """ Information about where a symbol is declared.
 
-    Provides additional metadata over normal [location](#Location) declarations, including the range of
-    the declaring symbol.
+Provides additional metadata over normal [location](#Location) declarations, including the range of
+the declaring symbol.
 
-    Servers should prefer returning `DeclarationLink` over `Declaration` if supported
-    by the client. """
+Servers should prefer returning `DeclarationLink` over `Declaration` if supported
+by the client. """
 
 InlineValue = Union['InlineValueText', 'InlineValueVariableLookup', 'InlineValueEvaluatableExpression']
 """ Inline value information can be provided by different means:
-    - directly as a text value (class InlineValueText).
-    - as a name to use for a variable lookup (class InlineValueVariableLookup)
-    - as an evaluatable expression (class InlineValueEvaluatableExpression)
-    The InlineValue types combines all inline value types into one type.
+- directly as a text value (class InlineValueText).
+- as a name to use for a variable lookup (class InlineValueVariableLookup)
+- as an evaluatable expression (class InlineValueEvaluatableExpression)
+The InlineValue types combines all inline value types into one type.
 
-    @since 3.17.0 """
+@since 3.17.0 """
 
 DocumentDiagnosticReport = Union['RelatedFullDocumentDiagnosticReport', 'RelatedUnchangedDocumentDiagnosticReport']
 """ The result of a document diagnostic pull request. A report can
-    either be a full report containing all diagnostics for the
-    requested document or an unchanged report indicating that nothing
-    has changed in terms of diagnostics in comparison to the last
-    pull request.
+either be a full report containing all diagnostics for the
+requested document or an unchanged report indicating that nothing
+has changed in terms of diagnostics in comparison to the last
+pull request.
 
-    @since 3.17.0 """
+@since 3.17.0 """
 
 PrepareRenameResult = Union['Range', '__PrepareRenameResult_Type_1', '__PrepareRenameResult_Type_2']
 
@@ -597,7 +597,7 @@ PrepareRenameResult = Union['Range', '__PrepareRenameResult_Type_1', '__PrepareR
 URI = str
 """ A tagging type for string properties that are actually URIs
 
-    @since 3.16.0 """
+@since 3.16.0 """
 
 ProgressToken = Union[int, str]
 
@@ -605,9 +605,9 @@ ProgressToken = Union[int, str]
 DocumentSelector = List[Union[str, 'DocumentFilter']]
 """ A document selector is the combination of one or many document filters.
 
-    @sample `let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**∕tsconfig.json' }]`;
+@sample `let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**∕tsconfig.json' }]`;
 
-    The use of a string as a document filter is deprecated @since 3.16.0. """
+The use of a string as a document filter is deprecated @since 3.16.0. """
 
 ChangeAnnotationIdentifier = str
 """ An identifier to refer to a change annotation stored with a workspace edit. """
@@ -615,72 +615,72 @@ ChangeAnnotationIdentifier = str
 WorkspaceDocumentDiagnosticReport = Union['WorkspaceFullDocumentDiagnosticReport', 'WorkspaceUnchangedDocumentDiagnosticReport']
 """ A workspace diagnostic document report.
 
-    @since 3.17.0 """
+@since 3.17.0 """
 
 TextDocumentContentChangeEvent = Union['__TextDocumentContentChangeEvent_Type_3', '__TextDocumentContentChangeEvent_Type_4']
 """ An event describing a change to a text document. If only a text is provided
-    it is considered to be the full content of the document. """
+it is considered to be the full content of the document. """
 
 MarkedString = Union[str, '__MarkedString_Type_5']
 """ MarkedString can be used to render human readable text. It is either a markdown string
-    or a code-block that provides a language and a code snippet. The language identifier
-    is semantically equal to the optional language identifier in fenced code blocks in GitHub
-    issues. See https://help.github.com/articles/creating-and-highlighting-code-blocks/#syntax-highlighting
+or a code-block that provides a language and a code snippet. The language identifier
+is semantically equal to the optional language identifier in fenced code blocks in GitHub
+issues. See https://help.github.com/articles/creating-and-highlighting-code-blocks/#syntax-highlighting
 
-    The pair of a language and a value is an equivalent to markdown:
-    ```${language}
-    ${value}
-    ```
+The pair of a language and a value is an equivalent to markdown:
+```${language}
+${value}
+```
 
-    Note that markdown strings will be sanitized - that means html will be escaped.
-    @deprecated use MarkupContent instead. """
+Note that markdown strings will be sanitized - that means html will be escaped.
+@deprecated use MarkupContent instead. """
 
 DocumentFilter = Union['TextDocumentFilter', 'NotebookCellTextDocumentFilter']
 """ A document filter describes a top level text document or
-    a notebook cell document.
+a notebook cell document.
 
-    @since 3.17.0 - proposed support for NotebookCellTextDocumentFilter. """
+@since 3.17.0 - proposed support for NotebookCellTextDocumentFilter. """
 
 GlobPattern = Union['Pattern', 'RelativePattern']
 """ The glob pattern. Either a string pattern or a relative pattern.
 
-    @since 3.17.0 """
+@since 3.17.0 """
 
 TextDocumentFilter = Union['__TextDocumentFilter_Type_6', '__TextDocumentFilter_Type_7', '__TextDocumentFilter_Type_8']
 """ A document filter denotes a document by different properties like
-    the [language](#TextDocument.languageId), the [scheme](#Uri.scheme) of
-    its resource, or a glob-pattern that is applied to the [path](#TextDocument.fileName).
+the [language](#TextDocument.languageId), the [scheme](#Uri.scheme) of
+its resource, or a glob-pattern that is applied to the [path](#TextDocument.fileName).
 
-    Glob patterns can have the following syntax:
-    - `*` to match one or more characters in a path segment
-    - `?` to match on one character in a path segment
-    - `**` to match any number of path segments, including none
-    - `{}` to group sub patterns into an OR expression. (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
-    - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
-    - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
+Glob patterns can have the following syntax:
+- `*` to match one or more characters in a path segment
+- `?` to match on one character in a path segment
+- `**` to match any number of path segments, including none
+- `{}` to group sub patterns into an OR expression. (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
+- `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
+- `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
 
-    @sample A language filter that applies to typescript files on disk: `{ language: 'typescript', scheme: 'file' }`
-    @sample A language filter that applies to all package.json paths: `{ language: 'json', pattern: '**package.json' }`
+@sample A language filter that applies to typescript files on disk: `{ language: 'typescript', scheme: 'file' }`
+@sample A language filter that applies to all package.json paths: `{ language: 'json', pattern: '**package.json' }`
 
-    @since 3.17.0 """
+@since 3.17.0 """
 
 NotebookDocumentFilter = Union['__NotebookDocumentFilter_Type_9', '__NotebookDocumentFilter_Type_10', '__NotebookDocumentFilter_Type_11']
 """ A notebook document filter denotes a notebook document by
-    different properties. The properties will be match
-    against the notebook's URI (same as with documents)
+different properties. The properties will be match
+against the notebook's URI (same as with documents)
 
-    @since 3.17.0 """
+@since 3.17.0 """
 
 Pattern = str
 """ The glob pattern to watch relative to the base path. Glob patterns can have the following syntax:
-    - `*` to match one or more characters in a path segment
-    - `?` to match on one character in a path segment
-    - `**` to match any number of path segments, including none
-    - `{}` to group conditions (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
-    - `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
-    - `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
+- `*` to match one or more characters in a path segment
+- `?` to match on one character in a path segment
+- `**` to match any number of path segments, including none
+- `{}` to group conditions (e.g. `**​/*.{ts,js}` matches all TypeScript and JavaScript files)
+- `[]` to declare a range of characters to match in a path segment (e.g., `example.[0-9]` to match on `example.0`, `example.1`, …)
+- `[!...]` to negate a range of characters to match in a path segment (e.g., `example.[!0-9]` to match on `example.a`, `example.b`, but not `example.0`)
 
-    @since 3.17.0 """
+@since 3.17.0 """
 class ImplementationParams(TypedDict):
     textDocument: 'TextDocumentIdentifier'
     """ The text document. """
@@ -968,7 +968,7 @@ CallHierarchyIncomingCall = TypedDict('CallHierarchyIncomingCall', {
 })
 """ Represents an incoming call, e.g. a caller of a method or constructor.
 
-    @since 3.16.0 """
+@since 3.16.0 """
 
 class CallHierarchyOutgoingCallsParams(TypedDict):
     """ The parameter of a `callHierarchy/outgoingCalls` request.

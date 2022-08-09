@@ -29,7 +29,7 @@ def get_additional_properties(for_structure: Structure, structures: List[Structu
 def generate_class_type(structure: Structure, structures: List[Structure]) -> str:
 	result = ""
 	symbol_name = structure['name']
-	documentation = format_comment(structure.get('documentation'))
+	documentation = format_comment(structure.get('documentation'), indentation)
 	properties = get_formatted_properties(structure['properties'])
 	additional_properties = get_additional_properties(structure, structures)
 
@@ -42,7 +42,7 @@ def generate_class_type(structure: Structure, structures: List[Structure]) -> st
 	formatted_properties = format_class_properties(properties)
 	result += f"class {symbol_name}(TypedDict):\n"
 	if documentation:
-		result += f"{indentation}{documentation}\n"
+		result += f"{documentation}\n"
 	result += f"{indentation}{formatted_properties or 'pass'}\n\n"
 	return result
 

@@ -15,7 +15,9 @@ def format_enumeration_values(values: List[EnumerationEntry]) -> str:
 			value = int(value)
 		except ValueError:
 			value = f"'{value}'"
-		documentation = format_comment(v.get('documentation'), f'\n{indentation}')
+		documentation = format_comment(v.get('documentation'), indentation)
+		if documentation:
+			documentation = '\n' + documentation
 
 		result.append(f"{key} = {value}{documentation}")
 
@@ -27,11 +29,11 @@ def generate_enumerations(enumerations: List[Enumeration]) -> str:
 
 	for enumeration in enumerations:
 		symbol_name = enumeration['name']
-		documentation = format_comment(enumeration.get('documentation'))
+		documentation = format_comment(enumeration.get('documentation'), indentation)
 		values = format_enumeration_values(enumeration['values'])
 		result += f"\nclass {symbol_name}(Enum):\n"
 		if documentation:
-			result += f"{indentation}{documentation}\n"
+			result += f"{documentation}\n"
 		result += f'{indentation}' + values
 		result += "\n"
 	return result
