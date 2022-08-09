@@ -8,6 +8,9 @@ def capitalize(text: str) -> str:
 	return  text[0].upper() + text[1:]
 
 def format_comment(text: Optional[str], prefix="") -> str:
+	if text:
+		lines = text.splitlines(keepends=True)
+		text = indentation.join(lines)
 	return prefix + f'""" {text} """' if text else ""
 
 literal_count = 1
