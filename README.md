@@ -10,7 +10,7 @@ Generate the types:
 python ./generate.py
 ```
 
-Copy the `specification.py` file to your project.
+Copy the `lsp_types.py` file to your project.
 
 Requires py3.8 and up.
 

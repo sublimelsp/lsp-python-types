@@ -31,7 +31,7 @@ def generate():
 
 		content += get_new_literal_structures()
 
-		with open('./specification.py', "w") as new_file:
+		with open('./lsp_types.py', "w") as new_file:
 			new_file.write(content)
 
 generate()
