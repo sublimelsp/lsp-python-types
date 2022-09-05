@@ -1,4 +1,4 @@
-# setup
+# Setup
 
 Install dependecies:
 ```
