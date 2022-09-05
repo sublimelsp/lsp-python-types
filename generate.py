@@ -10,15 +10,16 @@ from utils.helpers import get_new_literal_structures
 def generate():
 	with open('./lsprotocol/lsp.json') as file:
 		lsp_json: MetaModel = json.load(file)
+		specification_version = lsp_json.get('metaData')['version']
 
 		content = "".join([
 			"# Code generated. DO NOT EDIT.\n",
+			f"# LSP v{specification_version}\n\n",
 			"from typing_extensions import NotRequired\n",
 			"from typing import Dict, List, Literal, TypedDict, Union, Tuple\n",
 			"from enum import Enum\n\n",
-			"Uri = str\n",
+			"URI = str\n",
 			"DocumentUri = str\n",
-			"Uri = str\n",
 			"Uint = int\n",
 			"RegExp = str\n",
 		])

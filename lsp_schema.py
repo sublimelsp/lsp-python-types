@@ -3,7 +3,7 @@ from typing import List, Literal, TypedDict, Union
 from typing_extensions import NotRequired
 
 _Type = Union["BaseType", "ReferenceType", "ArrayType", "MapType", "AndType", "OrType", "TupleType", "StructureLiteralType", "StringLiteralType", "IntegerLiteralType", "BooleanLiteralType"]
-_BaseTypes = Literal["Uri", "DocumentUri", "integer", "uinteger", "decimal", "RegExp", "string", "boolean", "null"]
+_BaseTypes = Literal["URI", "DocumentUri", "integer", "uinteger", "decimal", "RegExp", "string", "boolean", "null"]
 
 class EnumerationType(TypedDict):
     kind: Literal['base']
@@ -75,7 +75,7 @@ class IntegerLiteralType(TypedDict):
 
 class _MapKeyType_1(TypedDict):
     kind: Literal["base"]
-    name: Literal["Uri", "DocumentUri", "string", "integer"]
+    name: Literal["URI", "DocumentUri", "string", "integer"]
 
 MapKeyType = Union[_MapKeyType_1, ReferenceType]
 """Represents a type that can be used as a key in a map type. If a reference type is used then the type must either resolve to a `string` or `integer` type. (e.g. `type ChangeAnnotationIdentifier === string`)."""
@@ -153,8 +153,12 @@ class TypeAlias(TypedDict):
 
 TypeKind = Literal["base", "reference", "array", "map", "and", "or", "tuple", "literal", "stringLiteral", "integerLiteral", "booleanLiteral"]
 
+class MetaData(TypedDict):
+    version: str
+
 class MetaModel(TypedDict):
     enumerations: List[Enumeration]
+    metaData: MetaData
     notifications: List[Notification]
     requests: List[Request]
     structures: List[Structure]
