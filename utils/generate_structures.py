@@ -48,9 +48,6 @@ def generate_class_type(structure: Structure, structures: List[Structure]) -> st
 
 
 def generate_function_type(structure: Structure, structures: List[Structure]) -> str:
-	# TODO improvement
-	# MyType = TypedDict('MyType', {}), doesn't support inheritance,
-	# Add properties from structure['extends'] types in the properties list
 	result = ""
 	symbol_name = structure['name']
 	documentation = format_comment(structure.get('documentation'))
@@ -65,9 +62,6 @@ def generate_function_type(structure: Structure, structures: List[Structure]) ->
 		if additional_property['name'] not in taken_property_names:
 			properties.append(additional_property)
 
-	# TODO improvement
-	# MyType = TypedDict('MyType', {}), doesn't support inheritance,
-	# Add properties from structure['extends'] types in the properties list
 	result += f"{symbol_name} = TypedDict('{symbol_name}', "
 	result += "{\n"
 	result += f"{indentation}{formatted_properties}\n"
