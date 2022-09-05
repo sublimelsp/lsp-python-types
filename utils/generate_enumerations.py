@@ -4,7 +4,7 @@ from utils.helpers import capitalize, format_comment, indentation
 
 
 def format_enumeration_values(values: List[EnumerationEntry]) -> str:
-	result = []
+	result: List[str] = []
 	for v in values:
 		key = capitalize(v['name'])
 		if key == 'None':
