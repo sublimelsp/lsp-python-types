@@ -115,7 +115,7 @@ def get_formatted_properties(properties: List[Property]) -> List[FormattedProper
 		})
 		if p.get('optional'):
 			value = f"NotRequired[{value}]"
-		documentation = format_comment(p.get('documentation'), indentation)
+		documentation = p.get('documentation') or ""
 		result.append({
 			'name': key,
 			'value': value,
@@ -134,13 +134,16 @@ def format_class_properties(properties: List[FormattedProperty]) -> str:
 	result: List[str] = []
 	for p in properties:
 		line = f"{p['name']}: {p['value']}"
-		if p['documentation']:
-			line += f"\n{p['documentation']}"
+		comment = format_comment(p['documentation'], indentation)
+		if comment:
+			line += f"\n{comment}"
 		result.append(line)
 	return f"\n{indentation}".join(result)
 
 def format_dict_properties(properties: List[FormattedProperty]) -> str:
 	result: List[str] = []
 	for p in properties:
-		result.append(f"'{p['name']}': {p['value']},")
+		documentation = p.get('documentation').replace('\n', f'\n{indentation}# ')
+
+		result.append(f"'{p['name']}': {p['value']},\n{indentation}# {documentation}")
 	return f"\n{indentation}".join(result)
