@@ -20,8 +20,8 @@ literal_count = 1
 new_literal_structures = []
 
 
-def get_new_literal_structures():
-    return "\n".join(new_literal_structures)
+def get_new_literal_structures() -> List[str]:
+    return new_literal_structures
 
 
 class FormatTypeContext(TypedDict):
