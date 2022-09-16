@@ -3,7 +3,6 @@ import json
 
 from lsp_schema import MetaModel
 from utils.generate_enumerations import generate_enumerations
-# from utils.generate_requests import generate_requests
 from utils.generate_structures import generate_structures
 from utils.generate_type_aliases import generate_type_aliases
 from utils.helpers import get_new_literal_structures
@@ -24,7 +23,6 @@ def generate() -> None:
             "DocumentUri = str",
             "Uint = int",
             "RegExp = str",
-            # generate_requests(lsp_json['requests'])
         ])
 
         content += '\n\n\n'
