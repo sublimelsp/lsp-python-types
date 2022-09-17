@@ -3,15 +3,14 @@ from lsp_schema import Structure
 from utils.helpers import FormattedProperty, format_comment, indentation, format_class_properties, format_dict_properties, get_formatted_properties, has_invalid_property_name
 
 
-def generate_structures(structures: List[Structure]) -> str:
-    result = ""
+def generate_structures(structures: List[Structure]) -> List[str]:
 
-    for structure in structures:
+    def toString(structure: Structure) -> str:
         if has_invalid_property_name(structure['properties']):
-            result += generate_function_type(structure, structures)
-        else:
-            result += generate_class_type(structure, structures)
-    return result
+            return generate_function_type(structure, structures)
+        return generate_class_type(structure, structures)
+
+    return [toString(structure) for structure in structures]
 
 
 def get_additional_properties(for_structure: Structure, structures: List[Structure]) -> List[FormattedProperty]:
@@ -46,7 +45,7 @@ def generate_class_type(structure: Structure, structures: List[Structure]) -> st
     result += f"class {symbol_name}(TypedDict):\n"
     if documentation:
         result += f"{documentation}\n"
-    result += f"{indentation}{formatted_properties or 'pass'}\n\n\n"
+    result += f"{indentation}{formatted_properties or 'pass'}"
     return result
 
 
@@ -69,6 +68,7 @@ def generate_function_type(structure: Structure, structures: List[Structure]) ->
     result += "{\n"
     result += f"{indentation}{formatted_properties}\n"
     result += "})"
-    result += f"\n{documentation}\n\n\n" if documentation else "\n\n"
+    if documentation:
+        result += f"\n{documentation}"
 
     return result

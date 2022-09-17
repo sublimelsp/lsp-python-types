@@ -24,16 +24,17 @@ def format_enumeration_values(values: List[EnumerationEntry]) -> str:
     return f"\n{indentation}".join(result)
 
 
-def generate_enumerations(enumerations: List[Enumeration]) -> str:
-    result = ""
+def generate_enumerations(enumerations: List[Enumeration]) -> List[str]:
 
-    for enumeration in enumerations:
+    def toString(enumeration: Enumeration) -> str:
+        result = ''
         symbol_name = enumeration['name']
         documentation = format_comment(enumeration.get('documentation'), indentation)
         values = format_enumeration_values(enumeration['values'])
-        result += f"\nclass {symbol_name}(Enum):\n"
+        result += f"class {symbol_name}(Enum):\n"
         if documentation:
             result += f"{documentation}\n"
         result += f'{indentation}' + values
-        result += "\n\n"
-    return result
+        return result
+
+    return [toString(enumeration) for enumeration in enumerations]
