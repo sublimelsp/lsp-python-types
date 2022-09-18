@@ -10,21 +10,11 @@ def capitalize(text: str) -> str:
     return text[0].upper() + text[1:]
 
 
-class CommentFormat(Enum):
-    DocBlock = 1
-    Inline = 2
-
-
-def format_comment(text: Optional[str], indent="", comment_format: CommentFormat = CommentFormat.DocBlock) -> str:
+def format_comment(text: Optional[str], indent: str = "") -> str:
     if text:
         lines = text.splitlines(keepends=True)
-        if comment_format == CommentFormat.DocBlock:
-            text = indent.join(lines)
-            return indent + f'""" {text} """'
-        else:
-            text = f'{indent}# '.join(lines)
-            return indent + f'# {text}'
-    return ''
+        text = indent.join(lines)
+    return indent + f'""" {text} """' if text else ""
 
 
 literal_count = 1

@@ -1010,9 +1010,6 @@ class CallHierarchyIncomingCallsParams(TypedDict):
     the client. """
 
 
-# Represents an incoming call, e.g. a caller of a method or constructor.
-#
-# @since 3.16.0
 CallHierarchyIncomingCall = TypedDict('CallHierarchyIncomingCall', {
     # The item that makes the call.
     'from': 'CallHierarchyItem',
@@ -1020,6 +1017,9 @@ CallHierarchyIncomingCall = TypedDict('CallHierarchyIncomingCall', {
     # denoted by [`this.from`](#CallHierarchyIncomingCall.from).
     'fromRanges': List['Range'],
 })
+""" Represents an incoming call, e.g. a caller of a method or constructor.
+
+@since 3.16.0 """
 
 
 class CallHierarchyOutgoingCallsParams(TypedDict):

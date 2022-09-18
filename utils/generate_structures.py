@@ -1,6 +1,6 @@
 from typing import List
 from lsp_schema import Structure
-from utils.helpers import CommentFormat, FormattedProperty, format_comment, indentation, format_class_properties, format_dict_properties, get_formatted_properties, has_invalid_property_name, StructureKind
+from utils.helpers import FormattedProperty, format_comment, indentation, format_class_properties, format_dict_properties, get_formatted_properties, has_invalid_property_name, StructureKind
 
 
 def generate_structures(structures: List[Structure], preferred_structure_kind: StructureKind) -> List[str]:
@@ -27,13 +27,13 @@ def generate_structure(structure: Structure, structures: List[Structure], struct
             properties.append(additional_property)
 
     if structure_kind == StructureKind.Function:
-        documentation = format_comment(structure.get('documentation'), '', CommentFormat.Inline)
-        if documentation:
-            result += f'{documentation}\n'
+        documentation = format_comment(structure.get('documentation'), '')
         result += f"{symbol_name} = TypedDict('{symbol_name}', "
         result += "{\n"
         result += f"{indentation}{format_dict_properties(properties)}\n"
         result += "})"
+        if documentation:
+            result += f'\n{documentation}'
     else:
         documentation = format_comment(structure.get('documentation'), indentation)
         result += f"class {symbol_name}(TypedDict):\n"
