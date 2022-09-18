@@ -14,6 +14,21 @@ def generate_structures(structures: List[Structure], preferred_structure_kind: S
     return [toString(structure) for structure in structures]
 
 
+def get_additional_properties(for_structure: Structure, structures: List[Structure], structure_kind: StructureKind) -> List[FormattedProperty]:
+    """Returns properties from extended and mixin types. """
+    result: List[FormattedProperty] = []
+    additional_structures = for_structure.get('extends') or []
+    additional_structures.extend(for_structure.get('mixins') or [])
+    for additional_structure in additional_structures:
+        if additional_structure['kind'] != 'reference':
+            raise Exception("Cannot generate extends. Currently only supports kind: 'reference', but received:", additional_structure['kind'])
+        structure = next(structure for structure in structures if structure["name"] == additional_structure['name'])
+        if structure:
+            properties = get_formatted_properties(structure['properties'], structure_kind)
+            result.extend(properties)
+    return result
+
+
 def generate_structure(structure: Structure, structures: List[Structure], structure_kind: StructureKind) -> str:
     result = ""
     symbol_name = structure['name']
@@ -40,19 +55,4 @@ def generate_structure(structure: Structure, structures: List[Structure], struct
         if documentation:
             result += f"{documentation}\n"
         result += f"{indentation}{format_class_properties(properties) or 'pass'}"
-    return result
-
-
-def get_additional_properties(for_structure: Structure, structures: List[Structure], structure_kind: StructureKind) -> List[FormattedProperty]:
-    """Returns properties from extended and mixin types. """
-    result: List[FormattedProperty] = []
-    additional_structures = for_structure.get('extends') or []
-    additional_structures.extend(for_structure.get('mixins') or [])
-    for additional_structure in additional_structures:
-        if additional_structure['kind'] != 'reference':
-            raise Exception("Cannot generate extends. Currently only supports kind: 'reference', but received:", additional_structure['kind'])
-        structure = next(structure for structure in structures if structure["name"] == additional_structure['name'])
-        if structure:
-            properties = get_formatted_properties(structure['properties'], structure_kind)
-            result.extend(properties)
     return result
