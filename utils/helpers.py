@@ -35,6 +35,14 @@ def get_new_literal_structures() -> List[str]:
     return new_literal_structures
 
 
+def reset_new_literal_structures() -> None:
+    global literal_count
+    global new_literal_structures
+
+    new_literal_structures = []
+    literal_count = 1
+
+
 class StructureKind(Enum):
     Class = 1
     Function = 2

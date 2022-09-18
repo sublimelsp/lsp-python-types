@@ -5,10 +5,12 @@ from lsp_schema import MetaModel
 from utils.generate_enumerations import generate_enumerations
 from utils.generate_structures import generate_structures
 from utils.generate_type_aliases import generate_type_aliases
-from utils.helpers import get_new_literal_structures, StructureKind
+from utils.helpers import get_new_literal_structures, reset_new_literal_structures, StructureKind
 
 
 def generate(preferred_structure_kind: StructureKind, output: str) -> None:
+    reset_new_literal_structures()
+
     with open('./lsprotocol/lsp.json') as file:
         lsp_json: MetaModel = json.load(file)
         specification_version = lsp_json.get('metaData')['version']
