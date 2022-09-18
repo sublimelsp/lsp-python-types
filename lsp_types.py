@@ -3,7 +3,7 @@
 
 from typing_extensions import NotRequired
 from typing import Dict, List, Literal, TypedDict, Union, Tuple
-from enum import Enum
+from enum import Enum, IntEnum, IntFlag
 
 
 URI = str
@@ -76,7 +76,7 @@ class DocumentDiagnosticReportKind(Enum):
     returned report is still accurate. """
 
 
-class ErrorCodes(Enum):
+class ErrorCodes(IntEnum):
     """ Predefined error codes. """
     ParseError = -32700
     InvalidRequest = -32600
@@ -89,7 +89,7 @@ class ErrorCodes(Enum):
     UnknownErrorCode = -32001
 
 
-class LSPErrorCodes(Enum):
+class LSPErrorCodes(IntEnum):
     RequestFailed = -32803
     """ A request failed but it was syntactically correct, e.g the
     method name was known and the parameters were valid. The error
@@ -127,7 +127,7 @@ class FoldingRangeKind(Enum):
     """ Folding range for a region (e.g. `#region`) """
 
 
-class SymbolKind(Enum):
+class SymbolKind(IntEnum):
     """ A symbol kind. """
     File = 1
     Module = 2
@@ -157,7 +157,7 @@ class SymbolKind(Enum):
     TypeParameter = 26
 
 
-class SymbolTag(Enum):
+class SymbolTag(IntEnum):
     """ Symbol tags are extra annotations that tweak the rendering of a symbol.
 
     @since 3.16 """
@@ -194,7 +194,7 @@ class MonikerKind(Enum):
     variable of a function, a class not visible outside the project, ...) """
 
 
-class InlayHintKind(Enum):
+class InlayHintKind(IntEnum):
     """ Inlay hint kinds.
 
     @since 3.17.0 """
@@ -204,7 +204,7 @@ class InlayHintKind(Enum):
     """ An inlay hint that is for a parameter. """
 
 
-class MessageType(Enum):
+class MessageType(IntEnum):
     """ The message type """
     Error = 1
     """ An error message. """
@@ -216,7 +216,7 @@ class MessageType(Enum):
     """ A log message. """
 
 
-class TextDocumentSyncKind(Enum):
+class TextDocumentSyncKind(IntEnum):
     """ Defines how the host (editor) should sync
     document changes to the language server. """
     Null = 0
@@ -230,7 +230,7 @@ class TextDocumentSyncKind(Enum):
     send. """
 
 
-class TextDocumentSaveReason(Enum):
+class TextDocumentSaveReason(IntEnum):
     """ Represents reasons why a text document is saved. """
     Manual = 1
     """ Manually triggered, e.g. by the user pressing save, by starting debugging,
@@ -241,7 +241,7 @@ class TextDocumentSaveReason(Enum):
     """ When the editor lost focus. """
 
 
-class CompletionItemKind(Enum):
+class CompletionItemKind(IntEnum):
     """ The kind of a completion entry. """
     Text = 1
     Method = 2
@@ -270,7 +270,7 @@ class CompletionItemKind(Enum):
     TypeParameter = 25
 
 
-class CompletionItemTag(Enum):
+class CompletionItemTag(IntEnum):
     """ Completion item tags are extra annotations that tweak the rendering of a completion
     item.
 
@@ -279,7 +279,7 @@ class CompletionItemTag(Enum):
     """ Render a completion as obsolete, usually using a strike-out. """
 
 
-class InsertTextFormat(Enum):
+class InsertTextFormat(IntEnum):
     """ Defines whether the insert text in a completion item should be interpreted as
     plain text or a snippet. """
     PlainText = 1
@@ -295,7 +295,7 @@ class InsertTextFormat(Enum):
     See also: https://microsoft.github.io/language-server-protocol/specifications/specification-current/#snippet_syntax """
 
 
-class InsertTextMode(Enum):
+class InsertTextMode(IntEnum):
     """ How whitespace and indentation is handled during completion
     item insertion.
 
@@ -316,7 +316,7 @@ class InsertTextMode(Enum):
     following lines inserted will be indented using 2 tabs as well. """
 
 
-class DocumentHighlightKind(Enum):
+class DocumentHighlightKind(IntEnum):
     """ A document highlight kind. """
     Text = 1
     """ A textual occurrence. """
@@ -419,7 +419,7 @@ class PositionEncodingKind(Enum):
     encoding-agnostic representation of character offsets. """
 
 
-class FileChangeType(Enum):
+class FileChangeType(IntEnum):
     """ The file event type """
     Created = 1
     """ The file got created. """
@@ -429,7 +429,7 @@ class FileChangeType(Enum):
     """ The file got deleted. """
 
 
-class WatchKind(Enum):
+class WatchKind(IntFlag):
     Create = 1
     """ Interested in create events. """
     Change = 2
@@ -438,7 +438,7 @@ class WatchKind(Enum):
     """ Interested in delete events """
 
 
-class DiagnosticSeverity(Enum):
+class DiagnosticSeverity(IntEnum):
     """ The diagnostic's severity. """
     Error = 1
     """ Reports an error. """
@@ -450,7 +450,7 @@ class DiagnosticSeverity(Enum):
     """ Reports a hint. """
 
 
-class DiagnosticTag(Enum):
+class DiagnosticTag(IntEnum):
     """ The diagnostic tags.
 
     @since 3.15.0 """
@@ -465,7 +465,7 @@ class DiagnosticTag(Enum):
     Clients are allowed to rendered diagnostics with this tag strike through. """
 
 
-class CompletionTriggerKind(Enum):
+class CompletionTriggerKind(IntEnum):
     """ How a completion was triggered """
     Invoked = 1
     """ Completion was triggered by typing an identifier (24x7 code
@@ -477,7 +477,7 @@ class CompletionTriggerKind(Enum):
     """ Completion was re-triggered as current completion list is incomplete """
 
 
-class SignatureHelpTriggerKind(Enum):
+class SignatureHelpTriggerKind(IntEnum):
     """ How a signature help was triggered.
 
     @since 3.15.0 """
@@ -489,7 +489,7 @@ class SignatureHelpTriggerKind(Enum):
     """ Signature help was triggered by the cursor moving or by the document content changing. """
 
 
-class CodeActionTriggerKind(Enum):
+class CodeActionTriggerKind(IntEnum):
     """ The reason why code actions were requested.
 
     @since 3.17.0 """
@@ -513,7 +513,7 @@ class FileOperationPatternKind(Enum):
     """ The pattern matches a folder only. """
 
 
-class NotebookCellKind(Enum):
+class NotebookCellKind(IntEnum):
     """ A notebook cell kind.
 
     @since 3.17.0 """
@@ -548,7 +548,7 @@ class FailureHandlingKind(Enum):
     guarantee that this is succeeding. """
 
 
-class PrepareSupportDefaultBehavior(Enum):
+class PrepareSupportDefaultBehavior(IntEnum):
     Identifier = 1
     """ The client's default behavior is to select the identifier
     according the to language's syntax rule. """
