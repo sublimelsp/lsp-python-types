@@ -18,7 +18,7 @@ def format_comment(text: Optional[str], indent: str = "") -> str:
 
 
 literal_count = 1
-new_literal_structures: list[str] = []
+new_literal_structures: List[str] = []
 
 
 def get_new_literal_structures() -> List[str]:
