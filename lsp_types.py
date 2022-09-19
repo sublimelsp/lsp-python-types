@@ -2,7 +2,7 @@
 # LSP v3.17.0
 
 from typing_extensions import NotRequired
-from typing import Dict, List, Literal, TypedDict, Union, Tuple
+from typing import Dict, List, Literal, TypedDict, Union
 from enum import Enum, IntEnum, IntFlag
 
 
@@ -4124,7 +4124,7 @@ class DiagnosticRelatedInformation(TypedDict):
 class ParameterInformation(TypedDict):
     """ Represents a parameter of a callable-signature. A parameter can
     have a label and a doc-comment. """
-    label: Union[str, Tuple[Uint, Uint]]
+    label: Union[str, List[Union[Uint, Uint]]]
     """ The label of this parameter information.
 
     Either a string or an inclusive start and exclusive end offsets within its containing

@@ -18,7 +18,7 @@ def format_comment(text: Optional[str], indent: str = "") -> str:
 
 
 literal_count = 1
-new_literal_structures: list[str] = []
+new_literal_structures: List[str] = []
 
 
 def get_new_literal_structures() -> List[str]:
@@ -72,7 +72,7 @@ def format_type(type: _Type, context: FormatTypeContext, preferred_structure_kin
         tuple = []
         for item in type['items']:
             tuple.append(format_type(item, context, preferred_structure_kind))
-        return f"Tuple[{', '.join(tuple)}]"
+        return f"List[Union[{', '.join(tuple)}]]"
     elif type['kind'] == 'literal':
         if not type['value']['properties']:
             return 'dict'
