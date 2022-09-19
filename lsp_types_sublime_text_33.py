@@ -219,7 +219,7 @@ class MessageType(IntEnum):
 class TextDocumentSyncKind(IntEnum):
     """ Defines how the host (editor) should sync
     document changes to the language server. """
-    Null = 0
+    None_ = 0
     """ Documents should not be synced at all. """
     Full = 1
     """ Documents are synced by always sending the full content

@@ -1,7 +1,8 @@
 from enum import Enum
-from typing import List
 from lsp_schema import Enumeration, EnumerationEntry
+from typing import List
 from utils.helpers import capitalize, format_comment, indentation
+import keyword
 
 
 class EnumKind(Enum):
@@ -13,9 +14,9 @@ def format_enumeration_values(values: List[EnumerationEntry], kind: EnumKind) ->
     result: List[str] = []
     for v in values:
         key = capitalize(v['name'])
-        if key == 'None':
-            print('Conflict with None keyword, fallback to Null')
-            key = 'Null'  # 'None' is a reserved keyword, use Null :)
+        if keyword.iskeyword(key):
+            print(f'Conflict with {key} keyword, fallback to {key}_')
+            key += "_"
         value = f"'{v['value']}'" if kind == EnumKind.String else v['value']
         documentation = format_comment(v.get('documentation'), indentation)
         if documentation:
