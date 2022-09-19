@@ -9,7 +9,7 @@ class EnumKind(Enum):
     String = 2
 
 
-def format_enumeration_values(values: List[EnumerationEntry], kind: Enum) -> str:
+def format_enumeration_values(values: List[EnumerationEntry], kind: EnumKind) -> str:
     result: List[str] = []
     for v in values:
         key = capitalize(v['name'])
