@@ -4,6 +4,7 @@ from typing import List
 from utils.helpers import capitalize, format_comment, indentation
 import keyword
 
+
 class EnumKind(Enum):
     Number = 1
     String = 2
