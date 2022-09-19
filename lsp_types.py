@@ -4124,7 +4124,7 @@ class DiagnosticRelatedInformation(TypedDict):
 class ParameterInformation(TypedDict):
     """ Represents a parameter of a callable-signature. A parameter can
     have a label and a doc-comment. """
-    label: Union[str, List[Union[Uint, Uint]]]
+    label: Union[str, List[Union[Uint]]]
     """ The label of this parameter information.
 
     Either a string or an inclusive start and exclusive end offsets within its containing

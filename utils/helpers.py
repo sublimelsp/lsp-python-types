@@ -72,6 +72,7 @@ def format_type(type: _Type, context: FormatTypeContext, preferred_structure_kin
         tuple = []
         for item in type['items']:
             tuple.append(format_type(item, context, preferred_structure_kind))
+        tuple = list(set(tuple)) # to remove duplicated from list
         return f"List[Union[{', '.join(tuple)}]]"
     elif type['kind'] == 'literal':
         if not type['value']['properties']:

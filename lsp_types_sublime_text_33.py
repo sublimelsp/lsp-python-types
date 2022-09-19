@@ -4387,7 +4387,7 @@ ParameterInformation = TypedDict('ParameterInformation', {
     #
     # *Note*: a label of type string should be a substring of its containing signature label.
     # Its intended use case is to highlight the parameter label part in the `SignatureInformation.label`.
-    'label': Union[str, List[Union[Uint, Uint]]],
+    'label': Union[str, List[Union[Uint]]],
     # The human-readable doc-comment of this parameter. Will be shown
     # in the UI but can be omitted.
     'documentation': NotRequired[Union[str, 'MarkupContent']],
