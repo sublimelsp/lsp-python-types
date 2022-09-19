@@ -2,7 +2,7 @@
 # LSP v3.17.0
 
 from typing_extensions import NotRequired
-from typing import Dict, List, Literal, TypedDict, Union, Tuple
+from typing import Dict, List, Literal, TypedDict, Union
 from enum import Enum, IntEnum, IntFlag
 
 

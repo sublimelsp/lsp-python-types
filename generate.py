@@ -22,7 +22,7 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
             "# Code generated. DO NOT EDIT.",
             f"# LSP v{specification_version}\n",
             "from typing_extensions import NotRequired",
-            "from typing import Dict, List, Literal, TypedDict, Union, Tuple",
+            "from typing import Dict, List, Literal, TypedDict, Union",
             "from enum import Enum, IntEnum, IntFlag\n\n",
             "URI = str",
             "DocumentUri = str",
