@@ -8,6 +8,9 @@ from utils.generate_type_aliases import generate_type_aliases
 from utils.helpers import get_new_literal_structures, reset_new_literal_structures, StructureKind
 
 
+BITWISE_ENUMS = ['WatchKind']
+
+
 def generate(preferred_structure_kind: StructureKind, output: str) -> None:
     reset_new_literal_structures()
 
@@ -20,7 +23,7 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
             f"# LSP v{specification_version}\n",
             "from typing_extensions import NotRequired",
             "from typing import Dict, List, Literal, TypedDict, Union, Tuple",
-            "from enum import Enum\n\n",
+            "from enum import Enum, IntEnum, IntFlag\n\n",
             "URI = str",
             "DocumentUri = str",
             "Uint = int",
@@ -28,7 +31,7 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
         ])
 
         content += '\n\n\n'
-        content += '\n\n\n'.join(generate_enumerations(lsp_json['enumerations']))
+        content += '\n\n\n'.join(generate_enumerations(lsp_json['enumerations'], BITWISE_ENUMS))
         content += '\n\n'
         content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], preferred_structure_kind))
         content += '\n\n\n'
