@@ -1,5 +1,7 @@
 # Setup
 
+Requires py3.8 and up.
+
 Install dependecies:
 ```
 pip install -r requirements.txt
@@ -9,10 +11,12 @@ Generate the types:
 ```
 python ./generate.py
 ```
-
 Copy the `lsp_types.py` file to your project.
 
-Requires py3.8 and up.
+Download the latest json schema:
+```
+python ./download_schemas.py
+```
 
 The `lsp_types_sublime_text_33.py` file is made specifically for use in Sublime's LSP package using Python 3.3 host that doesn't support class-based `TypedDict` syntax. For all other cases stick with `lsp_types.py`.
 
