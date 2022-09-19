@@ -11,7 +11,7 @@ def generate_structures(structures: List[Structure], preferred_structure_kind: S
             kind = StructureKind.Function
         return generate_structure(structure, structures, kind)
 
-    return [toString(structure) for structure in structures]
+    return [toString(structure) for structure in structures if not structure['name'].startswith('_')]
 
 
 def get_additional_properties(for_structure: Structure, structures: List[Structure], structure_kind: StructureKind) -> List[FormattedProperty]:
