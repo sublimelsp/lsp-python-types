@@ -46,4 +46,4 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
 
 
 generate(preferred_structure_kind=StructureKind.Class, output="./lsp_types.py")
-generate(preferred_structure_kind=StructureKind.Function, output="./lsp_types_legacy.py")
+generate(preferred_structure_kind=StructureKind.Function, output="./lsp_types_sublime_text_33.py")
