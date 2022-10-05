@@ -2,13 +2,17 @@
 import json
 
 from lsp_schema import MetaModel
+from typing import Dict, Literal
 from utils.generate_enumerations import generate_enumerations
 from utils.generate_structures import generate_structures
 from utils.generate_type_aliases import generate_type_aliases
 from utils.helpers import get_new_literal_structures, reset_new_literal_structures, StructureKind
 
 
-BITWISE_ENUMS = ['WatchKind']
+ENUM_OVERRIDES = {
+    'CodeActionKind': 'StrEnum',
+    'WatchKind': 'IntFlag',
+}  # type: Dict[str, Literal['StrEnum', 'IntFlag']]
 
 
 def generate(preferred_structure_kind: StructureKind, output: str) -> None:
@@ -23,7 +27,7 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
             f"# LSP v{specification_version}\n",
             "from typing_extensions import NotRequired",
             "from typing import Dict, List, Literal, TypedDict, Union",
-            "from enum import Enum, IntEnum, IntFlag\n\n",
+            "from enum import Enum, IntEnum, IntFlag, StrEnum\n\n",
             "URI = str",
             "DocumentUri = str",
             "Uint = int",
@@ -31,7 +35,7 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
         ])
 
         content += '\n\n\n'
-        content += '\n\n\n'.join(generate_enumerations(lsp_json['enumerations'], BITWISE_ENUMS))
+        content += '\n\n\n'.join(generate_enumerations(lsp_json['enumerations'], ENUM_OVERRIDES))
         content += '\n\n'
         content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], preferred_structure_kind))
         content += '\n\n\n'
