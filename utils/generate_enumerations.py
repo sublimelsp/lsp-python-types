@@ -1,6 +1,6 @@
 from enum import Enum
 from lsp_schema import Enumeration, EnumerationEntry
-from typing import List
+from typing import Dict, List, Literal
 from utils.helpers import capitalize, format_comment, indentation
 import keyword
 
@@ -27,17 +27,15 @@ def format_enumeration_values(values: List[EnumerationEntry], kind: EnumKind) ->
     return f"\n{indentation}".join(result)
 
 
-def generate_enumerations(enumerations: List[Enumeration], bitwise_enums: List[str]) -> List[str]:
+def generate_enumerations(enumerations: List[Enumeration], overrides: Dict[str, Literal['StrEnum', 'IntFlag']]) -> List[str]:
 
     def toString(enumeration: Enumeration) -> str:
         result = ''
         symbol_name = enumeration['name']
         documentation = format_comment(enumeration.get('documentation'), indentation)
         kind = EnumKind.String if enumeration['type']['name'] == 'string' else EnumKind.Number
-        if kind == EnumKind.String:
-            enum_class = 'Enum'
-        else:
-            enum_class = 'IntFlag' if symbol_name in bitwise_enums else 'IntEnum'
+        enum_class_override = overrides.get(symbol_name)
+        enum_class = enum_class_override or ('Enum' if kind == EnumKind.String else 'IntEnum')
         values = format_enumeration_values(enumeration['values'], kind)
         result += f"class {symbol_name}({enum_class}):\n"
         if documentation:

@@ -3,7 +3,7 @@
 
 from typing_extensions import NotRequired
 from typing import Dict, List, Literal, TypedDict, Union
-from enum import Enum, IntEnum, IntFlag
+from enum import Enum, IntEnum, IntFlag, StrEnum
 
 
 URI = str
@@ -326,7 +326,7 @@ class DocumentHighlightKind(IntEnum):
     """ Write-access of a symbol, like writing to a variable. """
 
 
-class CodeActionKind(Enum):
+class CodeActionKind(StrEnum):
     """ A set of predefined code action kinds """
     Empty = ''
     """ Empty kind. """
