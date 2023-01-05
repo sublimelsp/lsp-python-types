@@ -12,6 +12,7 @@ class EnumerationType(TypedDict):
 
 
 class EnumerationEntry(TypedDict):
+    deprecated: NotRequired[str]
     documentation: NotRequired[str]
     name: str
     proposed: NotRequired[bool]
@@ -26,6 +27,7 @@ class ReferenceType(TypedDict):
 
 
 class Property(TypedDict):
+    deprecated: NotRequired[str]
     documentation: NotRequired[str]
     name: str
     optional: NotRequired[bool]
@@ -71,6 +73,7 @@ class BooleanLiteralType(TypedDict):
 
 
 class Enumeration(TypedDict):
+    deprecated: NotRequired[str]
     documentation: NotRequired[str]
     name: str
     proposed: NotRequired[bool]
@@ -106,6 +109,7 @@ MessageDirection = Literal["clientToServer", "serverToClient", "both"]
 
 
 class Notification(TypedDict):
+    deprecated: NotRequired[str]
     documentation: NotRequired[str]
     messageDirection: MessageDirection
     method: str
@@ -119,6 +123,7 @@ class Notification(TypedDict):
 
 
 class Request(TypedDict):
+    deprecated: NotRequired[str]
     documentation: NotRequired[str]
     errorData: NotRequired[_Type]
     messageDirection: MessageDirection
@@ -133,6 +138,7 @@ class Request(TypedDict):
 
 
 class Structure(TypedDict):
+    deprecated: NotRequired[str]
     documentation: NotRequired[str]
     extends: NotRequired[List[_Type]]
     """Structures extended from. This structures form a polymorphic type hierarchy."""
@@ -146,6 +152,7 @@ class Structure(TypedDict):
 
 class StructureLiteral(TypedDict):
     """Defines a unnamed structure of an object literal."""
+    deprecated: NotRequired[str]
     documentation: NotRequired[str]
     properties: List[Property]
     proposed: NotRequired[bool]
@@ -166,6 +173,7 @@ class TupleType(TypedDict):
 
 class TypeAlias(TypedDict):
     """ Defines a type alias. (e.g. `type Definition = Location | LocationLink`)"""
+    deprecated: NotRequired[str]
     documentation: NotRequired[str]
     name: str
     proposed: NotRequired[bool]

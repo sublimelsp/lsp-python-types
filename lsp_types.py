@@ -559,7 +559,7 @@ class TokenFormat(Enum):
 
 
 Definition = Union['Location', List['Location']]
-""" The definition of a symbol represented as one or many [locations](#Location).
+""" The definition of a symbol represented as one or many {@link Location locations}.
 For most programming languages there is only one location at which a symbol is
 defined.
 
@@ -569,7 +569,7 @@ by the client. """
 DefinitionLink = 'LocationLink'
 """ Information about where a symbol is defined.
 
-Provides additional metadata over normal [location](#Location) definitions, including the range of
+Provides additional metadata over normal {@link Location location} definitions, including the range of
 the defining symbol """
 
 LSPArray = List['LSPAny']
@@ -585,12 +585,12 @@ optional as well.
 @since 3.17.0 """
 
 Declaration = Union['Location', List['Location']]
-""" The declaration of a symbol representation as one or many [locations](#Location). """
+""" The declaration of a symbol representation as one or many {@link Location locations}. """
 
 DeclarationLink = 'LocationLink'
 """ Information about where a symbol is declared.
 
-Provides additional metadata over normal [location](#Location) declarations, including the range of
+Provides additional metadata over normal {@link Location location} declarations, including the range of
 the declaring symbol.
 
 Servers should prefer returning `DeclarationLink` over `Declaration` if supported
@@ -616,14 +616,14 @@ pull request.
 
 PrepareRenameResult = Union['Range', '__PrepareRenameResult_Type_1', '__PrepareRenameResult_Type_2']
 
-ProgressToken = Union[int, str]
-
 DocumentSelector = List['DocumentFilter']
 """ A document selector is the combination of one or many document filters.
 
 @sample `let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**∕tsconfig.json' }]`;
 
 The use of a string as a document filter is deprecated @since 3.16.0. """
+
+ProgressToken = Union[int, str]
 
 ChangeAnnotationIdentifier = str
 """ An identifier to refer to a change annotation stored with a workspace edit. """
@@ -657,6 +657,10 @@ a notebook cell document.
 
 @since 3.17.0 - proposed support for NotebookCellTextDocumentFilter. """
 
+LSPObject = Dict[str, 'LSPAny']
+""" LSP object definition.
+@since 3.17.0 """
+
 GlobPattern = Union['Pattern', 'RelativePattern']
 """ The glob pattern. Either a string pattern or a relative pattern.
 
@@ -664,8 +668,8 @@ GlobPattern = Union['Pattern', 'RelativePattern']
 
 TextDocumentFilter = Union['__TextDocumentFilter_Type_6', '__TextDocumentFilter_Type_7', '__TextDocumentFilter_Type_8']
 """ A document filter denotes a document by different properties like
-the [language](#TextDocument.languageId), the [scheme](#Uri.scheme) of
-its resource, or a glob-pattern that is applied to the [path](#TextDocument.fileName).
+the {@link TextDocument.languageId language}, the {@link Uri.scheme scheme} of
+its resource, or a glob-pattern that is applied to the {@link TextDocument.fileName path}.
 
 Glob patterns can have the following syntax:
 - `*` to match one or more characters in a path segment
@@ -768,14 +772,8 @@ class ConfigurationParams(TypedDict):
     items: List['ConfigurationItem']
 
 
-class PartialResultParams(TypedDict):
-    partialResultToken: NotRequired['ProgressToken']
-    """ An optional token that a server can use to report partial results (e.g. streaming) to
-    the client. """
-
-
 class DocumentColorParams(TypedDict):
-    """ Parameters for a [DocumentColorRequest](#DocumentColorRequest). """
+    """ Parameters for a {@link DocumentColorRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The text document. """
     workDoneToken: NotRequired['ProgressToken']
@@ -803,7 +801,7 @@ class DocumentColorRegistrationOptions(TypedDict):
 
 
 class ColorPresentationParams(TypedDict):
-    """ Parameters for a [ColorPresentationRequest](#ColorPresentationRequest). """
+    """ Parameters for a {@link ColorPresentationRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The text document. """
     color: 'Color'
@@ -823,12 +821,12 @@ class ColorPresentation(TypedDict):
     picker header. By default this is also the text that is inserted when selecting
     this color presentation. """
     textEdit: NotRequired['TextEdit']
-    """ An [edit](#TextEdit) which is applied to a document when selecting
-    this presentation for the color.  When `falsy` the [label](#ColorPresentation.label)
+    """ An {@link TextEdit edit} which is applied to a document when selecting
+    this presentation for the color.  When `falsy` the {@link ColorPresentation.label label}
     is used. """
     additionalTextEdits: NotRequired[List['TextEdit']]
-    """ An optional array of additional [text edits](#TextEdit) that are applied when
-    selecting this color presentation. Edits must not overlap with the main [edit](#ColorPresentation.textEdit) nor with themselves. """
+    """ An optional array of additional {@link TextEdit text edits} that are applied when
+    selecting this color presentation. Edits must not overlap with the main {@link ColorPresentation.textEdit edit} nor with themselves. """
 
 
 class WorkDoneProgressOptions(TypedDict):
@@ -843,7 +841,7 @@ class TextDocumentRegistrationOptions(TypedDict):
 
 
 class FoldingRangeParams(TypedDict):
-    """ Parameters for a [FoldingRangeRequest](#FoldingRangeRequest). """
+    """ Parameters for a {@link FoldingRangeRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The text document. """
     workDoneToken: NotRequired['ProgressToken']
@@ -869,7 +867,7 @@ class FoldingRange(TypedDict):
     kind: NotRequired['FoldingRangeKind']
     """ Describes the kind of the folding range such as `comment' or 'region'. The kind
     is used to categorize folding ranges and used by commands like 'Fold all comments'.
-    See [FoldingRangeKind](#FoldingRangeKind) for an enumeration of standardized kinds. """
+    See {@link FoldingRangeKind} for an enumeration of standardized kinds. """
     collapsedText: NotRequired[str]
     """ The text that the client should show when the specified range is
     collapsed. If not defined or not supported by the client, a default
@@ -925,7 +923,7 @@ class SelectionRange(TypedDict):
     """ A selection range represents a part of a selection hierarchy. A selection range
     may have a parent selection range that contains it. """
     range: 'Range'
-    """ The [range](#Range) of this selection range. """
+    """ The {@link Range range} of this selection range. """
     parent: NotRequired['SelectionRange']
     """ The parent selection range containing this range. Therefore `parent.range` must contain `this.range`. """
 
@@ -980,7 +978,7 @@ class CallHierarchyItem(TypedDict):
     """ The range enclosing this symbol not including leading/trailing whitespace but everything else, e.g. comments and code. """
     selectionRange: 'Range'
     """ The range that should be selected and revealed when this symbol is being picked, e.g. the name of a function.
-    Must be contained by the [`range`](#CallHierarchyItem.range). """
+    Must be contained by the {@link CallHierarchyItem.range `range`}. """
     data: NotRequired['LSPAny']
     """ A data entry field that is preserved between a call hierarchy prepare and
     incoming calls or outgoing calls requests. """
@@ -1014,7 +1012,7 @@ CallHierarchyIncomingCall = TypedDict('CallHierarchyIncomingCall', {
     # The item that makes the call.
     'from': 'CallHierarchyItem',
     # The ranges at which the calls appear. This is relative to the caller
-    # denoted by [`this.from`](#CallHierarchyIncomingCall.from).
+    # denoted by {@link CallHierarchyIncomingCall.from `this.from`}.
     'fromRanges': List['Range'],
 })
 """ Represents an incoming call, e.g. a caller of a method or constructor.
@@ -1042,8 +1040,8 @@ class CallHierarchyOutgoingCall(TypedDict):
     """ The item that is called. """
     fromRanges: List['Range']
     """ The range at which this item is called. This is the range relative to the caller, e.g the item
-    passed to [`provideCallHierarchyOutgoingCalls`](#CallHierarchyItemProvider.provideCallHierarchyOutgoingCalls)
-    and not [`this.to`](#CallHierarchyOutgoingCall.to). """
+    passed to {@link CallHierarchyItemProvider.provideCallHierarchyOutgoingCalls `provideCallHierarchyOutgoingCalls`}
+    and not {@link CallHierarchyOutgoingCall.to `this.to`}. """
 
 
 class SemanticTokensParams(TypedDict):
@@ -1324,7 +1322,7 @@ class TypeHierarchyItem(TypedDict):
     selectionRange: 'Range'
     """ The range that should be selected and revealed when this symbol is being
     picked, e.g. the name of a function. Must be contained by the
-    [`range`](#TypeHierarchyItem.range). """
+    {@link TypeHierarchyItem.range `range`}. """
     data: NotRequired['LSPAny']
     """ A data entry field that is preserved between a type hierarchy prepare and
     supertypes or subtypes requests. It could also be used to identify the
@@ -1642,7 +1640,7 @@ class InitializeParams(TypedDict):
     """ The capabilities provided by the client (editor or tool) """
     initializationOptions: NotRequired['LSPAny']
     """ User provided initialization options. """
-    trace: NotRequired[Union[Literal['off'], Literal['messages'], Literal['compact'], Literal['verbose']]]
+    trace: NotRequired['TraceValues']
     """ The initial trace setting. If omitted trace is disabled ('off'). """
     workspaceFolders: NotRequired[Union[List['WorkspaceFolder'], None]]
     """ The workspace folders configured in the client when the server starts.
@@ -1873,15 +1871,15 @@ class CompletionItem(TypedDict):
     item of those that match best is selected. """
     sortText: NotRequired[str]
     """ A string that should be used when comparing this item
-    with other items. When `falsy` the [label](#CompletionItem.label)
+    with other items. When `falsy` the {@link CompletionItem.label label}
     is used. """
     filterText: NotRequired[str]
     """ A string that should be used when filtering a set of
-    completion items. When `falsy` the [label](#CompletionItem.label)
+    completion items. When `falsy` the {@link CompletionItem.label label}
     is used. """
     insertText: NotRequired[str]
     """ A string that should be inserted into a document when selecting
-    this completion. When `falsy` the [label](#CompletionItem.label)
+    this completion. When `falsy` the {@link CompletionItem.label label}
     is used.
 
     The `insertText` is subject to interpretation by the client side.
@@ -1905,9 +1903,9 @@ class CompletionItem(TypedDict):
 
     @since 3.16.0 """
     textEdit: NotRequired[Union['TextEdit', 'InsertReplaceEdit']]
-    """ An [edit](#TextEdit) which is applied to a document when selecting
+    """ An {@link TextEdit edit} which is applied to a document when selecting
     this completion. When an edit is provided the value of
-    [insertText](#CompletionItem.insertText) is ignored.
+    {@link CompletionItem.insertText insertText} is ignored.
 
     Most editors support two different operations when accepting a completion
     item. One is to insert a completion text and the other is to replace an
@@ -1937,9 +1935,9 @@ class CompletionItem(TypedDict):
 
     @since 3.17.0 """
     additionalTextEdits: NotRequired[List['TextEdit']]
-    """ An optional array of additional [text edits](#TextEdit) that are applied when
+    """ An optional array of additional {@link TextEdit text edits} that are applied when
     selecting this completion. Edits must not overlap (including the same insert position)
-    with the main [edit](#CompletionItem.textEdit) nor with themselves.
+    with the main {@link CompletionItem.textEdit edit} nor with themselves.
 
     Additional text edits should be used to change text unrelated to the current cursor position
     (for example adding an import statement at the top of the file if the completion item will
@@ -1949,16 +1947,16 @@ class CompletionItem(TypedDict):
     then type that character. *Note* that all commit characters should have `length=1` and that superfluous
     characters will be ignored. """
     command: NotRequired['Command']
-    """ An optional [command](#Command) that is executed *after* inserting this completion. *Note* that
+    """ An optional {@link Command command} that is executed *after* inserting this completion. *Note* that
     additional modifications to the current document should be described with the
-    [additionalTextEdits](#CompletionItem.additionalTextEdits)-property. """
+    {@link CompletionItem.additionalTextEdits additionalTextEdits}-property. """
     data: NotRequired['LSPAny']
     """ A data entry field that is preserved on a completion item between a
-    [CompletionRequest](#CompletionRequest) and a [CompletionResolveRequest](#CompletionResolveRequest). """
+    {@link CompletionRequest} and a {@link CompletionResolveRequest}. """
 
 
 class CompletionList(TypedDict):
-    """ Represents a collection of [completion items](#CompletionItem) to be presented
+    """ Represents a collection of {@link CompletionItem completion items} to be presented
     in the editor. """
     isIncomplete: bool
     """ This list it not complete. Further typing results in recomputing this list.
@@ -1984,7 +1982,7 @@ class CompletionList(TypedDict):
 
 
 class CompletionRegistrationOptions(TypedDict):
-    """ Registration options for a [CompletionRequest](#CompletionRequest). """
+    """ Registration options for a {@link CompletionRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
@@ -2017,7 +2015,7 @@ class CompletionRegistrationOptions(TypedDict):
 
 
 class HoverParams(TypedDict):
-    """ Parameters for a [HoverRequest](#HoverRequest). """
+    """ Parameters for a {@link HoverRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The text document. """
     position: 'Position'
@@ -2036,14 +2034,14 @@ class Hover(TypedDict):
 
 
 class HoverRegistrationOptions(TypedDict):
-    """ Registration options for a [HoverRequest](#HoverRequest). """
+    """ Registration options for a {@link HoverRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
 
 
 class SignatureHelpParams(TypedDict):
-    """ Parameters for a [SignatureHelpRequest](#SignatureHelpRequest). """
+    """ Parameters for a {@link SignatureHelpRequest}. """
     context: NotRequired['SignatureHelpContext']
     """ The signature help context. This is only available if the client specifies
     to send this using the client capability `textDocument.signatureHelp.contextSupport === true`
@@ -2084,7 +2082,7 @@ class SignatureHelp(TypedDict):
 
 
 class SignatureHelpRegistrationOptions(TypedDict):
-    """ Registration options for a [SignatureHelpRequest](#SignatureHelpRequest). """
+    """ Registration options for a {@link SignatureHelpRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
@@ -2100,7 +2098,7 @@ class SignatureHelpRegistrationOptions(TypedDict):
 
 
 class DefinitionParams(TypedDict):
-    """ Parameters for a [DefinitionRequest](#DefinitionRequest). """
+    """ Parameters for a {@link DefinitionRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The text document. """
     position: 'Position'
@@ -2113,14 +2111,14 @@ class DefinitionParams(TypedDict):
 
 
 class DefinitionRegistrationOptions(TypedDict):
-    """ Registration options for a [DefinitionRequest](#DefinitionRequest). """
+    """ Registration options for a {@link DefinitionRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
 
 
 class ReferenceParams(TypedDict):
-    """ Parameters for a [ReferencesRequest](#ReferencesRequest). """
+    """ Parameters for a {@link ReferencesRequest}. """
     context: 'ReferenceContext'
     textDocument: 'TextDocumentIdentifier'
     """ The text document. """
@@ -2134,14 +2132,14 @@ class ReferenceParams(TypedDict):
 
 
 class ReferenceRegistrationOptions(TypedDict):
-    """ Registration options for a [ReferencesRequest](#ReferencesRequest). """
+    """ Registration options for a {@link ReferencesRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
 
 
 class DocumentHighlightParams(TypedDict):
-    """ Parameters for a [DocumentHighlightRequest](#DocumentHighlightRequest). """
+    """ Parameters for a {@link DocumentHighlightRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The text document. """
     position: 'Position'
@@ -2160,18 +2158,18 @@ class DocumentHighlight(TypedDict):
     range: 'Range'
     """ The range this highlight applies to. """
     kind: NotRequired['DocumentHighlightKind']
-    """ The highlight kind, default is [text](#DocumentHighlightKind.Text). """
+    """ The highlight kind, default is {@link DocumentHighlightKind.Text text}. """
 
 
 class DocumentHighlightRegistrationOptions(TypedDict):
-    """ Registration options for a [DocumentHighlightRequest](#DocumentHighlightRequest). """
+    """ Registration options for a {@link DocumentHighlightRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
 
 
 class DocumentSymbolParams(TypedDict):
-    """ Parameters for a [DocumentSymbolRequest](#DocumentSymbolRequest). """
+    """ Parameters for a {@link DocumentSymbolRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The text document. """
     workDoneToken: NotRequired['ProgressToken']
@@ -2245,7 +2243,7 @@ class DocumentSymbol(TypedDict):
 
 
 class DocumentSymbolRegistrationOptions(TypedDict):
-    """ Registration options for a [DocumentSymbolRequest](#DocumentSymbolRequest). """
+    """ Registration options for a {@link DocumentSymbolRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
@@ -2257,7 +2255,7 @@ class DocumentSymbolRegistrationOptions(TypedDict):
 
 
 class CodeActionParams(TypedDict):
-    """ The parameters of a [CodeActionRequest](#CodeActionRequest). """
+    """ The parameters of a {@link CodeActionRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The document in which the command was invoked. """
     range: 'Range'
@@ -2336,7 +2334,7 @@ class CodeAction(TypedDict):
 
 
 class CodeActionRegistrationOptions(TypedDict):
-    """ Registration options for a [CodeActionRequest](#CodeActionRequest). """
+    """ Registration options for a {@link CodeActionRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
@@ -2353,7 +2351,7 @@ class CodeActionRegistrationOptions(TypedDict):
 
 
 class WorkspaceSymbolParams(TypedDict):
-    """ The parameters of a [WorkspaceSymbolRequest](#WorkspaceSymbolRequest). """
+    """ The parameters of a {@link WorkspaceSymbolRequest}. """
     query: str
     """ A query string to filter symbols by. Clients may send an empty
     string here to request all symbols. """
@@ -2395,7 +2393,7 @@ class WorkspaceSymbol(TypedDict):
 
 
 class WorkspaceSymbolRegistrationOptions(TypedDict):
-    """ Registration options for a [WorkspaceSymbolRequest](#WorkspaceSymbolRequest). """
+    """ Registration options for a {@link WorkspaceSymbolRequest}. """
     resolveProvider: NotRequired[bool]
     """ The server provides support to resolve additional
     information for a workspace symbol.
@@ -2404,7 +2402,7 @@ class WorkspaceSymbolRegistrationOptions(TypedDict):
 
 
 class CodeLensParams(TypedDict):
-    """ The parameters of a [CodeLensRequest](#CodeLensRequest). """
+    """ The parameters of a {@link CodeLensRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The document to request code lens for. """
     workDoneToken: NotRequired['ProgressToken']
@@ -2415,7 +2413,7 @@ class CodeLensParams(TypedDict):
 
 
 class CodeLens(TypedDict):
-    """ A code lens represents a [command](#Command) that should be shown along with
+    """ A code lens represents a {@link Command command} that should be shown along with
     source text, like the number of references, a way to run tests, etc.
 
     A code lens is _unresolved_ when no command is associated to it. For performance
@@ -2426,12 +2424,12 @@ class CodeLens(TypedDict):
     """ The command this code lens represents. """
     data: NotRequired['LSPAny']
     """ A data entry field that is preserved on a code lens item between
-    a [CodeLensRequest](#CodeLensRequest) and a [CodeLensResolveRequest]
+    a {@link CodeLensRequest} and a [CodeLensResolveRequest]
     (#CodeLensResolveRequest) """
 
 
 class CodeLensRegistrationOptions(TypedDict):
-    """ Registration options for a [CodeLensRequest](#CodeLensRequest). """
+    """ Registration options for a {@link CodeLensRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
@@ -2440,7 +2438,7 @@ class CodeLensRegistrationOptions(TypedDict):
 
 
 class DocumentLinkParams(TypedDict):
-    """ The parameters of a [DocumentLinkRequest](#DocumentLinkRequest). """
+    """ The parameters of a {@link DocumentLinkRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The document to provide document links for. """
     workDoneToken: NotRequired['ProgressToken']
@@ -2471,7 +2469,7 @@ class DocumentLink(TypedDict):
 
 
 class DocumentLinkRegistrationOptions(TypedDict):
-    """ Registration options for a [DocumentLinkRequest](#DocumentLinkRequest). """
+    """ Registration options for a {@link DocumentLinkRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
@@ -2480,7 +2478,7 @@ class DocumentLinkRegistrationOptions(TypedDict):
 
 
 class DocumentFormattingParams(TypedDict):
-    """ The parameters of a [DocumentFormattingRequest](#DocumentFormattingRequest). """
+    """ The parameters of a {@link DocumentFormattingRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The document to format. """
     options: 'FormattingOptions'
@@ -2490,14 +2488,14 @@ class DocumentFormattingParams(TypedDict):
 
 
 class DocumentFormattingRegistrationOptions(TypedDict):
-    """ Registration options for a [DocumentFormattingRequest](#DocumentFormattingRequest). """
+    """ Registration options for a {@link DocumentFormattingRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
 
 
 class DocumentRangeFormattingParams(TypedDict):
-    """ The parameters of a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
+    """ The parameters of a {@link DocumentRangeFormattingRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The document to format. """
     range: 'Range'
@@ -2509,14 +2507,14 @@ class DocumentRangeFormattingParams(TypedDict):
 
 
 class DocumentRangeFormattingRegistrationOptions(TypedDict):
-    """ Registration options for a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
+    """ Registration options for a {@link DocumentRangeFormattingRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
 
 
 class DocumentOnTypeFormattingParams(TypedDict):
-    """ The parameters of a [DocumentOnTypeFormattingRequest](#DocumentOnTypeFormattingRequest). """
+    """ The parameters of a {@link DocumentOnTypeFormattingRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The document to format. """
     position: 'Position'
@@ -2533,7 +2531,7 @@ class DocumentOnTypeFormattingParams(TypedDict):
 
 
 class DocumentOnTypeFormattingRegistrationOptions(TypedDict):
-    """ Registration options for a [DocumentOnTypeFormattingRequest](#DocumentOnTypeFormattingRequest). """
+    """ Registration options for a {@link DocumentOnTypeFormattingRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
@@ -2544,21 +2542,21 @@ class DocumentOnTypeFormattingRegistrationOptions(TypedDict):
 
 
 class RenameParams(TypedDict):
-    """ The parameters of a [RenameRequest](#RenameRequest). """
+    """ The parameters of a {@link RenameRequest}. """
     textDocument: 'TextDocumentIdentifier'
     """ The document to rename. """
     position: 'Position'
     """ The position at which this request was sent. """
     newName: str
     """ The new name of the symbol. If the given name is not valid the
-    request must return a [ResponseError](#ResponseError) with an
+    request must return a {@link ResponseError} with an
     appropriate message set. """
     workDoneToken: NotRequired['ProgressToken']
     """ An optional token that a server can use to report work done progress. """
 
 
 class RenameRegistrationOptions(TypedDict):
-    """ Registration options for a [RenameRequest](#RenameRequest). """
+    """ Registration options for a {@link RenameRequest}. """
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
@@ -2578,7 +2576,7 @@ class PrepareRenameParams(TypedDict):
 
 
 class ExecuteCommandParams(TypedDict):
-    """ The parameters of a [ExecuteCommandRequest](#ExecuteCommandRequest). """
+    """ The parameters of a {@link ExecuteCommandRequest}. """
     command: str
     """ The identifier of the actual command handler. """
     arguments: NotRequired[List['LSPAny']]
@@ -2588,7 +2586,7 @@ class ExecuteCommandParams(TypedDict):
 
 
 class ExecuteCommandRegistrationOptions(TypedDict):
-    """ Registration options for a [ExecuteCommandRequest](#ExecuteCommandRequest). """
+    """ Registration options for a {@link ExecuteCommandRequest}. """
     commands: List[str]
     """ The commands to be executed on the server """
 
@@ -2709,8 +2707,14 @@ class WorkDoneProgressParams(TypedDict):
     """ An optional token that a server can use to report work done progress. """
 
 
+class PartialResultParams(TypedDict):
+    partialResultToken: NotRequired['ProgressToken']
+    """ An optional token that a server can use to report partial results (e.g. streaming) to
+    the client. """
+
+
 class LocationLink(TypedDict):
-    """ Represents the connection of two locations. Provides additional metadata over normal [locations](#Location),
+    """ Represents the connection of two locations. Provides additional metadata over normal {@link Location locations},
     including an origin range. """
     originSelectionRange: NotRequired['Range']
     """ Span of the origin of this link.
@@ -3614,7 +3618,7 @@ class SignatureInformation(TypedDict):
 
 
 class SignatureHelpOptions(TypedDict):
-    """ Server Capabilities for a [SignatureHelpRequest](#SignatureHelpRequest). """
+    """ Server Capabilities for a {@link SignatureHelpRequest}. """
     triggerCharacters: NotRequired[List[str]]
     """ List of characters that trigger signature help automatically. """
     retriggerCharacters: NotRequired[List[str]]
@@ -3628,7 +3632,7 @@ class SignatureHelpOptions(TypedDict):
 
 
 class DefinitionOptions(TypedDict):
-    """ Server Capabilities for a [DefinitionRequest](#DefinitionRequest). """
+    """ Server Capabilities for a {@link DefinitionRequest}. """
     workDoneProgress: NotRequired[bool]
 
 
@@ -3645,7 +3649,7 @@ class ReferenceOptions(TypedDict):
 
 
 class DocumentHighlightOptions(TypedDict):
-    """ Provider options for a [DocumentHighlightRequest](#DocumentHighlightRequest). """
+    """ Provider options for a {@link DocumentHighlightRequest}. """
     workDoneProgress: NotRequired[bool]
 
 
@@ -3667,7 +3671,7 @@ class BaseSymbolInformation(TypedDict):
 
 
 class DocumentSymbolOptions(TypedDict):
-    """ Provider options for a [DocumentSymbolRequest](#DocumentSymbolRequest). """
+    """ Provider options for a {@link DocumentSymbolRequest}. """
     label: NotRequired[str]
     """ A human-readable string that is shown when multiple outlines trees
     are shown for the same document.
@@ -3678,7 +3682,7 @@ class DocumentSymbolOptions(TypedDict):
 
 class CodeActionContext(TypedDict):
     """ Contains additional diagnostic information about the context in which
-    a [code action](#CodeActionProvider.provideCodeActions) is run. """
+    a {@link CodeActionProvider.provideCodeActions code action} is run. """
     diagnostics: List['Diagnostic']
     """ An array of diagnostics known on the client side overlapping the range provided to the
     `textDocument/codeAction` request. They are provided so that the server knows which
@@ -3697,7 +3701,7 @@ class CodeActionContext(TypedDict):
 
 
 class CodeActionOptions(TypedDict):
-    """ Provider options for a [CodeActionRequest](#CodeActionRequest). """
+    """ Provider options for a {@link CodeActionRequest}. """
     codeActionKinds: NotRequired[List['CodeActionKind']]
     """ CodeActionKinds that this server may return.
 
@@ -3712,7 +3716,7 @@ class CodeActionOptions(TypedDict):
 
 
 class WorkspaceSymbolOptions(TypedDict):
-    """ Server capabilities for a [WorkspaceSymbolRequest](#WorkspaceSymbolRequest). """
+    """ Server capabilities for a {@link WorkspaceSymbolRequest}. """
     resolveProvider: NotRequired[bool]
     """ The server provides support to resolve additional
     information for a workspace symbol.
@@ -3722,14 +3726,14 @@ class WorkspaceSymbolOptions(TypedDict):
 
 
 class CodeLensOptions(TypedDict):
-    """ Code Lens provider options of a [CodeLensRequest](#CodeLensRequest). """
+    """ Code Lens provider options of a {@link CodeLensRequest}. """
     resolveProvider: NotRequired[bool]
     """ Code lens has a resolve provider as well. """
     workDoneProgress: NotRequired[bool]
 
 
 class DocumentLinkOptions(TypedDict):
-    """ Provider options for a [DocumentLinkRequest](#DocumentLinkRequest). """
+    """ Provider options for a {@link DocumentLinkRequest}. """
     resolveProvider: NotRequired[bool]
     """ Document links have a resolve provider as well. """
     workDoneProgress: NotRequired[bool]
@@ -3756,17 +3760,17 @@ class FormattingOptions(TypedDict):
 
 
 class DocumentFormattingOptions(TypedDict):
-    """ Provider options for a [DocumentFormattingRequest](#DocumentFormattingRequest). """
+    """ Provider options for a {@link DocumentFormattingRequest}. """
     workDoneProgress: NotRequired[bool]
 
 
 class DocumentRangeFormattingOptions(TypedDict):
-    """ Provider options for a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
+    """ Provider options for a {@link DocumentRangeFormattingRequest}. """
     workDoneProgress: NotRequired[bool]
 
 
 class DocumentOnTypeFormattingOptions(TypedDict):
-    """ Provider options for a [DocumentOnTypeFormattingRequest](#DocumentOnTypeFormattingRequest). """
+    """ Provider options for a {@link DocumentOnTypeFormattingRequest}. """
     firstTriggerCharacter: str
     """ A character on which formatting should be triggered, like `{`. """
     moreTriggerCharacter: NotRequired[List[str]]
@@ -3774,7 +3778,7 @@ class DocumentOnTypeFormattingOptions(TypedDict):
 
 
 class RenameOptions(TypedDict):
-    """ Provider options for a [RenameRequest](#RenameRequest). """
+    """ Provider options for a {@link RenameRequest}. """
     prepareProvider: NotRequired[bool]
     """ Renames should be checked and tested before being executed.
 
@@ -3783,7 +3787,7 @@ class RenameOptions(TypedDict):
 
 
 class ExecuteCommandOptions(TypedDict):
-    """ The server capabilities of a [ExecuteCommandRequest](#ExecuteCommandRequest). """
+    """ The server capabilities of a {@link ExecuteCommandRequest}. """
     commands: List[str]
     """ The commands to be executed on the server """
     workDoneProgress: NotRequired[bool]
@@ -3914,12 +3918,6 @@ class WorkspaceUnchangedDocumentDiagnosticReport(TypedDict):
     resultId: str
     """ A result id which will be sent on the next
     diagnostic request for the same document. """
-
-
-class LSPObject(TypedDict):
-    """ LSP object definition.
-    @since 3.17.0 """
-    pass
 
 
 class NotebookCell(TypedDict):
@@ -4409,7 +4407,7 @@ class DidChangeWatchedFilesClientCapabilities(TypedDict):
 
 
 class WorkspaceSymbolClientCapabilities(TypedDict):
-    """ Client capabilities for a [WorkspaceSymbolRequest](#WorkspaceSymbolRequest). """
+    """ Client capabilities for a {@link WorkspaceSymbolRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Symbol request supports dynamic registration. """
     symbolKind: NotRequired['__SymbolKind_Type_36']
@@ -4428,7 +4426,7 @@ class WorkspaceSymbolClientCapabilities(TypedDict):
 
 
 class ExecuteCommandClientCapabilities(TypedDict):
-    """ The client capabilities of a [ExecuteCommandRequest](#ExecuteCommandRequest). """
+    """ The client capabilities of a {@link ExecuteCommandRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Execute command supports dynamic registration. """
 
@@ -4568,7 +4566,7 @@ class HoverClientCapabilities(TypedDict):
 
 
 class SignatureHelpClientCapabilities(TypedDict):
-    """ Client Capabilities for a [SignatureHelpRequest](#SignatureHelpRequest). """
+    """ Client Capabilities for a {@link SignatureHelpRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether signature help supports dynamic registration. """
     signatureInformation: NotRequired['__SignatureInformation_Type_45']
@@ -4594,7 +4592,7 @@ class DeclarationClientCapabilities(TypedDict):
 
 
 class DefinitionClientCapabilities(TypedDict):
-    """ Client Capabilities for a [DefinitionRequest](#DefinitionRequest). """
+    """ Client Capabilities for a {@link DefinitionRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether definition supports dynamic registration. """
     linkSupport: NotRequired[bool]
@@ -4628,19 +4626,19 @@ class ImplementationClientCapabilities(TypedDict):
 
 
 class ReferenceClientCapabilities(TypedDict):
-    """ Client Capabilities for a [ReferencesRequest](#ReferencesRequest). """
+    """ Client Capabilities for a {@link ReferencesRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether references supports dynamic registration. """
 
 
 class DocumentHighlightClientCapabilities(TypedDict):
-    """ Client Capabilities for a [DocumentHighlightRequest](#DocumentHighlightRequest). """
+    """ Client Capabilities for a {@link DocumentHighlightRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether document highlight supports dynamic registration. """
 
 
 class DocumentSymbolClientCapabilities(TypedDict):
-    """ Client Capabilities for a [DocumentSymbolRequest](#DocumentSymbolRequest). """
+    """ Client Capabilities for a {@link DocumentSymbolRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether document symbol supports dynamic registration. """
     symbolKind: NotRequired['__SymbolKind_Type_47']
@@ -4662,7 +4660,7 @@ class DocumentSymbolClientCapabilities(TypedDict):
 
 
 class CodeActionClientCapabilities(TypedDict):
-    """ The Client Capabilities of a [CodeActionRequest](#CodeActionRequest). """
+    """ The Client Capabilities of a {@link CodeActionRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether code action supports dynamic registration. """
     codeActionLiteralSupport: NotRequired['__CodeActionLiteralSupport_Type_49']
@@ -4701,13 +4699,13 @@ class CodeActionClientCapabilities(TypedDict):
 
 
 class CodeLensClientCapabilities(TypedDict):
-    """ The client capabilities  of a [CodeLensRequest](#CodeLensRequest). """
+    """ The client capabilities  of a {@link CodeLensRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether code lens supports dynamic registration. """
 
 
 class DocumentLinkClientCapabilities(TypedDict):
-    """ The client capabilities of a [DocumentLinkRequest](#DocumentLinkRequest). """
+    """ The client capabilities of a {@link DocumentLinkRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether document link supports dynamic registration. """
     tooltipSupport: NotRequired[bool]
@@ -4724,19 +4722,19 @@ class DocumentColorClientCapabilities(TypedDict):
 
 
 class DocumentFormattingClientCapabilities(TypedDict):
-    """ Client capabilities of a [DocumentFormattingRequest](#DocumentFormattingRequest). """
+    """ Client capabilities of a {@link DocumentFormattingRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether formatting supports dynamic registration. """
 
 
 class DocumentRangeFormattingClientCapabilities(TypedDict):
-    """ Client capabilities of a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
+    """ Client capabilities of a {@link DocumentRangeFormattingRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether range formatting supports dynamic registration. """
 
 
 class DocumentOnTypeFormattingClientCapabilities(TypedDict):
-    """ Client capabilities of a [DocumentOnTypeFormattingRequest](#DocumentOnTypeFormattingRequest). """
+    """ Client capabilities of a {@link DocumentOnTypeFormattingRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether on type formatting supports dynamic registration. """
 
@@ -5022,7 +5020,7 @@ class __TextDocumentFilter_Type_6(TypedDict):
     language: str
     """ A language id, like `typescript`. """
     scheme: NotRequired[str]
-    """ A Uri [scheme](#Uri.scheme), like `file` or `untitled`. """
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
     pattern: NotRequired[str]
     """ A glob pattern, like `*.{ts,js}`. """
 
@@ -5031,7 +5029,7 @@ class __TextDocumentFilter_Type_7(TypedDict):
     language: NotRequired[str]
     """ A language id, like `typescript`. """
     scheme: str
-    """ A Uri [scheme](#Uri.scheme), like `file` or `untitled`. """
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
     pattern: NotRequired[str]
     """ A glob pattern, like `*.{ts,js}`. """
 
@@ -5040,7 +5038,7 @@ class __TextDocumentFilter_Type_8(TypedDict):
     language: NotRequired[str]
     """ A language id, like `typescript`. """
     scheme: NotRequired[str]
-    """ A Uri [scheme](#Uri.scheme), like `file` or `untitled`. """
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
     pattern: str
     """ A glob pattern, like `*.{ts,js}`. """
 
@@ -5049,7 +5047,7 @@ class __NotebookDocumentFilter_Type_9(TypedDict):
     notebookType: str
     """ The type of the enclosing notebook. """
     scheme: NotRequired[str]
-    """ A Uri [scheme](#Uri.scheme), like `file` or `untitled`. """
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
     pattern: NotRequired[str]
     """ A glob pattern. """
 
@@ -5058,7 +5056,7 @@ class __NotebookDocumentFilter_Type_10(TypedDict):
     notebookType: NotRequired[str]
     """ The type of the enclosing notebook. """
     scheme: str
-    """ A Uri [scheme](#Uri.scheme), like `file` or `untitled`. """
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
     pattern: NotRequired[str]
     """ A glob pattern. """
 
@@ -5067,7 +5065,7 @@ class __NotebookDocumentFilter_Type_11(TypedDict):
     notebookType: NotRequired[str]
     """ The type of the enclosing notebook. """
     scheme: NotRequired[str]
-    """ A Uri [scheme](#Uri.scheme), like `file` or `untitled`. """
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
     pattern: str
     """ A glob pattern. """
 

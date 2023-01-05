@@ -559,7 +559,7 @@ class TokenFormat(Enum):
 
 
 Definition = Union['Location', List['Location']]
-""" The definition of a symbol represented as one or many [locations](#Location).
+""" The definition of a symbol represented as one or many {@link Location locations}.
 For most programming languages there is only one location at which a symbol is
 defined.
 
@@ -569,7 +569,7 @@ by the client. """
 DefinitionLink = 'LocationLink'
 """ Information about where a symbol is defined.
 
-Provides additional metadata over normal [location](#Location) definitions, including the range of
+Provides additional metadata over normal {@link Location location} definitions, including the range of
 the defining symbol """
 
 LSPArray = List['LSPAny']
@@ -585,12 +585,12 @@ optional as well.
 @since 3.17.0 """
 
 Declaration = Union['Location', List['Location']]
-""" The declaration of a symbol representation as one or many [locations](#Location). """
+""" The declaration of a symbol representation as one or many {@link Location locations}. """
 
 DeclarationLink = 'LocationLink'
 """ Information about where a symbol is declared.
 
-Provides additional metadata over normal [location](#Location) declarations, including the range of
+Provides additional metadata over normal {@link Location location} declarations, including the range of
 the declaring symbol.
 
 Servers should prefer returning `DeclarationLink` over `Declaration` if supported
@@ -616,14 +616,14 @@ pull request.
 
 PrepareRenameResult = Union['Range', '__PrepareRenameResult_Type_1', '__PrepareRenameResult_Type_2']
 
-ProgressToken = Union[int, str]
-
 DocumentSelector = List['DocumentFilter']
 """ A document selector is the combination of one or many document filters.
 
 @sample `let sel:DocumentSelector = [{ language: 'typescript' }, { language: 'json', pattern: '**∕tsconfig.json' }]`;
 
 The use of a string as a document filter is deprecated @since 3.16.0. """
+
+ProgressToken = Union[int, str]
 
 ChangeAnnotationIdentifier = str
 """ An identifier to refer to a change annotation stored with a workspace edit. """
@@ -657,6 +657,10 @@ a notebook cell document.
 
 @since 3.17.0 - proposed support for NotebookCellTextDocumentFilter. """
 
+LSPObject = Dict[str, 'LSPAny']
+""" LSP object definition.
+@since 3.17.0 """
+
 GlobPattern = Union['Pattern', 'RelativePattern']
 """ The glob pattern. Either a string pattern or a relative pattern.
 
@@ -664,8 +668,8 @@ GlobPattern = Union['Pattern', 'RelativePattern']
 
 TextDocumentFilter = Union['__TextDocumentFilter_Type_6', '__TextDocumentFilter_Type_7', '__TextDocumentFilter_Type_8']
 """ A document filter denotes a document by different properties like
-the [language](#TextDocument.languageId), the [scheme](#Uri.scheme) of
-its resource, or a glob-pattern that is applied to the [path](#TextDocument.fileName).
+the {@link TextDocument.languageId language}, the {@link Uri.scheme scheme} of
+its resource, or a glob-pattern that is applied to the {@link TextDocument.fileName path}.
 
 Glob patterns can have the following syntax:
 - `*` to match one or more characters in a path segment
@@ -776,13 +780,6 @@ ConfigurationParams = TypedDict('ConfigurationParams', {
 """ The parameters of a configuration request. """
 
 
-PartialResultParams = TypedDict('PartialResultParams', {
-    # An optional token that a server can use to report partial results (e.g. streaming) to
-    # the client.
-    'partialResultToken': NotRequired['ProgressToken'],
-})
-
-
 DocumentColorParams = TypedDict('DocumentColorParams', {
     # The text document.
     'textDocument': 'TextDocumentIdentifier',
@@ -792,7 +789,7 @@ DocumentColorParams = TypedDict('DocumentColorParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" Parameters for a [DocumentColorRequest](#DocumentColorRequest). """
+""" Parameters for a {@link DocumentColorRequest}. """
 
 
 ColorInformation = TypedDict('ColorInformation', {
@@ -827,7 +824,7 @@ ColorPresentationParams = TypedDict('ColorPresentationParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" Parameters for a [ColorPresentationRequest](#ColorPresentationRequest). """
+""" Parameters for a {@link ColorPresentationRequest}. """
 
 
 ColorPresentation = TypedDict('ColorPresentation', {
@@ -835,12 +832,12 @@ ColorPresentation = TypedDict('ColorPresentation', {
     # picker header. By default this is also the text that is inserted when selecting
     # this color presentation.
     'label': str,
-    # An [edit](#TextEdit) which is applied to a document when selecting
-    # this presentation for the color.  When `falsy` the [label](#ColorPresentation.label)
+    # An {@link TextEdit edit} which is applied to a document when selecting
+    # this presentation for the color.  When `falsy` the {@link ColorPresentation.label label}
     # is used.
     'textEdit': NotRequired['TextEdit'],
-    # An optional array of additional [text edits](#TextEdit) that are applied when
-    # selecting this color presentation. Edits must not overlap with the main [edit](#ColorPresentation.textEdit) nor with themselves.
+    # An optional array of additional {@link TextEdit text edits} that are applied when
+    # selecting this color presentation. Edits must not overlap with the main {@link ColorPresentation.textEdit edit} nor with themselves.
     'additionalTextEdits': NotRequired[List['TextEdit']],
 })
 
@@ -867,7 +864,7 @@ FoldingRangeParams = TypedDict('FoldingRangeParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" Parameters for a [FoldingRangeRequest](#FoldingRangeRequest). """
+""" Parameters for a {@link FoldingRangeRequest}. """
 
 
 FoldingRange = TypedDict('FoldingRange', {
@@ -883,7 +880,7 @@ FoldingRange = TypedDict('FoldingRange', {
     'endCharacter': NotRequired[Uint],
     # Describes the kind of the folding range such as `comment' or 'region'. The kind
     # is used to categorize folding ranges and used by commands like 'Fold all comments'.
-    # See [FoldingRangeKind](#FoldingRangeKind) for an enumeration of standardized kinds.
+    # See {@link FoldingRangeKind} for an enumeration of standardized kinds.
     'kind': NotRequired['FoldingRangeKind'],
     # The text that the client should show when the specified range is
     # collapsed. If not defined or not supported by the client, a default
@@ -944,7 +941,7 @@ SelectionRangeParams = TypedDict('SelectionRangeParams', {
 
 
 SelectionRange = TypedDict('SelectionRange', {
-    # The [range](#Range) of this selection range.
+    # The {@link Range range} of this selection range.
     'range': 'Range',
     # The parent selection range containing this range. Therefore `parent.range` must contain `this.range`.
     'parent': NotRequired['SelectionRange'],
@@ -1002,7 +999,7 @@ CallHierarchyItem = TypedDict('CallHierarchyItem', {
     # The range enclosing this symbol not including leading/trailing whitespace but everything else, e.g. comments and code.
     'range': 'Range',
     # The range that should be selected and revealed when this symbol is being picked, e.g. the name of a function.
-    # Must be contained by the [`range`](#CallHierarchyItem.range).
+    # Must be contained by the {@link CallHierarchyItem.range `range`}.
     'selectionRange': 'Range',
     # A data entry field that is preserved between a call hierarchy prepare and
     # incoming calls or outgoing calls requests.
@@ -1044,7 +1041,7 @@ CallHierarchyIncomingCall = TypedDict('CallHierarchyIncomingCall', {
     # The item that makes the call.
     'from': 'CallHierarchyItem',
     # The ranges at which the calls appear. This is relative to the caller
-    # denoted by [`this.from`](#CallHierarchyIncomingCall.from).
+    # denoted by {@link CallHierarchyIncomingCall.from `this.from`}.
     'fromRanges': List['Range'],
 })
 """ Represents an incoming call, e.g. a caller of a method or constructor.
@@ -1069,8 +1066,8 @@ CallHierarchyOutgoingCall = TypedDict('CallHierarchyOutgoingCall', {
     # The item that is called.
     'to': 'CallHierarchyItem',
     # The range at which this item is called. This is the range relative to the caller, e.g the item
-    # passed to [`provideCallHierarchyOutgoingCalls`](#CallHierarchyItemProvider.provideCallHierarchyOutgoingCalls)
-    # and not [`this.to`](#CallHierarchyOutgoingCall.to).
+    # passed to {@link CallHierarchyItemProvider.provideCallHierarchyOutgoingCalls `provideCallHierarchyOutgoingCalls`}
+    # and not {@link CallHierarchyOutgoingCall.to `this.to`}.
     'fromRanges': List['Range'],
 })
 """ Represents an outgoing call, e.g. calling a getter from a method or a method from a constructor etc.
@@ -1376,7 +1373,7 @@ TypeHierarchyItem = TypedDict('TypeHierarchyItem', {
     'range': 'Range',
     # The range that should be selected and revealed when this symbol is being
     # picked, e.g. the name of a function. Must be contained by the
-    # [`range`](#TypeHierarchyItem.range).
+    # {@link TypeHierarchyItem.range `range`}.
     'selectionRange': 'Range',
     # A data entry field that is preserved between a type hierarchy prepare and
     # supertypes or subtypes requests. It could also be used to identify the
@@ -1719,7 +1716,7 @@ InitializeParams = TypedDict('InitializeParams', {
     # User provided initialization options.
     'initializationOptions': NotRequired['LSPAny'],
     # The initial trace setting. If omitted trace is disabled ('off').
-    'trace': NotRequired[Union[Literal['off'], Literal['messages'], Literal['compact'], Literal['verbose']]],
+    'trace': NotRequired['TraceValues'],
     # The workspace folders configured in the client when the server starts.
     #
     # This property is only available if the client supports workspace folders.
@@ -1968,15 +1965,15 @@ CompletionItem = TypedDict('CompletionItem', {
     # item of those that match best is selected.
     'preselect': NotRequired[bool],
     # A string that should be used when comparing this item
-    # with other items. When `falsy` the [label](#CompletionItem.label)
+    # with other items. When `falsy` the {@link CompletionItem.label label}
     # is used.
     'sortText': NotRequired[str],
     # A string that should be used when filtering a set of
-    # completion items. When `falsy` the [label](#CompletionItem.label)
+    # completion items. When `falsy` the {@link CompletionItem.label label}
     # is used.
     'filterText': NotRequired[str],
     # A string that should be inserted into a document when selecting
-    # this completion. When `falsy` the [label](#CompletionItem.label)
+    # this completion. When `falsy` the {@link CompletionItem.label label}
     # is used.
     #
     # The `insertText` is subject to interpretation by the client side.
@@ -2000,9 +1997,9 @@ CompletionItem = TypedDict('CompletionItem', {
     #
     # @since 3.16.0
     'insertTextMode': NotRequired['InsertTextMode'],
-    # An [edit](#TextEdit) which is applied to a document when selecting
+    # An {@link TextEdit edit} which is applied to a document when selecting
     # this completion. When an edit is provided the value of
-    # [insertText](#CompletionItem.insertText) is ignored.
+    # {@link CompletionItem.insertText insertText} is ignored.
     #
     # Most editors support two different operations when accepting a completion
     # item. One is to insert a completion text and the other is to replace an
@@ -2032,9 +2029,9 @@ CompletionItem = TypedDict('CompletionItem', {
     #
     # @since 3.17.0
     'textEditText': NotRequired[str],
-    # An optional array of additional [text edits](#TextEdit) that are applied when
+    # An optional array of additional {@link TextEdit text edits} that are applied when
     # selecting this completion. Edits must not overlap (including the same insert position)
-    # with the main [edit](#CompletionItem.textEdit) nor with themselves.
+    # with the main {@link CompletionItem.textEdit edit} nor with themselves.
     #
     # Additional text edits should be used to change text unrelated to the current cursor position
     # (for example adding an import statement at the top of the file if the completion item will
@@ -2044,12 +2041,12 @@ CompletionItem = TypedDict('CompletionItem', {
     # then type that character. *Note* that all commit characters should have `length=1` and that superfluous
     # characters will be ignored.
     'commitCharacters': NotRequired[List[str]],
-    # An optional [command](#Command) that is executed *after* inserting this completion. *Note* that
+    # An optional {@link Command command} that is executed *after* inserting this completion. *Note* that
     # additional modifications to the current document should be described with the
-    # [additionalTextEdits](#CompletionItem.additionalTextEdits)-property.
+    # {@link CompletionItem.additionalTextEdits additionalTextEdits}-property.
     'command': NotRequired['Command'],
     # A data entry field that is preserved on a completion item between a
-    # [CompletionRequest](#CompletionRequest) and a [CompletionResolveRequest](#CompletionResolveRequest).
+    # {@link CompletionRequest} and a {@link CompletionResolveRequest}.
     'data': NotRequired['LSPAny'],
 })
 """ A completion item represents a text snippet that is
@@ -2079,7 +2076,7 @@ CompletionList = TypedDict('CompletionList', {
     # The completion items.
     'items': List['CompletionItem'],
 })
-""" Represents a collection of [completion items](#CompletionItem) to be presented
+""" Represents a collection of {@link CompletionItem completion items} to be presented
 in the editor. """
 
 
@@ -2114,7 +2111,7 @@ CompletionRegistrationOptions = TypedDict('CompletionRegistrationOptions', {
     # @since 3.17.0
     'completionItem': NotRequired['__CompletionItem_Type_17'],
 })
-""" Registration options for a [CompletionRequest](#CompletionRequest). """
+""" Registration options for a {@link CompletionRequest}. """
 
 
 HoverParams = TypedDict('HoverParams', {
@@ -2125,7 +2122,7 @@ HoverParams = TypedDict('HoverParams', {
     # An optional token that a server can use to report work done progress.
     'workDoneToken': NotRequired['ProgressToken'],
 })
-""" Parameters for a [HoverRequest](#HoverRequest). """
+""" Parameters for a {@link HoverRequest}. """
 
 
 Hover = TypedDict('Hover', {
@@ -2143,7 +2140,7 @@ HoverRegistrationOptions = TypedDict('HoverRegistrationOptions', {
     # the document selector provided on the client side will be used.
     'documentSelector': Union['DocumentSelector', None],
 })
-""" Registration options for a [HoverRequest](#HoverRequest). """
+""" Registration options for a {@link HoverRequest}. """
 
 
 SignatureHelpParams = TypedDict('SignatureHelpParams', {
@@ -2159,7 +2156,7 @@ SignatureHelpParams = TypedDict('SignatureHelpParams', {
     # An optional token that a server can use to report work done progress.
     'workDoneToken': NotRequired['ProgressToken'],
 })
-""" Parameters for a [SignatureHelpRequest](#SignatureHelpRequest). """
+""" Parameters for a {@link SignatureHelpRequest}. """
 
 
 SignatureHelp = TypedDict('SignatureHelp', {
@@ -2203,7 +2200,7 @@ SignatureHelpRegistrationOptions = TypedDict('SignatureHelpRegistrationOptions',
     # @since 3.15.0
     'retriggerCharacters': NotRequired[List[str]],
 })
-""" Registration options for a [SignatureHelpRequest](#SignatureHelpRequest). """
+""" Registration options for a {@link SignatureHelpRequest}. """
 
 
 DefinitionParams = TypedDict('DefinitionParams', {
@@ -2217,7 +2214,7 @@ DefinitionParams = TypedDict('DefinitionParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" Parameters for a [DefinitionRequest](#DefinitionRequest). """
+""" Parameters for a {@link DefinitionRequest}. """
 
 
 DefinitionRegistrationOptions = TypedDict('DefinitionRegistrationOptions', {
@@ -2225,7 +2222,7 @@ DefinitionRegistrationOptions = TypedDict('DefinitionRegistrationOptions', {
     # the document selector provided on the client side will be used.
     'documentSelector': Union['DocumentSelector', None],
 })
-""" Registration options for a [DefinitionRequest](#DefinitionRequest). """
+""" Registration options for a {@link DefinitionRequest}. """
 
 
 ReferenceParams = TypedDict('ReferenceParams', {
@@ -2240,7 +2237,7 @@ ReferenceParams = TypedDict('ReferenceParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" Parameters for a [ReferencesRequest](#ReferencesRequest). """
+""" Parameters for a {@link ReferencesRequest}. """
 
 
 ReferenceRegistrationOptions = TypedDict('ReferenceRegistrationOptions', {
@@ -2248,7 +2245,7 @@ ReferenceRegistrationOptions = TypedDict('ReferenceRegistrationOptions', {
     # the document selector provided on the client side will be used.
     'documentSelector': Union['DocumentSelector', None],
 })
-""" Registration options for a [ReferencesRequest](#ReferencesRequest). """
+""" Registration options for a {@link ReferencesRequest}. """
 
 
 DocumentHighlightParams = TypedDict('DocumentHighlightParams', {
@@ -2262,13 +2259,13 @@ DocumentHighlightParams = TypedDict('DocumentHighlightParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" Parameters for a [DocumentHighlightRequest](#DocumentHighlightRequest). """
+""" Parameters for a {@link DocumentHighlightRequest}. """
 
 
 DocumentHighlight = TypedDict('DocumentHighlight', {
     # The range this highlight applies to.
     'range': 'Range',
-    # The highlight kind, default is [text](#DocumentHighlightKind.Text).
+    # The highlight kind, default is {@link DocumentHighlightKind.Text text}.
     'kind': NotRequired['DocumentHighlightKind'],
 })
 """ A document highlight is a range inside a text document which deserves
@@ -2281,7 +2278,7 @@ DocumentHighlightRegistrationOptions = TypedDict('DocumentHighlightRegistrationO
     # the document selector provided on the client side will be used.
     'documentSelector': Union['DocumentSelector', None],
 })
-""" Registration options for a [DocumentHighlightRequest](#DocumentHighlightRequest). """
+""" Registration options for a {@link DocumentHighlightRequest}. """
 
 
 DocumentSymbolParams = TypedDict('DocumentSymbolParams', {
@@ -2293,7 +2290,7 @@ DocumentSymbolParams = TypedDict('DocumentSymbolParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" Parameters for a [DocumentSymbolRequest](#DocumentSymbolRequest). """
+""" Parameters for a {@link DocumentSymbolRequest}. """
 
 
 SymbolInformation = TypedDict('SymbolInformation', {
@@ -2371,7 +2368,7 @@ DocumentSymbolRegistrationOptions = TypedDict('DocumentSymbolRegistrationOptions
     # @since 3.16.0
     'label': NotRequired[str],
 })
-""" Registration options for a [DocumentSymbolRequest](#DocumentSymbolRequest). """
+""" Registration options for a {@link DocumentSymbolRequest}. """
 
 
 CodeActionParams = TypedDict('CodeActionParams', {
@@ -2387,7 +2384,7 @@ CodeActionParams = TypedDict('CodeActionParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" The parameters of a [CodeActionRequest](#CodeActionRequest). """
+""" The parameters of a {@link CodeActionRequest}. """
 
 
 Command = TypedDict('Command', {
@@ -2471,7 +2468,7 @@ CodeActionRegistrationOptions = TypedDict('CodeActionRegistrationOptions', {
     # @since 3.16.0
     'resolveProvider': NotRequired[bool],
 })
-""" Registration options for a [CodeActionRequest](#CodeActionRequest). """
+""" Registration options for a {@link CodeActionRequest}. """
 
 
 WorkspaceSymbolParams = TypedDict('WorkspaceSymbolParams', {
@@ -2484,7 +2481,7 @@ WorkspaceSymbolParams = TypedDict('WorkspaceSymbolParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" The parameters of a [WorkspaceSymbolRequest](#WorkspaceSymbolRequest). """
+""" The parameters of a {@link WorkspaceSymbolRequest}. """
 
 
 WorkspaceSymbol = TypedDict('WorkspaceSymbol', {
@@ -2525,7 +2522,7 @@ WorkspaceSymbolRegistrationOptions = TypedDict('WorkspaceSymbolRegistrationOptio
     # @since 3.17.0
     'resolveProvider': NotRequired[bool],
 })
-""" Registration options for a [WorkspaceSymbolRequest](#WorkspaceSymbolRequest). """
+""" Registration options for a {@link WorkspaceSymbolRequest}. """
 
 
 CodeLensParams = TypedDict('CodeLensParams', {
@@ -2537,7 +2534,7 @@ CodeLensParams = TypedDict('CodeLensParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" The parameters of a [CodeLensRequest](#CodeLensRequest). """
+""" The parameters of a {@link CodeLensRequest}. """
 
 
 CodeLens = TypedDict('CodeLens', {
@@ -2546,11 +2543,11 @@ CodeLens = TypedDict('CodeLens', {
     # The command this code lens represents.
     'command': NotRequired['Command'],
     # A data entry field that is preserved on a code lens item between
-    # a [CodeLensRequest](#CodeLensRequest) and a [CodeLensResolveRequest]
+    # a {@link CodeLensRequest} and a [CodeLensResolveRequest]
     # (#CodeLensResolveRequest)
     'data': NotRequired['LSPAny'],
 })
-""" A code lens represents a [command](#Command) that should be shown along with
+""" A code lens represents a {@link Command command} that should be shown along with
 source text, like the number of references, a way to run tests, etc.
 
 A code lens is _unresolved_ when no command is associated to it. For performance
@@ -2564,7 +2561,7 @@ CodeLensRegistrationOptions = TypedDict('CodeLensRegistrationOptions', {
     # Code lens has a resolve provider as well.
     'resolveProvider': NotRequired[bool],
 })
-""" Registration options for a [CodeLensRequest](#CodeLensRequest). """
+""" Registration options for a {@link CodeLensRequest}. """
 
 
 DocumentLinkParams = TypedDict('DocumentLinkParams', {
@@ -2576,7 +2573,7 @@ DocumentLinkParams = TypedDict('DocumentLinkParams', {
     # the client.
     'partialResultToken': NotRequired['ProgressToken'],
 })
-""" The parameters of a [DocumentLinkRequest](#DocumentLinkRequest). """
+""" The parameters of a {@link DocumentLinkRequest}. """
 
 
 DocumentLink = TypedDict('DocumentLink', {
@@ -2607,7 +2604,7 @@ DocumentLinkRegistrationOptions = TypedDict('DocumentLinkRegistrationOptions', {
     # Document links have a resolve provider as well.
     'resolveProvider': NotRequired[bool],
 })
-""" Registration options for a [DocumentLinkRequest](#DocumentLinkRequest). """
+""" Registration options for a {@link DocumentLinkRequest}. """
 
 
 DocumentFormattingParams = TypedDict('DocumentFormattingParams', {
@@ -2618,7 +2615,7 @@ DocumentFormattingParams = TypedDict('DocumentFormattingParams', {
     # An optional token that a server can use to report work done progress.
     'workDoneToken': NotRequired['ProgressToken'],
 })
-""" The parameters of a [DocumentFormattingRequest](#DocumentFormattingRequest). """
+""" The parameters of a {@link DocumentFormattingRequest}. """
 
 
 DocumentFormattingRegistrationOptions = TypedDict('DocumentFormattingRegistrationOptions', {
@@ -2626,7 +2623,7 @@ DocumentFormattingRegistrationOptions = TypedDict('DocumentFormattingRegistratio
     # the document selector provided on the client side will be used.
     'documentSelector': Union['DocumentSelector', None],
 })
-""" Registration options for a [DocumentFormattingRequest](#DocumentFormattingRequest). """
+""" Registration options for a {@link DocumentFormattingRequest}. """
 
 
 DocumentRangeFormattingParams = TypedDict('DocumentRangeFormattingParams', {
@@ -2639,7 +2636,7 @@ DocumentRangeFormattingParams = TypedDict('DocumentRangeFormattingParams', {
     # An optional token that a server can use to report work done progress.
     'workDoneToken': NotRequired['ProgressToken'],
 })
-""" The parameters of a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
+""" The parameters of a {@link DocumentRangeFormattingRequest}. """
 
 
 DocumentRangeFormattingRegistrationOptions = TypedDict('DocumentRangeFormattingRegistrationOptions', {
@@ -2647,7 +2644,7 @@ DocumentRangeFormattingRegistrationOptions = TypedDict('DocumentRangeFormattingR
     # the document selector provided on the client side will be used.
     'documentSelector': Union['DocumentSelector', None],
 })
-""" Registration options for a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
+""" Registration options for a {@link DocumentRangeFormattingRequest}. """
 
 
 DocumentOnTypeFormattingParams = TypedDict('DocumentOnTypeFormattingParams', {
@@ -2665,7 +2662,7 @@ DocumentOnTypeFormattingParams = TypedDict('DocumentOnTypeFormattingParams', {
     # The formatting options.
     'options': 'FormattingOptions',
 })
-""" The parameters of a [DocumentOnTypeFormattingRequest](#DocumentOnTypeFormattingRequest). """
+""" The parameters of a {@link DocumentOnTypeFormattingRequest}. """
 
 
 DocumentOnTypeFormattingRegistrationOptions = TypedDict('DocumentOnTypeFormattingRegistrationOptions', {
@@ -2677,7 +2674,7 @@ DocumentOnTypeFormattingRegistrationOptions = TypedDict('DocumentOnTypeFormattin
     # More trigger characters.
     'moreTriggerCharacter': NotRequired[List[str]],
 })
-""" Registration options for a [DocumentOnTypeFormattingRequest](#DocumentOnTypeFormattingRequest). """
+""" Registration options for a {@link DocumentOnTypeFormattingRequest}. """
 
 
 RenameParams = TypedDict('RenameParams', {
@@ -2686,13 +2683,13 @@ RenameParams = TypedDict('RenameParams', {
     # The position at which this request was sent.
     'position': 'Position',
     # The new name of the symbol. If the given name is not valid the
-    # request must return a [ResponseError](#ResponseError) with an
+    # request must return a {@link ResponseError} with an
     # appropriate message set.
     'newName': str,
     # An optional token that a server can use to report work done progress.
     'workDoneToken': NotRequired['ProgressToken'],
 })
-""" The parameters of a [RenameRequest](#RenameRequest). """
+""" The parameters of a {@link RenameRequest}. """
 
 
 RenameRegistrationOptions = TypedDict('RenameRegistrationOptions', {
@@ -2704,7 +2701,7 @@ RenameRegistrationOptions = TypedDict('RenameRegistrationOptions', {
     # @since version 3.12.0
     'prepareProvider': NotRequired[bool],
 })
-""" Registration options for a [RenameRequest](#RenameRequest). """
+""" Registration options for a {@link RenameRequest}. """
 
 
 PrepareRenameParams = TypedDict('PrepareRenameParams', {
@@ -2725,14 +2722,14 @@ ExecuteCommandParams = TypedDict('ExecuteCommandParams', {
     # An optional token that a server can use to report work done progress.
     'workDoneToken': NotRequired['ProgressToken'],
 })
-""" The parameters of a [ExecuteCommandRequest](#ExecuteCommandRequest). """
+""" The parameters of a {@link ExecuteCommandRequest}. """
 
 
 ExecuteCommandRegistrationOptions = TypedDict('ExecuteCommandRegistrationOptions', {
     # The commands to be executed on the server
     'commands': List[str],
 })
-""" Registration options for a [ExecuteCommandRequest](#ExecuteCommandRequest). """
+""" Registration options for a {@link ExecuteCommandRequest}. """
 
 
 ApplyWorkspaceEditParams = TypedDict('ApplyWorkspaceEditParams', {
@@ -2862,6 +2859,13 @@ WorkDoneProgressParams = TypedDict('WorkDoneProgressParams', {
 })
 
 
+PartialResultParams = TypedDict('PartialResultParams', {
+    # An optional token that a server can use to report partial results (e.g. streaming) to
+    # the client.
+    'partialResultToken': NotRequired['ProgressToken'],
+})
+
+
 LocationLink = TypedDict('LocationLink', {
     # Span of the origin of this link.
     #
@@ -2878,7 +2882,7 @@ LocationLink = TypedDict('LocationLink', {
     # Must be contained by the `targetRange`. See also `DocumentSymbol#range`
     'targetSelectionRange': 'Range',
 })
-""" Represents the connection of two locations. Provides additional metadata over normal [locations](#Location),
+""" Represents the connection of two locations. Provides additional metadata over normal {@link Location locations},
 including an origin range. """
 
 
@@ -3842,13 +3846,13 @@ SignatureHelpOptions = TypedDict('SignatureHelpOptions', {
     'retriggerCharacters': NotRequired[List[str]],
     'workDoneProgress': NotRequired[bool],
 })
-""" Server Capabilities for a [SignatureHelpRequest](#SignatureHelpRequest). """
+""" Server Capabilities for a {@link SignatureHelpRequest}. """
 
 
 DefinitionOptions = TypedDict('DefinitionOptions', {
     'workDoneProgress': NotRequired[bool],
 })
-""" Server Capabilities for a [DefinitionRequest](#DefinitionRequest). """
+""" Server Capabilities for a {@link DefinitionRequest}. """
 
 
 ReferenceContext = TypedDict('ReferenceContext', {
@@ -3868,7 +3872,7 @@ ReferenceOptions = TypedDict('ReferenceOptions', {
 DocumentHighlightOptions = TypedDict('DocumentHighlightOptions', {
     'workDoneProgress': NotRequired[bool],
 })
-""" Provider options for a [DocumentHighlightRequest](#DocumentHighlightRequest). """
+""" Provider options for a {@link DocumentHighlightRequest}. """
 
 
 BaseSymbolInformation = TypedDict('BaseSymbolInformation', {
@@ -3897,7 +3901,7 @@ DocumentSymbolOptions = TypedDict('DocumentSymbolOptions', {
     'label': NotRequired[str],
     'workDoneProgress': NotRequired[bool],
 })
-""" Provider options for a [DocumentSymbolRequest](#DocumentSymbolRequest). """
+""" Provider options for a {@link DocumentSymbolRequest}. """
 
 
 CodeActionContext = TypedDict('CodeActionContext', {
@@ -3918,7 +3922,7 @@ CodeActionContext = TypedDict('CodeActionContext', {
     'triggerKind': NotRequired['CodeActionTriggerKind'],
 })
 """ Contains additional diagnostic information about the context in which
-a [code action](#CodeActionProvider.provideCodeActions) is run. """
+a {@link CodeActionProvider.provideCodeActions code action} is run. """
 
 
 CodeActionOptions = TypedDict('CodeActionOptions', {
@@ -3934,7 +3938,7 @@ CodeActionOptions = TypedDict('CodeActionOptions', {
     'resolveProvider': NotRequired[bool],
     'workDoneProgress': NotRequired[bool],
 })
-""" Provider options for a [CodeActionRequest](#CodeActionRequest). """
+""" Provider options for a {@link CodeActionRequest}. """
 
 
 WorkspaceSymbolOptions = TypedDict('WorkspaceSymbolOptions', {
@@ -3945,7 +3949,7 @@ WorkspaceSymbolOptions = TypedDict('WorkspaceSymbolOptions', {
     'resolveProvider': NotRequired[bool],
     'workDoneProgress': NotRequired[bool],
 })
-""" Server capabilities for a [WorkspaceSymbolRequest](#WorkspaceSymbolRequest). """
+""" Server capabilities for a {@link WorkspaceSymbolRequest}. """
 
 
 CodeLensOptions = TypedDict('CodeLensOptions', {
@@ -3953,7 +3957,7 @@ CodeLensOptions = TypedDict('CodeLensOptions', {
     'resolveProvider': NotRequired[bool],
     'workDoneProgress': NotRequired[bool],
 })
-""" Code Lens provider options of a [CodeLensRequest](#CodeLensRequest). """
+""" Code Lens provider options of a {@link CodeLensRequest}. """
 
 
 DocumentLinkOptions = TypedDict('DocumentLinkOptions', {
@@ -3961,7 +3965,7 @@ DocumentLinkOptions = TypedDict('DocumentLinkOptions', {
     'resolveProvider': NotRequired[bool],
     'workDoneProgress': NotRequired[bool],
 })
-""" Provider options for a [DocumentLinkRequest](#DocumentLinkRequest). """
+""" Provider options for a {@link DocumentLinkRequest}. """
 
 
 FormattingOptions = TypedDict('FormattingOptions', {
@@ -3988,13 +3992,13 @@ FormattingOptions = TypedDict('FormattingOptions', {
 DocumentFormattingOptions = TypedDict('DocumentFormattingOptions', {
     'workDoneProgress': NotRequired[bool],
 })
-""" Provider options for a [DocumentFormattingRequest](#DocumentFormattingRequest). """
+""" Provider options for a {@link DocumentFormattingRequest}. """
 
 
 DocumentRangeFormattingOptions = TypedDict('DocumentRangeFormattingOptions', {
     'workDoneProgress': NotRequired[bool],
 })
-""" Provider options for a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
+""" Provider options for a {@link DocumentRangeFormattingRequest}. """
 
 
 DocumentOnTypeFormattingOptions = TypedDict('DocumentOnTypeFormattingOptions', {
@@ -4003,7 +4007,7 @@ DocumentOnTypeFormattingOptions = TypedDict('DocumentOnTypeFormattingOptions', {
     # More trigger characters.
     'moreTriggerCharacter': NotRequired[List[str]],
 })
-""" Provider options for a [DocumentOnTypeFormattingRequest](#DocumentOnTypeFormattingRequest). """
+""" Provider options for a {@link DocumentOnTypeFormattingRequest}. """
 
 
 RenameOptions = TypedDict('RenameOptions', {
@@ -4013,7 +4017,7 @@ RenameOptions = TypedDict('RenameOptions', {
     'prepareProvider': NotRequired[bool],
     'workDoneProgress': NotRequired[bool],
 })
-""" Provider options for a [RenameRequest](#RenameRequest). """
+""" Provider options for a {@link RenameRequest}. """
 
 
 ExecuteCommandOptions = TypedDict('ExecuteCommandOptions', {
@@ -4021,7 +4025,7 @@ ExecuteCommandOptions = TypedDict('ExecuteCommandOptions', {
     'commands': List[str],
     'workDoneProgress': NotRequired[bool],
 })
-""" The server capabilities of a [ExecuteCommandRequest](#ExecuteCommandRequest). """
+""" The server capabilities of a {@link ExecuteCommandRequest}. """
 
 
 SemanticTokensLegend = TypedDict('SemanticTokensLegend', {
@@ -4158,13 +4162,6 @@ WorkspaceUnchangedDocumentDiagnosticReport = TypedDict('WorkspaceUnchangedDocume
 })
 """ An unchanged document diagnostic report for a workspace diagnostic result.
 
-@since 3.17.0 """
-
-
-LSPObject = TypedDict('LSPObject', {
-
-})
-""" LSP object definition.
 @since 3.17.0 """
 
 
@@ -4694,14 +4691,14 @@ WorkspaceSymbolClientCapabilities = TypedDict('WorkspaceSymbolClientCapabilities
     # @since 3.17.0
     'resolveSupport': NotRequired['__ResolveSupport_Type_38'],
 })
-""" Client capabilities for a [WorkspaceSymbolRequest](#WorkspaceSymbolRequest). """
+""" Client capabilities for a {@link WorkspaceSymbolRequest}. """
 
 
 ExecuteCommandClientCapabilities = TypedDict('ExecuteCommandClientCapabilities', {
     # Execute command supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
 })
-""" The client capabilities of a [ExecuteCommandRequest](#ExecuteCommandRequest). """
+""" The client capabilities of a {@link ExecuteCommandRequest}. """
 
 
 SemanticTokensWorkspaceClientCapabilities = TypedDict('SemanticTokensWorkspaceClientCapabilities', {
@@ -4861,7 +4858,7 @@ SignatureHelpClientCapabilities = TypedDict('SignatureHelpClientCapabilities', {
     # @since 3.15.0
     'contextSupport': NotRequired[bool],
 })
-""" Client Capabilities for a [SignatureHelpRequest](#SignatureHelpRequest). """
+""" Client Capabilities for a {@link SignatureHelpRequest}. """
 
 
 DeclarationClientCapabilities = TypedDict('DeclarationClientCapabilities', {
@@ -4883,7 +4880,7 @@ DefinitionClientCapabilities = TypedDict('DefinitionClientCapabilities', {
     # @since 3.14.0
     'linkSupport': NotRequired[bool],
 })
-""" Client Capabilities for a [DefinitionRequest](#DefinitionRequest). """
+""" Client Capabilities for a {@link DefinitionRequest}. """
 
 
 TypeDefinitionClientCapabilities = TypedDict('TypeDefinitionClientCapabilities', {
@@ -4916,14 +4913,14 @@ ReferenceClientCapabilities = TypedDict('ReferenceClientCapabilities', {
     # Whether references supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
 })
-""" Client Capabilities for a [ReferencesRequest](#ReferencesRequest). """
+""" Client Capabilities for a {@link ReferencesRequest}. """
 
 
 DocumentHighlightClientCapabilities = TypedDict('DocumentHighlightClientCapabilities', {
     # Whether document highlight supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
 })
-""" Client Capabilities for a [DocumentHighlightRequest](#DocumentHighlightRequest). """
+""" Client Capabilities for a {@link DocumentHighlightRequest}. """
 
 
 DocumentSymbolClientCapabilities = TypedDict('DocumentSymbolClientCapabilities', {
@@ -4946,7 +4943,7 @@ DocumentSymbolClientCapabilities = TypedDict('DocumentSymbolClientCapabilities',
     # @since 3.16.0
     'labelSupport': NotRequired[bool],
 })
-""" Client Capabilities for a [DocumentSymbolRequest](#DocumentSymbolRequest). """
+""" Client Capabilities for a {@link DocumentSymbolRequest}. """
 
 
 CodeActionClientCapabilities = TypedDict('CodeActionClientCapabilities', {
@@ -4986,14 +4983,14 @@ CodeActionClientCapabilities = TypedDict('CodeActionClientCapabilities', {
     # @since 3.16.0
     'honorsChangeAnnotations': NotRequired[bool],
 })
-""" The Client Capabilities of a [CodeActionRequest](#CodeActionRequest). """
+""" The Client Capabilities of a {@link CodeActionRequest}. """
 
 
 CodeLensClientCapabilities = TypedDict('CodeLensClientCapabilities', {
     # Whether code lens supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
 })
-""" The client capabilities  of a [CodeLensRequest](#CodeLensRequest). """
+""" The client capabilities  of a {@link CodeLensRequest}. """
 
 
 DocumentLinkClientCapabilities = TypedDict('DocumentLinkClientCapabilities', {
@@ -5004,7 +5001,7 @@ DocumentLinkClientCapabilities = TypedDict('DocumentLinkClientCapabilities', {
     # @since 3.15.0
     'tooltipSupport': NotRequired[bool],
 })
-""" The client capabilities of a [DocumentLinkRequest](#DocumentLinkRequest). """
+""" The client capabilities of a {@link DocumentLinkRequest}. """
 
 
 DocumentColorClientCapabilities = TypedDict('DocumentColorClientCapabilities', {
@@ -5019,21 +5016,21 @@ DocumentFormattingClientCapabilities = TypedDict('DocumentFormattingClientCapabi
     # Whether formatting supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
 })
-""" Client capabilities of a [DocumentFormattingRequest](#DocumentFormattingRequest). """
+""" Client capabilities of a {@link DocumentFormattingRequest}. """
 
 
 DocumentRangeFormattingClientCapabilities = TypedDict('DocumentRangeFormattingClientCapabilities', {
     # Whether range formatting supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
 })
-""" Client capabilities of a [DocumentRangeFormattingRequest](#DocumentRangeFormattingRequest). """
+""" Client capabilities of a {@link DocumentRangeFormattingRequest}. """
 
 
 DocumentOnTypeFormattingClientCapabilities = TypedDict('DocumentOnTypeFormattingClientCapabilities', {
     # Whether on type formatting supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
 })
-""" Client capabilities of a [DocumentOnTypeFormattingRequest](#DocumentOnTypeFormattingRequest). """
+""" Client capabilities of a {@link DocumentOnTypeFormattingRequest}. """
 
 
 RenameClientCapabilities = TypedDict('RenameClientCapabilities', {
@@ -5338,7 +5335,7 @@ __MarkedString_Type_5 = TypedDict('__MarkedString_Type_5', {
 __TextDocumentFilter_Type_6 = TypedDict('__TextDocumentFilter_Type_6', {
     # A language id, like `typescript`.
     'language': str,
-    # A Uri [scheme](#Uri.scheme), like `file` or `untitled`.
+    # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern, like `*.{ts,js}`.
     'pattern': NotRequired[str],
@@ -5348,7 +5345,7 @@ __TextDocumentFilter_Type_6 = TypedDict('__TextDocumentFilter_Type_6', {
 __TextDocumentFilter_Type_7 = TypedDict('__TextDocumentFilter_Type_7', {
     # A language id, like `typescript`.
     'language': NotRequired[str],
-    # A Uri [scheme](#Uri.scheme), like `file` or `untitled`.
+    # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': str,
     # A glob pattern, like `*.{ts,js}`.
     'pattern': NotRequired[str],
@@ -5358,7 +5355,7 @@ __TextDocumentFilter_Type_7 = TypedDict('__TextDocumentFilter_Type_7', {
 __TextDocumentFilter_Type_8 = TypedDict('__TextDocumentFilter_Type_8', {
     # A language id, like `typescript`.
     'language': NotRequired[str],
-    # A Uri [scheme](#Uri.scheme), like `file` or `untitled`.
+    # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern, like `*.{ts,js}`.
     'pattern': str,
@@ -5368,7 +5365,7 @@ __TextDocumentFilter_Type_8 = TypedDict('__TextDocumentFilter_Type_8', {
 __NotebookDocumentFilter_Type_9 = TypedDict('__NotebookDocumentFilter_Type_9', {
     # The type of the enclosing notebook.
     'notebookType': str,
-    # A Uri [scheme](#Uri.scheme), like `file` or `untitled`.
+    # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern.
     'pattern': NotRequired[str],
@@ -5378,7 +5375,7 @@ __NotebookDocumentFilter_Type_9 = TypedDict('__NotebookDocumentFilter_Type_9', {
 __NotebookDocumentFilter_Type_10 = TypedDict('__NotebookDocumentFilter_Type_10', {
     # The type of the enclosing notebook.
     'notebookType': NotRequired[str],
-    # A Uri [scheme](#Uri.scheme), like `file` or `untitled`.
+    # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': str,
     # A glob pattern.
     'pattern': NotRequired[str],
@@ -5388,7 +5385,7 @@ __NotebookDocumentFilter_Type_10 = TypedDict('__NotebookDocumentFilter_Type_10',
 __NotebookDocumentFilter_Type_11 = TypedDict('__NotebookDocumentFilter_Type_11', {
     # The type of the enclosing notebook.
     'notebookType': NotRequired[str],
-    # A Uri [scheme](#Uri.scheme), like `file` or `untitled`.
+    # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern.
     'pattern': str,
