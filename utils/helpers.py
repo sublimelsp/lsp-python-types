@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, List, Optional, TypedDict, Union
+from typing import Any, List, Optional, Set, TypedDict, Union
 from lsp_schema import _Type, BaseType, MapKeyType, Property
 import keyword
 
@@ -17,20 +17,34 @@ def format_comment(text: Optional[str], indent: str = "") -> str:
     return indent + f'""" {text} """' if text else ""
 
 
-literal_count = 1
-new_literal_structures: List[str] = []
+new_literal_structures: Set[str] = set()
 
 
-def get_new_literal_structures() -> List[str]:
-    return new_literal_structures
+class SymbolNameTracker:
+    symbols = {
+        # key: symbol name
+        # value: symbol count
+    }
+
+    @classmethod
+    def get_symbol_id(cls, symbol_name: str):
+        count = SymbolNameTracker.symbols.get(symbol_name) or 1
+        SymbolNameTracker.symbols[symbol_name] = count + 1
+        return count
+
+    @classmethod
+    def clear(cls):
+        SymbolNameTracker.symbols.clear()
+
+
+def get_new_literal_structures() -> list[str]:
+    return sorted(new_literal_structures)
 
 
 def reset_new_literal_structures() -> None:
-    global literal_count
     global new_literal_structures
-
-    new_literal_structures = []
-    literal_count = 1
+    new_literal_structures.clear()
+    SymbolNameTracker.clear()
 
 
 class StructureKind(Enum):
@@ -43,8 +57,6 @@ class FormatTypeContext(TypedDict):
 
 
 def format_type(type: _Type, context: FormatTypeContext, preferred_structure_kind: StructureKind) -> str:
-    global literal_count
-
     result = "Any"
     if type['kind'] == 'base':
         return format_base_types(type)
@@ -63,7 +75,6 @@ def format_type(type: _Type, context: FormatTypeContext, preferred_structure_kin
     elif type['kind'] == 'and':
         pass
     elif type['kind'] == 'or':
-        # literal_count = 1
         tuple = []
         for item in type['items']:
             tuple.append(format_type(item, context, preferred_structure_kind))
@@ -77,22 +88,23 @@ def format_type(type: _Type, context: FormatTypeContext, preferred_structure_kin
         if not type['value']['properties']:
             return 'dict'
         root_symbol_name = capitalize(context['root_symbol_name'])
-        literal_symbol_name = f"__{root_symbol_name}_Type_{literal_count}"
-        properties = get_formatted_properties(type['value']['properties'], preferred_structure_kind)
+        literal_symbol_name = f"__{root_symbol_name}_Type"
+        symbol_id = SymbolNameTracker.get_symbol_id(literal_symbol_name)
+        literal_symbol_name += f"_{symbol_id}"
+        properties = get_formatted_properties(type['value']['properties'], root_symbol_name, preferred_structure_kind)
         if preferred_structure_kind == StructureKind.Function:
             formatted_properties = format_dict_properties(properties)
-            new_literal_structures.append(f"""
+            new_literal_structures.add(f"""
 {literal_symbol_name} = TypedDict('{literal_symbol_name}', {{
 {indentation}{formatted_properties}
 }})
 """)
         else:
             formatted_properties = format_class_properties(properties)
-            new_literal_structures.append(f"""
+            new_literal_structures.add(f"""
 class {literal_symbol_name}(TypedDict):
 {indentation}{formatted_properties or 'pass'}
 """)
-        literal_count += 1
         return f"'{literal_symbol_name}'"
     elif type['kind'] == 'stringLiteral':
         return f"Literal['{type['value']}']"
@@ -126,12 +138,12 @@ class FormattedProperty(TypedDict):
     documentation: str
 
 
-def get_formatted_properties(properties: List[Property], preferred_structure_kind: StructureKind) -> List[FormattedProperty]:
+def get_formatted_properties(properties: List[Property], root_symbol_name, preferred_structure_kind: StructureKind) -> List[FormattedProperty]:
     result: List[FormattedProperty] = []
     for p in properties:
         key = p['name']
         value = format_type(p['type'], {
-            'root_symbol_name': key
+            'root_symbol_name': root_symbol_name + "_" + key
         }, preferred_structure_kind)
         if p.get('optional'):
             value = f"NotRequired[{value}]"
