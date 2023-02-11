@@ -24,7 +24,7 @@ def get_additional_properties(for_structure: Structure, structures: List[Structu
             raise Exception("Cannot generate extends. Currently only supports kind: 'reference', but received:", additional_structure['kind'])
         structure = next(structure for structure in structures if structure["name"] == additional_structure['name'])
         if structure:
-            properties = get_formatted_properties(structure['properties'], structure_kind)
+            properties = get_formatted_properties(structure['properties'], structure['name'], structure_kind)
             result.extend(properties)
     return result
 
@@ -32,7 +32,7 @@ def get_additional_properties(for_structure: Structure, structures: List[Structu
 def generate_structure(structure: Structure, structures: List[Structure], structure_kind: StructureKind) -> str:
     result = ""
     symbol_name = structure['name']
-    properties = get_formatted_properties(structure['properties'], structure_kind)
+    properties = get_formatted_properties(structure['properties'], structure['name'], structure_kind)
     additional_properties = get_additional_properties(structure, structures, structure_kind)
 
     # add extended properties

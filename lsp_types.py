@@ -633,11 +633,11 @@ WorkspaceDocumentDiagnosticReport = Union['WorkspaceFullDocumentDiagnosticReport
 
 @since 3.17.0 """
 
-TextDocumentContentChangeEvent = Union['__TextDocumentContentChangeEvent_Type_3', '__TextDocumentContentChangeEvent_Type_4']
+TextDocumentContentChangeEvent = Union['__TextDocumentContentChangeEvent_Type_1', '__TextDocumentContentChangeEvent_Type_2']
 """ An event describing a change to a text document. If only a text is provided
 it is considered to be the full content of the document. """
 
-MarkedString = Union[str, '__MarkedString_Type_5']
+MarkedString = Union[str, '__MarkedString_Type_1']
 """ MarkedString can be used to render human readable text. It is either a markdown string
 or a code-block that provides a language and a code snippet. The language identifier
 is semantically equal to the optional language identifier in fenced code blocks in GitHub
@@ -666,7 +666,7 @@ GlobPattern = Union['Pattern', 'RelativePattern']
 
 @since 3.17.0 """
 
-TextDocumentFilter = Union['__TextDocumentFilter_Type_6', '__TextDocumentFilter_Type_7', '__TextDocumentFilter_Type_8']
+TextDocumentFilter = Union['__TextDocumentFilter_Type_1', '__TextDocumentFilter_Type_2', '__TextDocumentFilter_Type_3']
 """ A document filter denotes a document by different properties like
 the {@link TextDocument.languageId language}, the {@link Uri.scheme scheme} of
 its resource, or a glob-pattern that is applied to the {@link TextDocument.fileName path}.
@@ -684,7 +684,7 @@ Glob patterns can have the following syntax:
 
 @since 3.17.0 """
 
-NotebookDocumentFilter = Union['__NotebookDocumentFilter_Type_9', '__NotebookDocumentFilter_Type_10', '__NotebookDocumentFilter_Type_11']
+NotebookDocumentFilter = Union['__NotebookDocumentFilter_Type_1', '__NotebookDocumentFilter_Type_2', '__NotebookDocumentFilter_Type_3']
 """ A notebook document filter denotes a notebook document by
 different properties. The properties will be match
 against the notebook's URI (same as with documents)
@@ -1081,7 +1081,7 @@ class SemanticTokensRegistrationOptions(TypedDict):
     range: NotRequired[Union[bool, dict]]
     """ Server supports providing semantic tokens for a specific range
     of a document. """
-    full: NotRequired[Union[bool, '__Full_Type_12']]
+    full: NotRequired[Union[bool, '__SemanticTokensOptions_full_Type_1']]
     """ Server supports providing semantic tokens for a full document. """
     id: NotRequired[str]
     """ The id used to register the request. The id can be used to deregister
@@ -1612,7 +1612,7 @@ class InitializeParams(TypedDict):
 
     Is `null` if the process has not been started by another process.
     If the parent process is not alive then the server should exit. """
-    clientInfo: NotRequired['__ClientInfo_Type_13']
+    clientInfo: NotRequired['___InitializeParams_clientInfo_Type_1']
     """ Information about the client
 
     @since 3.15.0 """
@@ -1656,7 +1656,7 @@ class InitializeResult(TypedDict):
     """ The result returned from an initialize request. """
     capabilities: 'ServerCapabilities'
     """ The capabilities the language server provides. """
-    serverInfo: NotRequired['__ServerInfo_Type_14']
+    serverInfo: NotRequired['__InitializeResult_serverInfo_Type_1']
     """ Information about the server.
 
     @since 3.15.0 """
@@ -1963,7 +1963,7 @@ class CompletionList(TypedDict):
 
     Recomputed lists have all their items replaced (not appended) in the
     incomplete completion sessions. """
-    itemDefaults: NotRequired['__ItemDefaults_Type_15']
+    itemDefaults: NotRequired['__CompletionList_itemDefaults_Type_1']
     """ In many cases the items of an actual completion result share the same
     value for properties like `commitCharacters` or the range of a text
     edit. A completion list can therefore define item defaults which will
@@ -2007,7 +2007,7 @@ class CompletionRegistrationOptions(TypedDict):
     resolveProvider: NotRequired[bool]
     """ The server provides support to resolve additional
     information for a completion item. """
-    completionItem: NotRequired['__CompletionItem_Type_17']
+    completionItem: NotRequired['__CompletionOptions_completionItem_Type_1']
     """ The server supports the following `CompletionItem` specific
     capabilities.
 
@@ -2304,7 +2304,7 @@ class CodeAction(TypedDict):
     A refactoring should be marked preferred if it is the most reasonable choice of actions to take.
 
     @since 3.15.0 """
-    disabled: NotRequired['__Disabled_Type_18']
+    disabled: NotRequired['__CodeAction_disabled_Type_1']
     """ Marks that the code action cannot currently be applied.
 
     Clients should follow the following guidelines regarding disabled code actions:
@@ -2368,7 +2368,7 @@ class WorkspaceSymbol(TypedDict):
     See also SymbolInformation.
 
     @since 3.17.0 """
-    location: Union['Location', '__Location_Type_19']
+    location: Union['Location', '__WorkspaceSymbol_location_Type_1']
     """ The location of the symbol. Whether a server is allowed to
     return a location without a range depends on the client
     capability `workspace.symbol.resolveSupport`.
@@ -2872,7 +2872,7 @@ class SemanticTokensOptions(TypedDict):
     range: NotRequired[Union[bool, dict]]
     """ Server supports providing semantic tokens for a specific range
     of a document. """
-    full: NotRequired[Union[bool, '__Full_Type_20']]
+    full: NotRequired[Union[bool, '__SemanticTokensOptions_full_Type_2']]
     """ Server supports providing semantic tokens for a full document. """
     workDoneProgress: NotRequired[bool]
 
@@ -3288,7 +3288,7 @@ class NotebookDocumentChangeEvent(TypedDict):
     """ The changed meta data if any.
 
     Note: should always be an object literal (e.g. LSPObject) """
-    cells: NotRequired['__Cells_Type_21']
+    cells: NotRequired['__NotebookDocumentChangeEvent_cells_Type_1']
     """ Changes to cells """
 
 
@@ -3432,7 +3432,7 @@ class ServerCapabilities(TypedDict):
     """ The server has support for pull model diagnostics.
 
     @since 3.17.0 """
-    workspace: NotRequired['__Workspace_Type_24']
+    workspace: NotRequired['__ServerCapabilities_workspace_Type_1']
     """ Workspace specific server capabilities. """
     experimental: NotRequired['LSPAny']
     """ Experimental server capabilities. """
@@ -3562,7 +3562,7 @@ class CompletionOptions(TypedDict):
     resolveProvider: NotRequired[bool]
     """ The server provides support to resolve additional
     information for a completion item. """
-    completionItem: NotRequired['__CompletionItem_Type_25']
+    completionItem: NotRequired['__CompletionOptions_completionItem_Type_2']
     """ The server supports the following `CompletionItem` specific
     capabilities.
 
@@ -4007,7 +4007,7 @@ class NotebookDocumentSyncOptions(TypedDict):
     cell will be synced.
 
     @since 3.17.0 """
-    notebookSelector: List[Union['__NotebookSelector_Type_26', '__NotebookSelector_Type_28']]
+    notebookSelector: List[Union['__NotebookDocumentSyncOptions_notebookSelector_Type_1', '__NotebookDocumentSyncOptions_notebookSelector_Type_2']]
     """ The notebooks to be synced """
     save: NotRequired[bool]
     """ Whether save notification should be forwarded to
@@ -4018,7 +4018,7 @@ class NotebookDocumentSyncRegistrationOptions(TypedDict):
     """ Registration options specific to a notebook.
 
     @since 3.17.0 """
-    notebookSelector: List[Union['__NotebookSelector_Type_30', '__NotebookSelector_Type_32']]
+    notebookSelector: List[Union['__NotebookDocumentSyncOptions_notebookSelector_Type_3', '__NotebookDocumentSyncOptions_notebookSelector_Type_4']]
     """ The notebooks to be synced """
     save: NotRequired[bool]
     """ Whether save notification should be forwarded to
@@ -4312,7 +4312,7 @@ class GeneralClientCapabilities(TypedDict):
     """ General client capabilities.
 
     @since 3.16.0 """
-    staleRequestSupport: NotRequired['__StaleRequestSupport_Type_34']
+    staleRequestSupport: NotRequired['__GeneralClientCapabilities_staleRequestSupport_Type_1']
     """ Client capability that signals how the client
     handles stale requests (e.g. a request
     for which the client will not process the response
@@ -4382,7 +4382,7 @@ class WorkspaceEditClientCapabilities(TypedDict):
     character.
 
     @since 3.16.0 """
-    changeAnnotationSupport: NotRequired['__ChangeAnnotationSupport_Type_35']
+    changeAnnotationSupport: NotRequired['__WorkspaceEditClientCapabilities_changeAnnotationSupport_Type_1']
     """ Whether the client in general supports change annotations on text edits,
     create file, rename file and delete file changes.
 
@@ -4410,14 +4410,14 @@ class WorkspaceSymbolClientCapabilities(TypedDict):
     """ Client capabilities for a {@link WorkspaceSymbolRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Symbol request supports dynamic registration. """
-    symbolKind: NotRequired['__SymbolKind_Type_36']
+    symbolKind: NotRequired['__WorkspaceSymbolClientCapabilities_symbolKind_Type_1']
     """ Specific capabilities for the `SymbolKind` in the `workspace/symbol` request. """
-    tagSupport: NotRequired['__TagSupport_Type_37']
+    tagSupport: NotRequired['__WorkspaceSymbolClientCapabilities_tagSupport_Type_1']
     """ The client supports tags on `SymbolInformation`.
     Clients supporting tags have to handle unknown tags gracefully.
 
     @since 3.16.0 """
-    resolveSupport: NotRequired['__ResolveSupport_Type_38']
+    resolveSupport: NotRequired['__WorkspaceSymbolClientCapabilities_resolveSupport_Type_1']
     """ The client support partial workspace symbols. The client will send the
     request `workspaceSymbol/resolve` to the server to resolve additional
     properties.
@@ -4537,10 +4537,10 @@ class CompletionClientCapabilities(TypedDict):
     """ Completion client capabilities """
     dynamicRegistration: NotRequired[bool]
     """ Whether completion supports dynamic registration. """
-    completionItem: NotRequired['__CompletionItem_Type_39']
+    completionItem: NotRequired['__CompletionClientCapabilities_completionItem_Type_1']
     """ The client supports the following `CompletionItem` specific
     capabilities. """
-    completionItemKind: NotRequired['__CompletionItemKind_Type_43']
+    completionItemKind: NotRequired['__CompletionClientCapabilities_completionItemKind_Type_1']
     insertTextMode: NotRequired['InsertTextMode']
     """ Defines how the client handles whitespace and indentation
     when accepting a completion item that uses multi line
@@ -4550,7 +4550,7 @@ class CompletionClientCapabilities(TypedDict):
     contextSupport: NotRequired[bool]
     """ The client supports to send additional context information for a
     `textDocument/completion` request. """
-    completionList: NotRequired['__CompletionList_Type_44']
+    completionList: NotRequired['__CompletionClientCapabilities_completionList_Type_1']
     """ The client supports the following `CompletionList` specific
     capabilities.
 
@@ -4569,7 +4569,7 @@ class SignatureHelpClientCapabilities(TypedDict):
     """ Client Capabilities for a {@link SignatureHelpRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether signature help supports dynamic registration. """
-    signatureInformation: NotRequired['__SignatureInformation_Type_45']
+    signatureInformation: NotRequired['__SignatureHelpClientCapabilities_signatureInformation_Type_1']
     """ The client supports the following `SignatureInformation`
     specific properties. """
     contextSupport: NotRequired[bool]
@@ -4641,12 +4641,12 @@ class DocumentSymbolClientCapabilities(TypedDict):
     """ Client Capabilities for a {@link DocumentSymbolRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether document symbol supports dynamic registration. """
-    symbolKind: NotRequired['__SymbolKind_Type_47']
+    symbolKind: NotRequired['__DocumentSymbolClientCapabilities_symbolKind_Type_1']
     """ Specific capabilities for the `SymbolKind` in the
     `textDocument/documentSymbol` request. """
     hierarchicalDocumentSymbolSupport: NotRequired[bool]
     """ The client supports hierarchical document symbols. """
-    tagSupport: NotRequired['__TagSupport_Type_48']
+    tagSupport: NotRequired['__DocumentSymbolClientCapabilities_tagSupport_Type_1']
     """ The client supports tags on `SymbolInformation`. Tags are supported on
     `DocumentSymbol` if `hierarchicalDocumentSymbolSupport` is set to true.
     Clients supporting tags have to handle unknown tags gracefully.
@@ -4663,7 +4663,7 @@ class CodeActionClientCapabilities(TypedDict):
     """ The Client Capabilities of a {@link CodeActionRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether code action supports dynamic registration. """
-    codeActionLiteralSupport: NotRequired['__CodeActionLiteralSupport_Type_49']
+    codeActionLiteralSupport: NotRequired['__CodeActionClientCapabilities_codeActionLiteralSupport_Type_1']
     """ The client support code action literals of type `CodeAction` as a valid
     response of the `textDocument/codeAction` request. If the property is not
     set the request can only return `Command` literals.
@@ -4683,7 +4683,7 @@ class CodeActionClientCapabilities(TypedDict):
     `codeAction/resolve` request.
 
     @since 3.16.0 """
-    resolveSupport: NotRequired['__ResolveSupport_Type_51']
+    resolveSupport: NotRequired['__CodeActionClientCapabilities_resolveSupport_Type_1']
     """ Whether the client supports resolving additional code action
     properties via a separate `codeAction/resolve` request.
 
@@ -4778,11 +4778,11 @@ class FoldingRangeClientCapabilities(TypedDict):
     """ If set, the client signals that it only supports folding complete lines.
     If set, client will ignore specified `startCharacter` and `endCharacter`
     properties in a FoldingRange. """
-    foldingRangeKind: NotRequired['__FoldingRangeKind_Type_52']
+    foldingRangeKind: NotRequired['__FoldingRangeClientCapabilities_foldingRangeKind_Type_1']
     """ Specific options for the folding range kind.
 
     @since 3.17.0 """
-    foldingRange: NotRequired['__FoldingRange_Type_53']
+    foldingRange: NotRequired['__FoldingRangeClientCapabilities_foldingRange_Type_1']
     """ Specific options for the folding range.
 
     @since 3.17.0 """
@@ -4799,7 +4799,7 @@ class PublishDiagnosticsClientCapabilities(TypedDict):
     """ The publish diagnostic client capabilities. """
     relatedInformation: NotRequired[bool]
     """ Whether the clients accepts diagnostics with related information. """
-    tagSupport: NotRequired['__TagSupport_Type_54']
+    tagSupport: NotRequired['__PublishDiagnosticsClientCapabilities_tagSupport_Type_1']
     """ Client supports the tag property to provide meta data about a diagnostic.
     Clients supporting tags have to handle unknown tags gracefully.
 
@@ -4835,7 +4835,7 @@ class SemanticTokensClientCapabilities(TypedDict):
     """ Whether implementation supports dynamic registration. If this is set to `true`
     the client supports the new `(TextDocumentRegistrationOptions & StaticRegistrationOptions)`
     return value for the corresponding server capability as well. """
-    requests: '__Requests_Type_55'
+    requests: '__SemanticTokensClientCapabilities_requests_Type_1'
     """ Which requests the client supports and might send to the server
     depending on the server's capability. Please note that clients might not
     show semantic tokens or degrade some of the user experience if a range
@@ -4916,7 +4916,7 @@ class InlayHintClientCapabilities(TypedDict):
     @since 3.17.0 """
     dynamicRegistration: NotRequired[bool]
     """ Whether inlay hints support dynamic registration. """
-    resolveSupport: NotRequired['__ResolveSupport_Type_57']
+    resolveSupport: NotRequired['__InlayHintClientCapabilities_resolveSupport_Type_1']
     """ Indicates which properties a client can resolve lazily on an inlay
     hint. """
 
@@ -4948,7 +4948,7 @@ class NotebookDocumentSyncClientCapabilities(TypedDict):
 
 class ShowMessageRequestClientCapabilities(TypedDict):
     """ Show message request client capabilities """
-    messageActionItem: NotRequired['__MessageActionItem_Type_58']
+    messageActionItem: NotRequired['__ShowMessageRequestClientCapabilities_messageActionItem_Type_1']
     """ Capabilities specific to the `MessageActionItem` type. """
 
 
@@ -4986,120 +4986,109 @@ class MarkdownClientCapabilities(TypedDict):
     @since 3.17.0 """
 
 
-class __PrepareRenameResult_Type_1(TypedDict):
-    range: 'Range'
-    placeholder: str
+class __WorkspaceSymbolClientCapabilities_symbolKind_Type_1(TypedDict):
+    valueSet: NotRequired[List['SymbolKind']]
+    """ The symbol kind values the client supports. When this
+    property exists the client also guarantees that it will
+    handle values outside its set gracefully and falls back
+    to a default value when unknown.
+
+    If this property is not present the client only supports
+    the symbol kinds from `File` to `Array` as defined in
+    the initial version of the protocol. """
 
 
-class __PrepareRenameResult_Type_2(TypedDict):
-    defaultBehavior: bool
+class __CompletionClientCapabilities_completionItemKind_Type_1(TypedDict):
+    valueSet: NotRequired[List['CompletionItemKind']]
+    """ The completion item kind values the client supports. When this
+    property exists the client also guarantees that it will
+    handle values outside its set gracefully and falls back
+    to a default value when unknown.
+
+    If this property is not present the client only supports
+    the completion items kinds from `Text` to `Reference` as defined in
+    the initial version of the protocol. """
 
 
-class __TextDocumentContentChangeEvent_Type_3(TypedDict):
-    range: 'Range'
-    """ The range of the document that changed. """
-    rangeLength: NotRequired[Uint]
-    """ The optional length of the range that got replaced.
+class __CompletionOptions_completionItem_Type_2(TypedDict):
+    labelDetailsSupport: NotRequired[bool]
+    """ The server has support for completion item label
+    details (see also `CompletionItemLabelDetails`) when
+    receiving a completion item in a resolve call.
 
-    @deprecated use range instead. """
-    text: str
-    """ The new text for the provided range. """
+    @since 3.17.0 """
 
 
-class __TextDocumentContentChangeEvent_Type_4(TypedDict):
-    text: str
-    """ The new text of the whole document. """
-
-
-class __MarkedString_Type_5(TypedDict):
-    language: str
-    value: str
-
-
-class __TextDocumentFilter_Type_6(TypedDict):
-    language: str
-    """ A language id, like `typescript`. """
-    scheme: NotRequired[str]
-    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
-    pattern: NotRequired[str]
-    """ A glob pattern, like `*.{ts,js}`. """
-
-
-class __TextDocumentFilter_Type_7(TypedDict):
-    language: NotRequired[str]
-    """ A language id, like `typescript`. """
-    scheme: str
-    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
-    pattern: NotRequired[str]
-    """ A glob pattern, like `*.{ts,js}`. """
-
-
-class __TextDocumentFilter_Type_8(TypedDict):
-    language: NotRequired[str]
-    """ A language id, like `typescript`. """
-    scheme: NotRequired[str]
-    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
-    pattern: str
-    """ A glob pattern, like `*.{ts,js}`. """
-
-
-class __NotebookDocumentFilter_Type_9(TypedDict):
-    notebookType: str
-    """ The type of the enclosing notebook. """
-    scheme: NotRequired[str]
-    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
-    pattern: NotRequired[str]
-    """ A glob pattern. """
-
-
-class __NotebookDocumentFilter_Type_10(TypedDict):
-    notebookType: NotRequired[str]
-    """ The type of the enclosing notebook. """
-    scheme: str
-    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
-    pattern: NotRequired[str]
-    """ A glob pattern. """
-
-
-class __NotebookDocumentFilter_Type_11(TypedDict):
-    notebookType: NotRequired[str]
-    """ The type of the enclosing notebook. """
-    scheme: NotRequired[str]
-    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
-    pattern: str
-    """ A glob pattern. """
-
-
-class __Full_Type_12(TypedDict):
+class __SemanticTokensOptions_full_Type_2(TypedDict):
     delta: NotRequired[bool]
     """ The server supports deltas for full documents. """
 
 
-class __ClientInfo_Type_13(TypedDict):
-    name: str
-    """ The name of the client as defined by the client. """
-    version: NotRequired[str]
-    """ The client's version as defined by the client. """
+class __NotebookDocumentChangeEvent_cells_structure_Type_1(TypedDict):
+    array: 'NotebookCellArrayChange'
+    """ The change to the cell array. """
+    didOpen: NotRequired[List['TextDocumentItem']]
+    """ Additional opened cell text documents. """
+    didClose: NotRequired[List['TextDocumentIdentifier']]
+    """ Additional closed cell text documents. """
 
 
-class __ServerInfo_Type_14(TypedDict):
-    name: str
-    """ The name of the server as defined by the server. """
-    version: NotRequired[str]
-    """ The server's version as defined by the server. """
+class __CompletionClientCapabilities_completionItem_tagSupport_Type_1(TypedDict):
+    valueSet: List['CompletionItemTag']
+    """ The tags supported by the client. """
 
 
-class __EditRange_Type_15(TypedDict):
-    insert: 'Range'
-    replace: 'Range'
+class __NotebookDocumentFilter_Type_2(TypedDict):
+    notebookType: NotRequired[str]
+    """ The type of the enclosing notebook. """
+    scheme: str
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
+    pattern: NotRequired[str]
+    """ A glob pattern. """
 
 
-class __ItemDefaults_Type_15(TypedDict):
+class __CodeActionClientCapabilities_codeActionLiteralSupport_Type_1(TypedDict):
+    codeActionKind: '__CodeActionClientCapabilities_codeActionLiteralSupport_codeActionKind_Type_1'
+    """ The code action kind is support with the following value
+    set. """
+
+
+class __NotebookDocumentSyncOptions_notebookSelector_Type_1(TypedDict):
+    notebook: Union[str, 'NotebookDocumentFilter']
+    """ The notebook to be synced If a string
+    value is provided it matches against the
+    notebook type. '*' matches every notebook. """
+    cells: NotRequired[List['__NotebookDocumentSyncOptions_notebookSelector_cells_Type_1']]
+    """ The cells of the matching notebook to be synced. """
+
+
+class __WorkspaceSymbolClientCapabilities_tagSupport_Type_1(TypedDict):
+    valueSet: List['SymbolTag']
+    """ The tags supported by the client. """
+
+
+class __ShowMessageRequestClientCapabilities_messageActionItem_Type_1(TypedDict):
+    additionalPropertiesSupport: NotRequired[bool]
+    """ Whether the client supports additional attributes which
+    are preserved and send back to the server in the
+    request's response. """
+
+
+class __NotebookDocumentSyncOptions_notebookSelector_Type_4(TypedDict):
+    notebook: NotRequired[Union[str, 'NotebookDocumentFilter']]
+    """ The notebook to be synced If a string
+    value is provided it matches against the
+    notebook type. '*' matches every notebook. """
+    cells: List['__NotebookDocumentSyncOptions_notebookSelector_cells_Type_4']
+    """ The cells of the matching notebook to be synced. """
+
+
+class __CompletionList_itemDefaults_Type_1(TypedDict):
     commitCharacters: NotRequired[List[str]]
     """ A default commit character set.
 
     @since 3.17.0 """
-    editRange: NotRequired[Union['Range', '__EditRange_Type_15']]
+    editRange: NotRequired[Union['Range', '__CompletionList_itemDefaults_editRange_Type_1']]
     """ A default edit range.
 
     @since 3.17.0 """
@@ -5117,7 +5106,20 @@ class __ItemDefaults_Type_15(TypedDict):
     @since 3.17.0 """
 
 
-class __CompletionItem_Type_17(TypedDict):
+class __PrepareRenameResult_Type_2(TypedDict):
+    defaultBehavior: bool
+
+
+class __NotebookDocumentSyncOptions_notebookSelector_cells_Type_3(TypedDict):
+    language: str
+
+
+class __CompletionClientCapabilities_completionItem_resolveSupport_Type_1(TypedDict):
+    properties: List[str]
+    """ The properties that a client can resolve lazily. """
+
+
+class __CompletionOptions_completionItem_Type_1(TypedDict):
     labelDetailsSupport: NotRequired[bool]
     """ The server has support for completion item label
     details (see also `CompletionItemLabelDetails`) when
@@ -5126,136 +5128,7 @@ class __CompletionItem_Type_17(TypedDict):
     @since 3.17.0 """
 
 
-class __Disabled_Type_18(TypedDict):
-    reason: str
-    """ Human readable description of why the code action is currently disabled.
-
-    This is displayed in the code actions UI. """
-
-
-class __Location_Type_19(TypedDict):
-    uri: 'DocumentUri'
-
-
-class __Full_Type_20(TypedDict):
-    delta: NotRequired[bool]
-    """ The server supports deltas for full documents. """
-
-
-class __Structure_Type_21(TypedDict):
-    array: 'NotebookCellArrayChange'
-    """ The change to the cell array. """
-    didOpen: NotRequired[List['TextDocumentItem']]
-    """ Additional opened cell text documents. """
-    didClose: NotRequired[List['TextDocumentIdentifier']]
-    """ Additional closed cell text documents. """
-
-
-class __TextContent_Type_22(TypedDict):
-    document: 'VersionedTextDocumentIdentifier'
-    changes: List['TextDocumentContentChangeEvent']
-
-
-class __Cells_Type_21(TypedDict):
-    structure: NotRequired['__Structure_Type_21']
-    """ Changes to the cell structure to add or
-    remove cells. """
-    data: NotRequired[List['NotebookCell']]
-    """ Changes to notebook cells properties like its
-    kind, execution summary or metadata. """
-    textContent: NotRequired[List['__TextContent_Type_22']]
-    """ Changes to the text content of notebook cells. """
-
-
-class __Workspace_Type_24(TypedDict):
-    workspaceFolders: NotRequired['WorkspaceFoldersServerCapabilities']
-    """ The server supports workspace folder.
-
-    @since 3.6.0 """
-    fileOperations: NotRequired['FileOperationOptions']
-    """ The server is interested in notifications/requests for operations on files.
-
-    @since 3.16.0 """
-
-
-class __CompletionItem_Type_25(TypedDict):
-    labelDetailsSupport: NotRequired[bool]
-    """ The server has support for completion item label
-    details (see also `CompletionItemLabelDetails`) when
-    receiving a completion item in a resolve call.
-
-    @since 3.17.0 """
-
-
-class __Cells_Type_26(TypedDict):
-    language: str
-
-
-class __NotebookSelector_Type_26(TypedDict):
-    notebook: Union[str, 'NotebookDocumentFilter']
-    """ The notebook to be synced If a string
-    value is provided it matches against the
-    notebook type. '*' matches every notebook. """
-    cells: NotRequired[List['__Cells_Type_26']]
-    """ The cells of the matching notebook to be synced. """
-
-
-class __Cells_Type_28(TypedDict):
-    language: str
-
-
-class __NotebookSelector_Type_28(TypedDict):
-    notebook: NotRequired[Union[str, 'NotebookDocumentFilter']]
-    """ The notebook to be synced If a string
-    value is provided it matches against the
-    notebook type. '*' matches every notebook. """
-    cells: List['__Cells_Type_28']
-    """ The cells of the matching notebook to be synced. """
-
-
-class __Cells_Type_30(TypedDict):
-    language: str
-
-
-class __NotebookSelector_Type_30(TypedDict):
-    notebook: Union[str, 'NotebookDocumentFilter']
-    """ The notebook to be synced If a string
-    value is provided it matches against the
-    notebook type. '*' matches every notebook. """
-    cells: NotRequired[List['__Cells_Type_30']]
-    """ The cells of the matching notebook to be synced. """
-
-
-class __Cells_Type_32(TypedDict):
-    language: str
-
-
-class __NotebookSelector_Type_32(TypedDict):
-    notebook: NotRequired[Union[str, 'NotebookDocumentFilter']]
-    """ The notebook to be synced If a string
-    value is provided it matches against the
-    notebook type. '*' matches every notebook. """
-    cells: List['__Cells_Type_32']
-    """ The cells of the matching notebook to be synced. """
-
-
-class __StaleRequestSupport_Type_34(TypedDict):
-    cancel: bool
-    """ The client will actively cancel the request. """
-    retryOnContentModified: List[str]
-    """ The list of requests for which the client
-    will retry the request if it receives a
-    response with error code `ContentModified` """
-
-
-class __ChangeAnnotationSupport_Type_35(TypedDict):
-    groupsOnLabel: NotRequired[bool]
-    """ Whether the client groups edits with equal labels into tree nodes,
-    for instance all edits labelled with "Changes in Strings" would
-    be a tree node. """
-
-
-class __SymbolKind_Type_36(TypedDict):
+class __DocumentSymbolClientCapabilities_symbolKind_Type_1(TypedDict):
     valueSet: NotRequired[List['SymbolKind']]
     """ The symbol kind values the client supports. When this
     property exists the client also guarantees that it will
@@ -5267,32 +5140,41 @@ class __SymbolKind_Type_36(TypedDict):
     the initial version of the protocol. """
 
 
-class __TagSupport_Type_37(TypedDict):
-    valueSet: List['SymbolTag']
-    """ The tags supported by the client. """
+class __SignatureHelpClientCapabilities_signatureInformation_parameterInformation_Type_1(TypedDict):
+    labelOffsetSupport: NotRequired[bool]
+    """ The client supports processing label offsets instead of a
+    simple label string.
+
+    @since 3.14.0 """
 
 
-class __ResolveSupport_Type_38(TypedDict):
-    properties: List[str]
-    """ The properties that a client can resolve lazily. Usually
-    `location.range` """
+class __InitializeResult_serverInfo_Type_1(TypedDict):
+    name: str
+    """ The name of the server as defined by the server. """
+    version: NotRequired[str]
+    """ The server's version as defined by the server. """
 
 
-class __TagSupport_Type_39(TypedDict):
-    valueSet: List['CompletionItemTag']
-    """ The tags supported by the client. """
+class __CompletionList_itemDefaults_editRange_Type_1(TypedDict):
+    insert: 'Range'
+    replace: 'Range'
 
 
-class __ResolveSupport_Type_40(TypedDict):
-    properties: List[str]
-    """ The properties that a client can resolve lazily. """
+class __NotebookDocumentChangeEvent_cells_textContent_Type_1(TypedDict):
+    document: 'VersionedTextDocumentIdentifier'
+    changes: List['TextDocumentContentChangeEvent']
 
 
-class __InsertTextModeSupport_Type_41(TypedDict):
-    valueSet: List['InsertTextMode']
+class __GeneralClientCapabilities_staleRequestSupport_Type_1(TypedDict):
+    cancel: bool
+    """ The client will actively cancel the request. """
+    retryOnContentModified: List[str]
+    """ The list of requests for which the client
+    will retry the request if it receives a
+    response with error code `ContentModified` """
 
 
-class __CompletionItem_Type_39(TypedDict):
+class __CompletionClientCapabilities_completionItem_Type_1(TypedDict):
     snippetSupport: NotRequired[bool]
     """ Client supports snippets as insert text.
 
@@ -5309,7 +5191,7 @@ class __CompletionItem_Type_39(TypedDict):
     """ Client supports the deprecated property on a completion item. """
     preselectSupport: NotRequired[bool]
     """ Client supports the preselect property on a completion item. """
-    tagSupport: NotRequired['__TagSupport_Type_39']
+    tagSupport: NotRequired['__CompletionClientCapabilities_completionItem_tagSupport_Type_1']
     """ Client supports the tag property on a completion item. Clients supporting
     tags have to handle unknown tags gracefully. Clients especially need to
     preserve unknown tags when sending a completion item back to the server in
@@ -5321,13 +5203,13 @@ class __CompletionItem_Type_39(TypedDict):
     completion item is inserted in the text or should replace text.
 
     @since 3.16.0 """
-    resolveSupport: NotRequired['__ResolveSupport_Type_40']
+    resolveSupport: NotRequired['__CompletionClientCapabilities_completionItem_resolveSupport_Type_1']
     """ Indicates which properties a client can resolve lazily on a completion
     item. Before version 3.16.0 only the predefined properties `documentation`
     and `details` could be resolved lazily.
 
     @since 3.16.0 """
-    insertTextModeSupport: NotRequired['__InsertTextModeSupport_Type_41']
+    insertTextModeSupport: NotRequired['__CompletionClientCapabilities_completionItem_insertTextModeSupport_Type_1']
     """ The client supports the `insertTextMode` property on
     a completion item to override the whitespace handling mode
     as defined by the client (see `insertTextMode`).
@@ -5340,19 +5222,151 @@ class __CompletionItem_Type_39(TypedDict):
     @since 3.17.0 """
 
 
-class __CompletionItemKind_Type_43(TypedDict):
-    valueSet: NotRequired[List['CompletionItemKind']]
-    """ The completion item kind values the client supports. When this
+class __TextDocumentFilter_Type_1(TypedDict):
+    language: str
+    """ A language id, like `typescript`. """
+    scheme: NotRequired[str]
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
+    pattern: NotRequired[str]
+    """ A glob pattern, like `*.{ts,js}`. """
+
+
+class __NotebookDocumentSyncOptions_notebookSelector_cells_Type_4(TypedDict):
+    language: str
+
+
+class __SemanticTokensClientCapabilities_requests_full_Type_1(TypedDict):
+    delta: NotRequired[bool]
+    """ The client will send the `textDocument/semanticTokens/full/delta` request if
+    the server provides a corresponding handler. """
+
+
+class __FoldingRangeClientCapabilities_foldingRange_Type_1(TypedDict):
+    collapsedText: NotRequired[bool]
+    """ If set, the client signals that it supports setting collapsedText on
+    folding ranges to display custom labels instead of the default text.
+
+    @since 3.17.0 """
+
+
+class __NotebookDocumentSyncOptions_notebookSelector_cells_Type_2(TypedDict):
+    language: str
+
+
+class __SignatureHelpClientCapabilities_signatureInformation_Type_1(TypedDict):
+    documentationFormat: NotRequired[List['MarkupKind']]
+    """ Client supports the following content formats for the documentation
+    property. The order describes the preferred format of the client. """
+    parameterInformation: NotRequired['__SignatureHelpClientCapabilities_signatureInformation_parameterInformation_Type_1']
+    """ Client capabilities specific to parameter information. """
+    activeParameterSupport: NotRequired[bool]
+    """ The client supports the `activeParameter` property on `SignatureInformation`
+    literal.
+
+    @since 3.16.0 """
+
+
+class __InlayHintClientCapabilities_resolveSupport_Type_1(TypedDict):
+    properties: List[str]
+    """ The properties that a client can resolve lazily. """
+
+
+class __SemanticTokensClientCapabilities_requests_Type_1(TypedDict):
+    range: NotRequired[Union[bool, dict]]
+    """ The client will send the `textDocument/semanticTokens/range` request if
+    the server provides a corresponding handler. """
+    full: NotRequired[Union[bool, '__SemanticTokensClientCapabilities_requests_full_Type_1']]
+    """ The client will send the `textDocument/semanticTokens/full` request if
+    the server provides a corresponding handler. """
+
+
+class __WorkspaceEditClientCapabilities_changeAnnotationSupport_Type_1(TypedDict):
+    groupsOnLabel: NotRequired[bool]
+    """ Whether the client groups edits with equal labels into tree nodes,
+    for instance all edits labelled with "Changes in Strings" would
+    be a tree node. """
+
+
+class __CodeActionClientCapabilities_codeActionLiteralSupport_codeActionKind_Type_1(TypedDict):
+    valueSet: List['CodeActionKind']
+    """ The code action kind values the client supports. When this
     property exists the client also guarantees that it will
     handle values outside its set gracefully and falls back
-    to a default value when unknown.
-
-    If this property is not present the client only supports
-    the completion items kinds from `Text` to `Reference` as defined in
-    the initial version of the protocol. """
+    to a default value when unknown. """
 
 
-class __CompletionList_Type_44(TypedDict):
+class __FoldingRangeClientCapabilities_foldingRangeKind_Type_1(TypedDict):
+    valueSet: NotRequired[List['FoldingRangeKind']]
+    """ The folding range kind values the client supports. When this
+    property exists the client also guarantees that it will
+    handle values outside its set gracefully and falls back
+    to a default value when unknown. """
+
+
+class __NotebookDocumentSyncOptions_notebookSelector_cells_Type_1(TypedDict):
+    language: str
+
+
+class __TextDocumentContentChangeEvent_Type_2(TypedDict):
+    text: str
+    """ The new text of the whole document. """
+
+
+class __NotebookDocumentSyncOptions_notebookSelector_Type_3(TypedDict):
+    notebook: Union[str, 'NotebookDocumentFilter']
+    """ The notebook to be synced If a string
+    value is provided it matches against the
+    notebook type. '*' matches every notebook. """
+    cells: NotRequired[List['__NotebookDocumentSyncOptions_notebookSelector_cells_Type_3']]
+    """ The cells of the matching notebook to be synced. """
+
+
+class __PublishDiagnosticsClientCapabilities_tagSupport_Type_1(TypedDict):
+    valueSet: List['DiagnosticTag']
+    """ The tags supported by the client. """
+
+
+class __DocumentSymbolClientCapabilities_tagSupport_Type_1(TypedDict):
+    valueSet: List['SymbolTag']
+    """ The tags supported by the client. """
+
+
+class __NotebookDocumentFilter_Type_3(TypedDict):
+    notebookType: NotRequired[str]
+    """ The type of the enclosing notebook. """
+    scheme: NotRequired[str]
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
+    pattern: str
+    """ A glob pattern. """
+
+
+class __PrepareRenameResult_Type_1(TypedDict):
+    range: 'Range'
+    placeholder: str
+
+
+class __CodeActionClientCapabilities_resolveSupport_Type_1(TypedDict):
+    properties: List[str]
+    """ The properties that a client can resolve lazily. """
+
+
+class __NotebookDocumentChangeEvent_cells_Type_1(TypedDict):
+    structure: NotRequired['__NotebookDocumentChangeEvent_cells_structure_Type_1']
+    """ Changes to the cell structure to add or
+    remove cells. """
+    data: NotRequired[List['NotebookCell']]
+    """ Changes to notebook cells properties like its
+    kind, execution summary or metadata. """
+    textContent: NotRequired[List['__NotebookDocumentChangeEvent_cells_textContent_Type_1']]
+    """ Changes to the text content of notebook cells. """
+
+
+class __SemanticTokensOptions_full_Type_1(TypedDict):
+    delta: NotRequired[bool]
+    """ The server supports deltas for full documents. """
+
+
+class __CompletionClientCapabilities_completionList_Type_1(TypedDict):
     itemDefaults: NotRequired[List[str]]
     """ The client supports the following itemDefaults on
     a completion list.
@@ -5364,106 +5378,92 @@ class __CompletionList_Type_44(TypedDict):
     @since 3.17.0 """
 
 
-class __ParameterInformation_Type_45(TypedDict):
-    labelOffsetSupport: NotRequired[bool]
-    """ The client supports processing label offsets instead of a
-    simple label string.
+class __CodeAction_disabled_Type_1(TypedDict):
+    reason: str
+    """ Human readable description of why the code action is currently disabled.
 
-    @since 3.14.0 """
+    This is displayed in the code actions UI. """
 
 
-class __SignatureInformation_Type_45(TypedDict):
-    documentationFormat: NotRequired[List['MarkupKind']]
-    """ Client supports the following content formats for the documentation
-    property. The order describes the preferred format of the client. """
-    parameterInformation: NotRequired['__ParameterInformation_Type_45']
-    """ Client capabilities specific to parameter information. """
-    activeParameterSupport: NotRequired[bool]
-    """ The client supports the `activeParameter` property on `SignatureInformation`
-    literal.
+class __ServerCapabilities_workspace_Type_1(TypedDict):
+    workspaceFolders: NotRequired['WorkspaceFoldersServerCapabilities']
+    """ The server supports workspace folder.
+
+    @since 3.6.0 """
+    fileOperations: NotRequired['FileOperationOptions']
+    """ The server is interested in notifications/requests for operations on files.
 
     @since 3.16.0 """
 
 
-class __SymbolKind_Type_47(TypedDict):
-    valueSet: NotRequired[List['SymbolKind']]
-    """ The symbol kind values the client supports. When this
-    property exists the client also guarantees that it will
-    handle values outside its set gracefully and falls back
-    to a default value when unknown.
-
-    If this property is not present the client only supports
-    the symbol kinds from `File` to `Array` as defined in
-    the initial version of the protocol. """
+class ___InitializeParams_clientInfo_Type_1(TypedDict):
+    name: str
+    """ The name of the client as defined by the client. """
+    version: NotRequired[str]
+    """ The client's version as defined by the client. """
 
 
-class __TagSupport_Type_48(TypedDict):
-    valueSet: List['SymbolTag']
-    """ The tags supported by the client. """
+class __NotebookDocumentSyncOptions_notebookSelector_Type_2(TypedDict):
+    notebook: NotRequired[Union[str, 'NotebookDocumentFilter']]
+    """ The notebook to be synced If a string
+    value is provided it matches against the
+    notebook type. '*' matches every notebook. """
+    cells: List['__NotebookDocumentSyncOptions_notebookSelector_cells_Type_2']
+    """ The cells of the matching notebook to be synced. """
 
 
-class __CodeActionKind_Type_49(TypedDict):
-    valueSet: List['CodeActionKind']
-    """ The code action kind values the client supports. When this
-    property exists the client also guarantees that it will
-    handle values outside its set gracefully and falls back
-    to a default value when unknown. """
-
-
-class __CodeActionLiteralSupport_Type_49(TypedDict):
-    codeActionKind: '__CodeActionKind_Type_49'
-    """ The code action kind is support with the following value
-    set. """
-
-
-class __ResolveSupport_Type_51(TypedDict):
+class __WorkspaceSymbolClientCapabilities_resolveSupport_Type_1(TypedDict):
     properties: List[str]
-    """ The properties that a client can resolve lazily. """
+    """ The properties that a client can resolve lazily. Usually
+    `location.range` """
 
 
-class __FoldingRangeKind_Type_52(TypedDict):
-    valueSet: NotRequired[List['FoldingRangeKind']]
-    """ The folding range kind values the client supports. When this
-    property exists the client also guarantees that it will
-    handle values outside its set gracefully and falls back
-    to a default value when unknown. """
+class __WorkspaceSymbol_location_Type_1(TypedDict):
+    uri: 'DocumentUri'
 
 
-class __FoldingRange_Type_53(TypedDict):
-    collapsedText: NotRequired[bool]
-    """ If set, the client signals that it supports setting collapsedText on
-    folding ranges to display custom labels instead of the default text.
-
-    @since 3.17.0 """
+class __CompletionClientCapabilities_completionItem_insertTextModeSupport_Type_1(TypedDict):
+    valueSet: List['InsertTextMode']
 
 
-class __TagSupport_Type_54(TypedDict):
-    valueSet: List['DiagnosticTag']
-    """ The tags supported by the client. """
+class __TextDocumentFilter_Type_2(TypedDict):
+    language: NotRequired[str]
+    """ A language id, like `typescript`. """
+    scheme: str
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
+    pattern: NotRequired[str]
+    """ A glob pattern, like `*.{ts,js}`. """
 
 
-class __Full_Type_55(TypedDict):
-    delta: NotRequired[bool]
-    """ The client will send the `textDocument/semanticTokens/full/delta` request if
-    the server provides a corresponding handler. """
+class __MarkedString_Type_1(TypedDict):
+    language: str
+    value: str
 
 
-class __Requests_Type_55(TypedDict):
-    range: NotRequired[Union[bool, dict]]
-    """ The client will send the `textDocument/semanticTokens/range` request if
-    the server provides a corresponding handler. """
-    full: NotRequired[Union[bool, '__Full_Type_55']]
-    """ The client will send the `textDocument/semanticTokens/full` request if
-    the server provides a corresponding handler. """
+class __NotebookDocumentFilter_Type_1(TypedDict):
+    notebookType: str
+    """ The type of the enclosing notebook. """
+    scheme: NotRequired[str]
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
+    pattern: NotRequired[str]
+    """ A glob pattern. """
 
 
-class __ResolveSupport_Type_57(TypedDict):
-    properties: List[str]
-    """ The properties that a client can resolve lazily. """
+class __TextDocumentFilter_Type_3(TypedDict):
+    language: NotRequired[str]
+    """ A language id, like `typescript`. """
+    scheme: NotRequired[str]
+    """ A Uri {@link Uri.scheme scheme}, like `file` or `untitled`. """
+    pattern: str
+    """ A glob pattern, like `*.{ts,js}`. """
 
 
-class __MessageActionItem_Type_58(TypedDict):
-    additionalPropertiesSupport: NotRequired[bool]
-    """ Whether the client supports additional attributes which
-    are preserved and send back to the server in the
-    request's response. """
+class __TextDocumentContentChangeEvent_Type_1(TypedDict):
+    range: 'Range'
+    """ The range of the document that changed. """
+    rangeLength: NotRequired[Uint]
+    """ The optional length of the range that got replaced.
+
+    @deprecated use range instead. """
+    text: str
+    """ The new text for the provided range. """
