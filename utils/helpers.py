@@ -37,8 +37,8 @@ class SymbolNameTracker:
         SymbolNameTracker.symbols.clear()
 
 
-def get_new_literal_structures() -> set[str]:
-    return new_literal_structures
+def get_new_literal_structures() -> list[str]:
+    return sorted(new_literal_structures)
 
 
 def reset_new_literal_structures() -> None:
