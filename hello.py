@@ -1,7 +1,9 @@
 import asyncio
 import json
 import os
+from lsp_request_context import RequestContext
 from lsp_requests import LspNotification, LspRequest, Response
+
 
 
 CONTENT_LENGTH = 'Content-Length: '
@@ -59,9 +61,12 @@ class Server():
     def on_request(self, method: str, cb):
         self.on_request_callbacks[method] = cb
 
-    def request_context(self):
+    def request_context(self) -> RequestContext:
         return {
-            "session_name": "eej"
+            "server_name": "eej",
+            "buffer_id": 1,
+            "view_id": 2,
+            "window_id": 3
         }
 
     def on_notification(self, method: str, cb):
@@ -134,7 +139,7 @@ async def main():
     }))
 
     print('response', r.result)
-    print('response', r.context)
+    print('response', r.context['server_name'])
 
     server.notify.did_open_text_document({
         'textDocument': {
