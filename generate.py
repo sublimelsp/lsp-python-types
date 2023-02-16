@@ -60,9 +60,18 @@ generate(preferred_structure_kind=StructureKind.Function, output="./lsp_types_su
 
 def generate_req(output) -> None:
     content = f"""
-# Code generated. DO NOT EDIT.,
-import lsp_types,
-from typing import List, Union
+# Code generated. DO NOT EDIT.
+import lsp_types
+from typing import List, Union, Generic, TypeVar
+
+T = TypeVar('T')
+class Response(Generic[T]):
+{indentation}def __init__(self, result: T, id: int, context: dict) -> None:
+{indentation}{indentation}super().__init__()
+{indentation}{indentation}self.result = result
+{indentation}{indentation}self.id = id
+{indentation}{indentation}self.context = context
+
 
 class LspRequest:
 {indentation}def __init__(self, send_request):
