@@ -120,7 +120,7 @@ class Server():
 
 
 async def main():
-    server = Server('node /home/predragnikolic/Documents/sandbox/typescript-language-server/lib/cli.mjs --stdio')
+    server = Server('typescript-language-server --stdio')
     await server.start()
 
     def on_log_message(x):
@@ -139,14 +139,14 @@ async def main():
     }))
 
     print('response', r.result)
-    print('response', r.context['server_name'])
+    print('context', r.context['server_name'])
 
     server.notify.did_open_text_document({
         'textDocument': {
             'version': 0,
             'languageId': 'javascript',
-            'text': "let c = 1\nprocess.stdout.write('Hey' + c + process.argv.slice(2) +'\\n')\n",
-            'uri': 'file:///home/predragnikolic/Documents/sandbox/lsp_types/hello.js'
+            'text': "let c = 1",
+            'uri': 'file://' + os.path.abspath("hello.js")
         }
     })
 
