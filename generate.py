@@ -6,7 +6,9 @@ from typing import Dict, Literal
 from utils.generate_enumerations import generate_enumerations
 from utils.generate_structures import generate_structures
 from utils.generate_type_aliases import generate_type_aliases
-from utils.helpers import get_new_literal_structures, reset_new_literal_structures, StructureKind
+from utils.generate_requests import generate_requests
+from utils.generate_notifications import generate_notifications
+from utils.helpers import get_new_literal_structures, reset_new_literal_structures, StructureKind, indentation
 
 
 ENUM_OVERRIDES = {
@@ -54,3 +56,29 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
 
 generate(preferred_structure_kind=StructureKind.Class, output="./lsp_types.py")
 generate(preferred_structure_kind=StructureKind.Function, output="./lsp_types_sublime_text_33.py")
+
+
+def generate_req(output) -> None:
+    content = f"""
+# Code generated. DO NOT EDIT.,
+import lsp_types,
+from typing import List, Union
+
+class LspRequest:
+{indentation}def __init__(self, send_request):
+{indentation}{indentation}self.send_request = send_request\n\n"""
+
+    with open('./lsprotocol/lsp.json') as file:
+        lsp_json: MetaModel = json.load(file)
+        content += '\n'.join(generate_requests(lsp_json['requests']))
+        content += f"""\n\nclass LspNotification:
+{indentation}def __init__(self, send_notification):
+{indentation}{indentation}self.send_notification = send_notification\n\n"""
+        content += '\n'.join(generate_notifications(lsp_json['notifications']))
+
+
+        with open(output, "w") as new_file:
+                new_file.write(content)
+
+
+generate_req('./lsp_requests.py')

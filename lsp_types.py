@@ -3,7 +3,12 @@
 
 from typing_extensions import NotRequired
 from typing import Dict, List, Literal, TypedDict, Union
-from enum import Enum, IntEnum, IntFlag, StrEnum
+try:
+    from enum import Enum, IntEnum, IntFlag, StrEnum
+except:
+    IntEnum = Enum
+    IntFlag = Enum
+    StrEnum = Enum
 
 
 URI = str
