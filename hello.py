@@ -44,4 +44,9 @@ async def main():
         print('resolved')
         print(resolved_item)
 
+    await server.shutdown()
+
+    # FIX RuntimeError: Event loop is closed
+    # server.stop()
+
 asyncio.run(main())

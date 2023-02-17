@@ -98,12 +98,12 @@ class LanguageServer():
     def __init__(self, cmd: str) -> None:
         self.send = LspRequest(self.send_request)
         self.notify = LspNotification(self.send_notification)
-        self.request_id = 1
 
         self.cmd = cmd
         self.process = None
         self._received_shutdown = False
 
+        self.request_id = 1
         self._response_handlers: Dict[Any, Request] = {}
         self.on_request_handlers = {}
         self.on_notification_handlers = {}
@@ -119,6 +119,13 @@ class LanguageServer():
     def stop(self):
         if self.process:
             self.process.kill()
+
+    async def shutdown(self):
+        await self.send.shutdown()
+        self._received_shutdown = True
+        self.notify.exit()
+        if self.process and self.process.stdout:
+            self.process.stdout.set_exception(StopLoopException())
 
     def _log(self, message: str) -> None:
         self.send_notification("window/logMessage",
@@ -170,7 +177,7 @@ class LanguageServer():
         except Exception as err:
             self._log(f"Error handling server payload: {err}")
 
-    def send_notification(self, method: str, params: dict):
+    def send_notification(self, method: str, params: Optional[dict] = None):
         self._send_payload_sync(
             make_notification(method, params))
 
@@ -182,7 +189,7 @@ class LanguageServer():
         asyncio.get_event_loop().create_task(self._send_payload(
             make_error_response(request_id, err)))
 
-    async def send_request(self, method: str, params: dict):
+    async def send_request(self, method: str, params: Optional[dict] = None):
         request = Request()
         request_id = self.request_id
         self.request_id += 1
