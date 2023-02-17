@@ -1,7 +1,8 @@
-from typing import  Any, Dict, List, Optional, Union, Generic, TypeVar
+from typing import  Any, Dict, List, Optional, Union
 import asyncio
 import json
 from lsp_types import ErrorCodes
+from lsp_requests import LspRequest, LspNotification
 
 StringDict = Dict[str, Any]
 PayloadLike = Union[List[StringDict], StringDict, None]
@@ -28,11 +29,14 @@ class Error(Exception):
 def make_response(request_id: Any, params: PayloadLike) -> StringDict:
     return {"jsonrpc": "2.0", "id": request_id, "result": params}
 
+
 def make_error_response(request_id: Any, err: Error) -> StringDict:
     return {"jsonrpc": "2.0", "id": request_id, "error": err.to_lsp()}
 
+
 def make_notification(method: str, params: PayloadLike) -> StringDict:
     return {"jsonrpc": "2.0", "method": method, "params": params}
+
 
 def make_request(method: str, request_id: Any, params: PayloadLike) -> StringDict:
     return {"jsonrpc": "2.0", "method": method, "id": request_id, "params": params}
@@ -40,6 +44,7 @@ def make_request(method: str, request_id: Any, params: PayloadLike) -> StringDic
 
 class StopLoopException(Exception):
     pass
+
 
 def create_message(payload: PayloadLike) :
     body = json.dumps(
@@ -53,20 +58,19 @@ def create_message(payload: PayloadLike) :
         body
     )
 
+
 class MessageType:
     error = 1
     warning = 2
     info = 3
     log = 4
 
+
 class Request():
-    global_id = 1
     def __init__(self) -> None:
-        self.id = self.global_id
-        self.global_id +=1
         self.cv = asyncio.Condition()
-        self.result = None  # type: Optional[PayloadLike]
-        self.error = None  # type: Optional[Error]
+        self.result: Optional[PayloadLike] = None
+        self.error: Optional[Error] = None
 
     async def on_result(self, params: PayloadLike) -> None:
         self.result = params
@@ -92,12 +96,9 @@ def content_length(line: bytes) -> Optional[int]:
 
 class LanguageServer():
     def __init__(self, cmd: str) -> None:
-    	# avoid circular imports
-        # I didn't want to create an interface
-        from lsp_requests import LspRequest, LspNotification
-
         self.send = LspRequest(self.send_request)
         self.notify = LspNotification(self.send_notification)
+        self.request_id = 1
 
         self.cmd = cmd
         self.process = None
@@ -183,9 +184,11 @@ class LanguageServer():
 
     async def send_request(self, method: str, params: dict):
         request = Request()
-        self._response_handlers[request.id] = request
+        request_id = self.request_id
+        self.request_id += 1
+        self._response_handlers[request_id] = request
         async with request.cv:
-            await self._send_payload(make_request(method, request.id, params))
+            await self._send_payload(make_request(method, request_id, params))
             await request.cv.wait()
         if isinstance(request.error, Error):
             raise request.error
