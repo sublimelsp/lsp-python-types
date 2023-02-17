@@ -5,9 +5,9 @@ from typing import List, Union, Generic, TypeVar
 
 T = TypeVar('T')
 class Response(Generic[T]):
-    def __init__(self, result: T, id: int) -> None:
+    def __init__(self, data: T, id: int) -> None:
         super().__init__()
-        self.result = result
+        self.data = data
         self.id = id
 
 

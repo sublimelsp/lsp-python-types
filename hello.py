@@ -93,7 +93,7 @@ def content_length(line: bytes) -> Optional[int]:
 
 class Server():
     def __init__(self, cmd: str) -> None:
-        self.request = LspRequest(self.send_request)
+        self.send = LspRequest(self.send_request)
         self.notify = LspNotification(self.send_notification)
 
         self.cmd = cmd
@@ -255,13 +255,23 @@ async def main():
     server.on_notification('window/logMessage', on_log_message)
     server.on_request('workspace/applyEdit', on_apply_edit)
 
-    r = await server.request.initialize(({
+    response = await server.send.initialize(({
         'processId': os.getpid(),
         'rootUri': None,
         'capabilities': {}
     }))
 
-    print('response', r.result)
+    print('response', response.data)
+
+    response = await server.send.completion({
+        "position": {"character": 0, "line": 0},
+        "textDocument": {
+            "uri": "dsad"
+        },
+    })
+
+    # TODO: make the server accessible from the response
+    # await response.server.send.resolve_completion_item()
 
     server.notify.did_open_text_document({
         'textDocument': {
