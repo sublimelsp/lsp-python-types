@@ -31,18 +31,17 @@ async def main():
         }
     })
 
-    completion_response = await server.send.completion({
+    completions = await server.send.completion({
         "position": {"character": 0, "line": 0},
         "textDocument": {
             "uri": 'file://' + os.path.abspath("hello.js")
         },
     })
 
-    result = completion_response.result
-    if isinstance(result, dict):
-        item = result['items'][0]
-        resolved_item = await response.server.send.resolve_completion_item(item)
+    if isinstance(completions, dict):
+        item = completions['items'][0]
+        resolved_item = await server.send.resolve_completion_item(item)
         print('resolved')
-        print(resolved_item.result)
+        print(resolved_item)
 
 asyncio.run(main())

@@ -8,8 +8,8 @@ PayloadLike = Union[List[StringDict], StringDict, None]
 CONTENT_LENGTH = 'Content-Length: '
 ENCODING = "utf-8"
 
-class Error(Exception):
 
+class Error(Exception):
     def __init__(self, code: ErrorCodes, message: str) -> None:
         super().__init__(message)
         self.code = code
@@ -189,7 +189,7 @@ class LanguageServer():
             await request.cv.wait()
         if isinstance(request.error, Error):
             raise request.error
-        return Response(request.result, request.id, self)
+        return request.result
 
     def _send_payload_sync(self, payload: StringDict) -> None:
         if not self.process or not self.process.stdin:
@@ -250,11 +250,3 @@ class LanguageServer():
             if not self._received_shutdown:
                 self.send_notification("window/logMessage", {"type": MessageType.error, "message": str(ex)})
 
-
-T = TypeVar('T')
-class Response(Generic[T]):
-    def __init__(self, data: T, id: int, server: LanguageServer) -> None:
-        super().__init__()
-        self.result = data
-        self.id = id
-        self.server = server

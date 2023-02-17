@@ -69,13 +69,6 @@ def generate_req(output) -> None:
 import lsp_types
 from typing import List, Union, Generic, TypeVar
 
-T = TypeVar('T')
-class Response(Generic[T]):
-{indentation}def __init__(self, result: T, id: int) -> None:
-{indentation}{indentation}super().__init__()
-{indentation}{indentation}self.result = result
-{indentation}{indentation}self.id = id
-
 
 class LspRequest:
 {indentation}def __init__(self, send_request):
