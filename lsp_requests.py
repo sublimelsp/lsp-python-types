@@ -1,15 +1,8 @@
 
 # Code generated. DO NOT EDIT.
 import lsp_types
-from typing import List, Union, Generic, TypeVar
-
-T = TypeVar('T')
-class Response(Generic[T]):
-    def __init__(self, data: T, id: int) -> None:
-        super().__init__()
-        self.data = data
-        self.id = id
-
+from typing import List, Union
+from language_server import Response
 
 class LspRequest:
     def __init__(self, send_request):
