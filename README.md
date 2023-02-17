@@ -1,6 +1,6 @@
 # Setup
 
-Requires py3.11 and up.
+Requires py3.10 and up.
 
 Install dependecies:
 ```
