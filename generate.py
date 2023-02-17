@@ -64,10 +64,9 @@ generate(preferred_structure_kind=StructureKind.Function, output="./lsp_types_su
 
 
 def generate_req(output) -> None:
-    content = f"""
-# Code generated. DO NOT EDIT.
+    content = f"""# Code generated. DO NOT EDIT.
 import lsp_types
-from typing import List, Union, Generic, TypeVar
+from typing import List, Union
 
 
 class LspRequest:

@@ -1,7 +1,7 @@
 from typing import List
-from lsp_schema import Notification, Structure, Request
-from utils.helpers import FormattedProperty, format_comment, format_type, indentation, format_class_properties, format_dict_properties, get_formatted_properties, has_invalid_property_name, StructureKind
-import re
+from lsp_schema import Notification
+from utils.helpers import format_comment, indentation
+
 
 method_to_symbol_name = {
     "workspace/didChangeWorkspaceFolders": "did_change_workspace_folders",
@@ -56,7 +56,10 @@ def generate_notification(notification: Notification) -> str:
         if not params_type:
             raise Exception('I expected params to be of type _Type. But got: ' + str(params))
         formatted_params = f",  params: lsp_types.{params_type}"
-    result += f"""{indentation}def {symbol_name}(self{formatted_params}) -> None:
-{indentation}{indentation}return self.send_notification("{method}"{', params' if params else ''})\n"""
+    result += f"{indentation}def {symbol_name}(self{formatted_params}) -> None:"
+    documentation = format_comment(notification.get('documentation'), indentation + indentation)
+    if documentation.strip():
+        result += f'\n{documentation}'
+    result += f"""\n{indentation}{indentation}return self.send_notification("{method}"{', params' if params else ''})\n"""
 
     return result

@@ -1,6 +1,6 @@
 from typing import List
-from lsp_schema import Structure, Request
-from utils.helpers import FormattedProperty, format_comment, format_type, indentation, format_class_properties, format_dict_properties, get_formatted_properties, has_invalid_property_name, StructureKind
+from lsp_schema import Request
+from utils.helpers import format_comment, format_type, indentation, StructureKind
 import re
 
 method_to_symbol_name = {
@@ -93,9 +93,11 @@ def generate_request(request: Request) -> str:
     # fix  Expected class type but received "str"
     result_type = result_type.replace("DefinitionLink", "LocationLink")
     result_type = result_type.replace("DeclarationLink", "LocationLink")
-    result += f"""{indentation}async def {symbol_name}(self{formatted_params}) -> {result_type}:
-{indentation}{indentation}return await self.send_request("{method}"{', params' if params else ''})\n"""
-
+    result += f"{indentation}async def {symbol_name}(self{formatted_params}) -> {result_type}:"
+    documentation = format_comment(request.get('documentation'), indentation + indentation)
+    if documentation:
+        result += f'\n{documentation}'
+    result += f"""\n{indentation}{indentation}return await self.send_request("{method}"{', params' if params else ''})\n"""
     return result
 
 
