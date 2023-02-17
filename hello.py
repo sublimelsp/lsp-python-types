@@ -35,7 +35,7 @@ async def main():
         "position": {"character": 0, "line": 0},
         "textDocument": {
             "uri": 'file://' + os.path.abspath("hello.js")
-        },
+        }
     })
 
     if isinstance(completions, dict):
