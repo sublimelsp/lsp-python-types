@@ -3,9 +3,14 @@
 
 from typing_extensions import NotRequired
 from typing import Dict, List, Literal, TypedDict, Union
-from enum import Enum, IntEnum, IntFlag, StrEnum
+from enum import Enum, IntEnum, IntFlag
 
 
+import sys
+if sys.version_info >= (3, 11, 0):
+    from enum import StrEnum
+else:
+    StrEnum = Enum
 URI = str
 DocumentUri = str
 Uint = int

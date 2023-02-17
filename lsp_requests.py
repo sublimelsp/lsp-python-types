@@ -1,16 +1,14 @@
 
 # Code generated. DO NOT EDIT.
-from lsp_request_context import RequestContext
 import lsp_types
 from typing import List, Union, Generic, TypeVar
 
 T = TypeVar('T')
 class Response(Generic[T]):
-    def __init__(self, result: T, id: int, context: RequestContext) -> None:
+    def __init__(self, result: T, id: int) -> None:
         super().__init__()
         self.result = result
         self.id = id
-        self.context = context
 
 
 class LspRequest:

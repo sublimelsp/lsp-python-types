@@ -29,7 +29,12 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
             f"# LSP v{specification_version}\n",
             "from typing_extensions import NotRequired",
             "from typing import Dict, List, Literal, TypedDict, Union",
-            "from enum import Enum, IntEnum, IntFlag, StrEnum\n\n",
+            "from enum import Enum, IntEnum, IntFlag\n\n",
+            "import sys",
+            "if sys.version_info >= (3, 11, 0):",
+            f"{indentation}from enum import StrEnum",
+            "else:",
+            f"{indentation}StrEnum = Enum",
             "URI = str",
             "DocumentUri = str",
             "Uint = int",
@@ -66,11 +71,10 @@ from typing import List, Union, Generic, TypeVar
 
 T = TypeVar('T')
 class Response(Generic[T]):
-{indentation}def __init__(self, result: T, id: int, context: dict) -> None:
+{indentation}def __init__(self, result: T, id: int) -> None:
 {indentation}{indentation}super().__init__()
 {indentation}{indentation}self.result = result
 {indentation}{indentation}self.id = id
-{indentation}{indentation}self.context = context
 
 
 class LspRequest:

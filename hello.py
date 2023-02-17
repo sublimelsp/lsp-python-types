@@ -2,16 +2,13 @@ import asyncio
 import json
 import os
 from typing import Any, Dict, List, Union, Optional
-from lsp_request_context import RequestContext
-from lsp_requests import LspNotification, LspRequest
+from lsp_requests import LspNotification, LspRequest, Response
 from lsp_types import ErrorCodes
-
 
 StringDict = Dict[str, Any]
 PayloadLike = Union[List[StringDict], StringDict, None]
 CONTENT_LENGTH = 'Content-Length: '
 ENCODING = "utf-8"
-
 
 class Error(Exception):
 
@@ -70,11 +67,11 @@ class Request():
         self.id = self.global_id
         self.global_id +=1
         self.cv = asyncio.Condition()
-        self.result = None  # type: PayloadLike
+        self.result = None  # type: Optional[Response[PayloadLike]]
         self.error = None  # type: Optional[Error]
 
     async def on_result(self, params: PayloadLike) -> None:
-        self.result = params
+        self.result = Response(params, self.id)
         async with self.cv:
             self.cv.notify()
 
@@ -201,14 +198,6 @@ class Server():
     def on_request(self, method: str, cb):
         self.on_request_handlers[method] = cb
 
-    def request_context(self) -> RequestContext:
-        return {
-            "server_name": "eej",
-            "buffer_id": 1,
-            "view_id": 2,
-            "window_id": 3
-        }
-
     def on_notification(self, method: str, cb):
         self.on_notification_handlers[method] = cb
 
@@ -272,8 +261,7 @@ async def main():
         'capabilities': {}
     }))
 
-    print('response', r)
-    print('context', r)
+    print('response', r.result)
 
     server.notify.did_open_text_document({
         'textDocument': {
@@ -283,5 +271,7 @@ async def main():
             'uri': 'file://' + os.path.abspath("hello.js")
         }
     })
+
+    await asyncio.sleep(10)
 
 asyncio.run(main())
