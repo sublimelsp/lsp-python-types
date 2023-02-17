@@ -46,7 +46,6 @@ async def main():
 
     await server.shutdown()
 
-    # FIX RuntimeError: Event loop is closed
-    # server.stop()
+    server.stop()
 
-asyncio.run(main())
+asyncio.get_event_loop().run_until_complete(main())
