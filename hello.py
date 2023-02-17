@@ -167,8 +167,8 @@ class Server():
             self._log(f"Error handling server payload: {err}")
 
     def send_notification(self, method: str, params: dict):
-        asyncio.get_event_loop().create_task(self._send_payload(
-            make_notification(method, params)))
+        self._send_payload_sync(
+            make_notification(method, params))
 
     def send_response(self, request_id: Any, params: PayloadLike) -> None:
         asyncio.get_event_loop().create_task(self._send_payload(
@@ -187,6 +187,12 @@ class Server():
         if isinstance(request.error, Error):
             raise request.error
         return request.result
+
+    def _send_payload_sync(self, payload: StringDict) -> None:
+        if not self.process or not self.process.stdin:
+            return
+        msg = create_message(payload)
+        self.process.stdin.writelines(msg)
 
     async def _send_payload(self, payload: StringDict) -> None:
         if not self.process or not self.process.stdin:
@@ -263,15 +269,6 @@ async def main():
 
     print('response', response.data)
 
-    response = await server.send.completion({
-        "position": {"character": 0, "line": 0},
-        "textDocument": {
-            "uri": "dsad"
-        },
-    })
-
-    # TODO: make the server accessible from the response
-    # await response.server.send.resolve_completion_item()
 
     server.notify.did_open_text_document({
         'textDocument': {
@@ -281,6 +278,17 @@ async def main():
             'uri': 'file://' + os.path.abspath("hello.js")
         }
     })
+
+    completion_response = await server.send.completion({
+        "position": {"character": 0, "line": 0},
+        "textDocument": {
+            "uri": 'file://' + os.path.abspath("hello.js")
+        },
+    })
+
+    print(completion_response.data)
+    # TODO: make the server accessible from the response
+    # await response.server.send.resolve_completion_item()
 
     await asyncio.sleep(10)
 
