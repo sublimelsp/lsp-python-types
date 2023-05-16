@@ -405,7 +405,7 @@ class PositionEncodingKind(Enum):
 
     @since 3.17.0 """
     UTF8 = 'utf-8'
-    """ Character offsets count UTF-8 code units. """
+    """ Character offsets count UTF-8 code units (e.g. bytes). """
     UTF16 = 'utf-16'
     """ Character offsets count UTF-16 code units.
 
@@ -414,7 +414,7 @@ class PositionEncodingKind(Enum):
     UTF32 = 'utf-32'
     """ Character offsets count UTF-32 code units.
 
-    Implementation note: these are the same as Unicode code points,
+    Implementation note: these are the same as Unicode codepoints,
     so this `PositionEncodingKind` may also be used for an
     encoding-agnostic representation of character offsets. """
 
@@ -1167,10 +1167,10 @@ SemanticTokensRangeParams = TypedDict('SemanticTokensRangeParams', {
 
 
 ShowDocumentParams = TypedDict('ShowDocumentParams', {
-    # The document uri to show.
+    # The uri to show.
     'uri': 'URI',
     # Indicates to show the resource in an external program.
-    # To show for example `https://code.visualstudio.com/`
+    # To show, for example, `https://code.visualstudio.com/`
     # in the default WEB browser set `external` to `true`.
     'external': NotRequired[bool],
     # An optional property to indicate whether the editor
@@ -1184,7 +1184,7 @@ ShowDocumentParams = TypedDict('ShowDocumentParams', {
     # file.
     'selection': NotRequired['Range'],
 })
-""" Params to show a document.
+""" Params to show a resource in the UI.
 
 @since 3.16.0 """
 
@@ -2580,7 +2580,7 @@ DocumentLink = TypedDict('DocumentLink', {
     # The range this link applies to.
     'range': 'Range',
     # The uri this link points to. If missing a resolve request is sent later.
-    'target': NotRequired[str],
+    'target': NotRequired['URI'],
     # The tooltip text when you hover over this link.
     #
     # If a tooltip is provided, is will be displayed in a string that includes instructions on how to
@@ -2740,7 +2740,7 @@ ApplyWorkspaceEditParams = TypedDict('ApplyWorkspaceEditParams', {
     # The edits to apply.
     'edit': 'WorkspaceEdit',
 })
-""" The parameters passed via a apply workspace edit request. """
+""" The parameters passed via an apply workspace edit request. """
 
 
 ApplyWorkspaceEditResult = TypedDict('ApplyWorkspaceEditResult', {
@@ -3510,7 +3510,7 @@ Registration = TypedDict('Registration', {
     # Options necessary for the registration.
     'registerOptions': NotRequired['LSPAny'],
 })
-""" General parameters to to register for an notification or to register a provider. """
+""" General parameters to register for a notification or to register a provider. """
 
 
 Unregistration = TypedDict('Unregistration', {

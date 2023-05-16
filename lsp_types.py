@@ -405,7 +405,7 @@ class PositionEncodingKind(Enum):
 
     @since 3.17.0 """
     UTF8 = 'utf-8'
-    """ Character offsets count UTF-8 code units. """
+    """ Character offsets count UTF-8 code units (e.g. bytes). """
     UTF16 = 'utf-16'
     """ Character offsets count UTF-16 code units.
 
@@ -414,7 +414,7 @@ class PositionEncodingKind(Enum):
     UTF32 = 'utf-32'
     """ Character offsets count UTF-32 code units.
 
-    Implementation note: these are the same as Unicode code points,
+    Implementation note: these are the same as Unicode codepoints,
     so this `PositionEncodingKind` may also be used for an
     encoding-agnostic representation of character offsets. """
 
@@ -1128,14 +1128,14 @@ class SemanticTokensRangeParams(TypedDict):
 
 
 class ShowDocumentParams(TypedDict):
-    """ Params to show a document.
+    """ Params to show a resource in the UI.
 
     @since 3.16.0 """
     uri: 'URI'
-    """ The document uri to show. """
+    """ The uri to show. """
     external: NotRequired[bool]
     """ Indicates to show the resource in an external program.
-    To show for example `https://code.visualstudio.com/`
+    To show, for example, `https://code.visualstudio.com/`
     in the default WEB browser set `external` to `true`. """
     takeFocus: NotRequired[bool]
     """ An optional property to indicate whether the editor
@@ -2453,7 +2453,7 @@ class DocumentLink(TypedDict):
     text document or a web site. """
     range: 'Range'
     """ The range this link applies to. """
-    target: NotRequired[str]
+    target: NotRequired['URI']
     """ The uri this link points to. If missing a resolve request is sent later. """
     tooltip: NotRequired[str]
     """ The tooltip text when you hover over this link.
@@ -2592,7 +2592,7 @@ class ExecuteCommandRegistrationOptions(TypedDict):
 
 
 class ApplyWorkspaceEditParams(TypedDict):
-    """ The parameters passed via a apply workspace edit request. """
+    """ The parameters passed via an apply workspace edit request. """
     label: NotRequired[str]
     """ An optional label of the workspace edit. This label is
     presented in the user interface for example on an undo
@@ -3301,7 +3301,7 @@ class NotebookDocumentIdentifier(TypedDict):
 
 
 class Registration(TypedDict):
-    """ General parameters to to register for an notification or to register a provider. """
+    """ General parameters to register for a notification or to register a provider. """
     id: str
     """ The id used to register the request. The id can be used to deregister
     the request again. """
