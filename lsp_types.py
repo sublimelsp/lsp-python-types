@@ -400,6 +400,17 @@ class MarkupKind(Enum):
     """ Markdown is supported as a content format """
 
 
+class InlineCompletionTriggerKind(IntEnum):
+    """ Describes how an {@link InlineCompletionItemProvider inline completion provider} was triggered.
+
+    @since 3.18.0
+    @proposed """
+    Invoked = 0
+    """ Completion was triggered explicitly by a user gesture. """
+    Automatic = 1
+    """ Completion was triggered automatically while editing. """
+
+
 class PositionEncodingKind(Enum):
     """ A set of predefined position encoding kinds.
 
@@ -1597,6 +1608,59 @@ class DidCloseNotebookDocumentParams(TypedDict):
     of a notebook cell that got closed. """
 
 
+class InlineCompletionParams(TypedDict):
+    """ A parameter literal used in inline completion requests.
+
+    @since 3.18.0
+    @proposed """
+    context: 'InlineCompletionContext'
+    """ Additional information about the context in which inline completions were
+    requested. """
+    textDocument: 'TextDocumentIdentifier'
+    """ The text document. """
+    position: 'Position'
+    """ The position inside the text document. """
+    workDoneToken: NotRequired['ProgressToken']
+    """ An optional token that a server can use to report work done progress. """
+
+
+class InlineCompletionList(TypedDict):
+    """ Represents a collection of {@link InlineCompletionItem inline completion items} to be presented in the editor.
+
+    @since 3.18.0
+    @proposed """
+    items: List['InlineCompletionItem']
+    """ The inline completion items """
+
+
+class InlineCompletionItem(TypedDict):
+    """ An inline completion item represents a text snippet that is proposed inline to complete text that is being typed.
+
+    @since 3.18.0
+    @proposed """
+    insertText: Union[str, 'StringValue']
+    """ The text to replace the range with. Must be set. """
+    filterText: NotRequired[str]
+    """ A text that is used to decide if this inline completion should be shown. When `falsy` the {@link InlineCompletionItem.insertText} is used. """
+    range: NotRequired['Range']
+    """ The range to replace. Must begin and end on the same line. """
+    command: NotRequired['Command']
+    """ An optional {@link Command} that is executed *after* inserting this completion. """
+
+
+class InlineCompletionRegistrationOptions(TypedDict):
+    """ Inline completion options used during static or dynamic registration.
+
+    @since 3.18.0
+    @proposed """
+    documentSelector: Union['DocumentSelector', None]
+    """ A document selector to identify the scope of the registration. If set to null
+    the document selector provided on the client side will be used. """
+    id: NotRequired[str]
+    """ The id used to register the request. The id can be used to deregister
+    the request again. See also Registration#id. """
+
+
 class RegistrationParams(TypedDict):
     registrations: List['Registration']
 
@@ -2511,6 +2575,26 @@ class DocumentRangeFormattingRegistrationOptions(TypedDict):
     documentSelector: Union['DocumentSelector', None]
     """ A document selector to identify the scope of the registration. If set to null
     the document selector provided on the client side will be used. """
+    rangesSupport: NotRequired[bool]
+    """ Whether the server supports formatting multiple ranges at once.
+
+    @since 3.18.0
+    @proposed """
+
+
+class DocumentRangesFormattingParams(TypedDict):
+    """ The parameters of a {@link DocumentRangesFormattingRequest}.
+
+    @since 3.18.0
+    @proposed """
+    textDocument: 'TextDocumentIdentifier'
+    """ The document to format. """
+    ranges: List['Range']
+    """ The ranges to format """
+    options: 'FormattingOptions'
+    """ The format options """
+    workDoneToken: NotRequired['ProgressToken']
+    """ An optional token that a server can use to report work done progress. """
 
 
 class DocumentOnTypeFormattingParams(TypedDict):
@@ -3300,6 +3384,42 @@ class NotebookDocumentIdentifier(TypedDict):
     """ The notebook document's uri. """
 
 
+class InlineCompletionContext(TypedDict):
+    """ Provides information about the context in which an inline completion was requested.
+
+    @since 3.18.0
+    @proposed """
+    triggerKind: 'InlineCompletionTriggerKind'
+    """ Describes how the inline completion was triggered. """
+    selectedCompletionInfo: NotRequired['SelectedCompletionInfo']
+    """ Provides information about the currently selected item in the autocomplete widget if it is visible. """
+
+
+class StringValue(TypedDict):
+    """ A string value used as a snippet is a template which allows to insert text
+    and to control the editor cursor when insertion happens.
+
+    A snippet can define tab stops and placeholders with `$1`, `$2`
+    and `${3:foo}`. `$0` defines the final tab stop, it defaults to
+    the end of the snippet. Variables are defined with `$name` and
+    `${name:default value}`.
+
+    @since 3.18.0
+    @proposed """
+    kind: Literal['snippet']
+    """ The kind of string value. """
+    value: str
+    """ The snippet string. """
+
+
+class InlineCompletionOptions(TypedDict):
+    """ Inline completion options used during static registration.
+
+    @since 3.18.0
+    @proposed """
+    workDoneProgress: NotRequired[bool]
+
+
 class Registration(TypedDict):
     """ General parameters to register for a notification or to register a provider. """
     id: str
@@ -3432,6 +3552,11 @@ class ServerCapabilities(TypedDict):
     """ The server has support for pull model diagnostics.
 
     @since 3.17.0 """
+    inlineCompletionProvider: NotRequired[Union[bool, 'InlineCompletionOptions']]
+    """ Inline completion options used during static registration.
+
+    @since 3.18.0
+    @proposed """
     workspace: NotRequired['__ServerCapabilities_workspace_Type_1']
     """ Workspace specific server capabilities. """
     experimental: NotRequired['LSPAny']
@@ -3766,6 +3891,11 @@ class DocumentFormattingOptions(TypedDict):
 
 class DocumentRangeFormattingOptions(TypedDict):
     """ Provider options for a {@link DocumentRangeFormattingRequest}. """
+    rangesSupport: NotRequired[bool]
+    """ Whether the server supports formatting multiple ranges at once.
+
+    @since 3.18.0
+    @proposed """
     workDoneProgress: NotRequired[bool]
 
 
@@ -3953,6 +4083,17 @@ class NotebookCellArrayChange(TypedDict):
     """ The deleted cells """
     cells: NotRequired[List['NotebookCell']]
     """ The new cells, if any """
+
+
+class SelectedCompletionInfo(TypedDict):
+    """ Describes the currently selected completion item.
+
+    @since 3.18.0
+    @proposed """
+    range: 'Range'
+    """ The range that will be replaced if this completion item is accepted. """
+    text: str
+    """ The text the range will be replaced with if this completion is accepted. """
 
 
 class ClientCapabilities(TypedDict):
@@ -4275,6 +4416,11 @@ class TextDocumentClientCapabilities(TypedDict):
     """ Capabilities specific to the diagnostic pull model.
 
     @since 3.17.0 """
+    inlineCompletion: NotRequired['InlineCompletionClientCapabilities']
+    """ Client capabilities specific to inline completions.
+
+    @since 3.18.0
+    @proposed """
 
 
 class NotebookDocumentClientCapabilities(TypedDict):
@@ -4731,6 +4877,11 @@ class DocumentRangeFormattingClientCapabilities(TypedDict):
     """ Client capabilities of a {@link DocumentRangeFormattingRequest}. """
     dynamicRegistration: NotRequired[bool]
     """ Whether range formatting supports dynamic registration. """
+    rangesSupport: NotRequired[bool]
+    """ Whether the client supports formatting multiple ranges at once.
+
+    @since 3.18.0
+    @proposed """
 
 
 class DocumentOnTypeFormattingClientCapabilities(TypedDict):
@@ -4931,6 +5082,15 @@ class DiagnosticClientCapabilities(TypedDict):
     return value for the corresponding server capability as well. """
     relatedDocumentSupport: NotRequired[bool]
     """ Whether the clients supports related documents for document diagnostic pulls. """
+
+
+class InlineCompletionClientCapabilities(TypedDict):
+    """ Client capabilities specific to inline completions.
+
+    @since 3.18.0
+    @proposed """
+    dynamicRegistration: NotRequired[bool]
+    """ Whether implementation supports dynamic registration for inline completion providers. """
 
 
 class NotebookDocumentSyncClientCapabilities(TypedDict):
