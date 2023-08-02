@@ -400,6 +400,17 @@ class MarkupKind(Enum):
     """ Markdown is supported as a content format """
 
 
+class InlineCompletionTriggerKind(IntEnum):
+    """ Describes how an {@link InlineCompletionItemProvider inline completion provider} was triggered.
+
+    @since 3.18.0
+    @proposed """
+    Invoked = 0
+    """ Completion was triggered explicitly by a user gesture. """
+    Automatic = 1
+    """ Completion was triggered automatically while editing. """
+
+
 class PositionEncodingKind(Enum):
     """ A set of predefined position encoding kinds.
 
@@ -1670,6 +1681,63 @@ DidCloseNotebookDocumentParams = TypedDict('DidCloseNotebookDocumentParams', {
 @since 3.17.0 """
 
 
+InlineCompletionParams = TypedDict('InlineCompletionParams', {
+    # Additional information about the context in which inline completions were
+    # requested.
+    'context': 'InlineCompletionContext',
+    # The text document.
+    'textDocument': 'TextDocumentIdentifier',
+    # The position inside the text document.
+    'position': 'Position',
+    # An optional token that a server can use to report work done progress.
+    'workDoneToken': NotRequired['ProgressToken'],
+})
+""" A parameter literal used in inline completion requests.
+
+@since 3.18.0
+@proposed """
+
+
+InlineCompletionList = TypedDict('InlineCompletionList', {
+    # The inline completion items
+    'items': List['InlineCompletionItem'],
+})
+""" Represents a collection of {@link InlineCompletionItem inline completion items} to be presented in the editor.
+
+@since 3.18.0
+@proposed """
+
+
+InlineCompletionItem = TypedDict('InlineCompletionItem', {
+    # The text to replace the range with. Must be set.
+    'insertText': Union[str, 'StringValue'],
+    # A text that is used to decide if this inline completion should be shown. When `falsy` the {@link InlineCompletionItem.insertText} is used.
+    'filterText': NotRequired[str],
+    # The range to replace. Must begin and end on the same line.
+    'range': NotRequired['Range'],
+    # An optional {@link Command} that is executed *after* inserting this completion.
+    'command': NotRequired['Command'],
+})
+""" An inline completion item represents a text snippet that is proposed inline to complete text that is being typed.
+
+@since 3.18.0
+@proposed """
+
+
+InlineCompletionRegistrationOptions = TypedDict('InlineCompletionRegistrationOptions', {
+    # A document selector to identify the scope of the registration. If set to null
+    # the document selector provided on the client side will be used.
+    'documentSelector': Union['DocumentSelector', None],
+    # The id used to register the request. The id can be used to deregister
+    # the request again. See also Registration#id.
+    'id': NotRequired[str],
+})
+""" Inline completion options used during static or dynamic registration.
+
+@since 3.18.0
+@proposed """
+
+
 RegistrationParams = TypedDict('RegistrationParams', {
     'registrations': List['Registration'],
 })
@@ -2643,8 +2711,29 @@ DocumentRangeFormattingRegistrationOptions = TypedDict('DocumentRangeFormattingR
     # A document selector to identify the scope of the registration. If set to null
     # the document selector provided on the client side will be used.
     'documentSelector': Union['DocumentSelector', None],
+    # Whether the server supports formatting multiple ranges at once.
+    #
+    # @since 3.18.0
+    # @proposed
+    'rangesSupport': NotRequired[bool],
 })
 """ Registration options for a {@link DocumentRangeFormattingRequest}. """
+
+
+DocumentRangesFormattingParams = TypedDict('DocumentRangesFormattingParams', {
+    # The document to format.
+    'textDocument': 'TextDocumentIdentifier',
+    # The ranges to format
+    'ranges': List['Range'],
+    # The format options
+    'options': 'FormattingOptions',
+    # An optional token that a server can use to report work done progress.
+    'workDoneToken': NotRequired['ProgressToken'],
+})
+""" The parameters of a {@link DocumentRangesFormattingRequest}.
+
+@since 3.18.0
+@proposed """
 
 
 DocumentOnTypeFormattingParams = TypedDict('DocumentOnTypeFormattingParams', {
@@ -3501,6 +3590,45 @@ NotebookDocumentIdentifier = TypedDict('NotebookDocumentIdentifier', {
 @since 3.17.0 """
 
 
+InlineCompletionContext = TypedDict('InlineCompletionContext', {
+    # Describes how the inline completion was triggered.
+    'triggerKind': 'InlineCompletionTriggerKind',
+    # Provides information about the currently selected item in the autocomplete widget if it is visible.
+    'selectedCompletionInfo': NotRequired['SelectedCompletionInfo'],
+})
+""" Provides information about the context in which an inline completion was requested.
+
+@since 3.18.0
+@proposed """
+
+
+StringValue = TypedDict('StringValue', {
+    # The kind of string value.
+    'kind': Literal['snippet'],
+    # The snippet string.
+    'value': str,
+})
+""" A string value used as a snippet is a template which allows to insert text
+and to control the editor cursor when insertion happens.
+
+A snippet can define tab stops and placeholders with `$1`, `$2`
+and `${3:foo}`. `$0` defines the final tab stop, it defaults to
+the end of the snippet. Variables are defined with `$name` and
+`${name:default value}`.
+
+@since 3.18.0
+@proposed """
+
+
+InlineCompletionOptions = TypedDict('InlineCompletionOptions', {
+    'workDoneProgress': NotRequired[bool],
+})
+""" Inline completion options used during static registration.
+
+@since 3.18.0
+@proposed """
+
+
 Registration = TypedDict('Registration', {
     # The id used to register the request. The id can be used to deregister
     # the request again.
@@ -3634,6 +3762,11 @@ ServerCapabilities = TypedDict('ServerCapabilities', {
     #
     # @since 3.17.0
     'diagnosticProvider': NotRequired[Union['DiagnosticOptions', 'DiagnosticRegistrationOptions']],
+    # Inline completion options used during static registration.
+    #
+    # @since 3.18.0
+    # @proposed
+    'inlineCompletionProvider': NotRequired[Union[bool, 'InlineCompletionOptions']],
     # Workspace specific server capabilities.
     'workspace': NotRequired['__ServerCapabilities_workspace_Type_1'],
     # Experimental server capabilities.
@@ -3996,6 +4129,11 @@ DocumentFormattingOptions = TypedDict('DocumentFormattingOptions', {
 
 
 DocumentRangeFormattingOptions = TypedDict('DocumentRangeFormattingOptions', {
+    # Whether the server supports formatting multiple ranges at once.
+    #
+    # @since 3.18.0
+    # @proposed
+    'rangesSupport': NotRequired[bool],
     'workDoneProgress': NotRequired[bool],
 })
 """ Provider options for a {@link DocumentRangeFormattingRequest}. """
@@ -4200,6 +4338,18 @@ NotebookCellArrayChange = TypedDict('NotebookCellArrayChange', {
 array from state S to S'.
 
 @since 3.17.0 """
+
+
+SelectedCompletionInfo = TypedDict('SelectedCompletionInfo', {
+    # The range that will be replaced if this completion item is accepted.
+    'range': 'Range',
+    # The text the range will be replaced with if this completion is accepted.
+    'text': str,
+})
+""" Describes the currently selected completion item.
+
+@since 3.18.0
+@proposed """
 
 
 ClientCapabilities = TypedDict('ClientCapabilities', {
@@ -4534,6 +4684,11 @@ TextDocumentClientCapabilities = TypedDict('TextDocumentClientCapabilities', {
     #
     # @since 3.17.0
     'diagnostic': NotRequired['DiagnosticClientCapabilities'],
+    # Client capabilities specific to inline completions.
+    #
+    # @since 3.18.0
+    # @proposed
+    'inlineCompletion': NotRequired['InlineCompletionClientCapabilities'],
 })
 """ Text document specific client capabilities. """
 
@@ -5022,6 +5177,11 @@ DocumentFormattingClientCapabilities = TypedDict('DocumentFormattingClientCapabi
 DocumentRangeFormattingClientCapabilities = TypedDict('DocumentRangeFormattingClientCapabilities', {
     # Whether range formatting supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
+    # Whether the client supports formatting multiple ranges at once.
+    #
+    # @since 3.18.0
+    # @proposed
+    'rangesSupport': NotRequired[bool],
 })
 """ Client capabilities of a {@link DocumentRangeFormattingRequest}. """
 
@@ -5237,6 +5397,16 @@ DiagnosticClientCapabilities = TypedDict('DiagnosticClientCapabilities', {
 """ Client capabilities specific to diagnostic pull requests.
 
 @since 3.17.0 """
+
+
+InlineCompletionClientCapabilities = TypedDict('InlineCompletionClientCapabilities', {
+    # Whether implementation supports dynamic registration for inline completion providers.
+    'dynamicRegistration': NotRequired[bool],
+})
+""" Client capabilities specific to inline completions.
+
+@since 3.18.0
+@proposed """
 
 
 NotebookDocumentSyncClientCapabilities = TypedDict('NotebookDocumentSyncClientCapabilities', {
