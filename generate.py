@@ -11,6 +11,7 @@ from utils.helpers import get_new_literal_structures, reset_new_literal_structur
 
 ENUM_OVERRIDES = {
     'CodeActionKind': 'StrEnum',
+    'FoldingRangeKind': 'StrEnum',
     'WatchKind': 'IntFlag',
 }  # type: Dict[str, Literal['StrEnum', 'IntFlag']]
 
