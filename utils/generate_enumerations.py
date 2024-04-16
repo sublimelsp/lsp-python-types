@@ -27,10 +27,10 @@ def format_enumeration_values(values: List[EnumerationEntry], kind: EnumKind) ->
     return f"\n{indentation}".join(result)
 
 
-def format_enumeration_literal_values(values: List[EnumerationEntry], kind: EnumKind) -> str:
+def format_enumeration_literal_values(values: List[EnumerationEntry]) -> str:
     result: List[str] = []
     for v in values:
-        value = f"'{v['value']}'" if kind == EnumKind.String else str(v['value'])
+        value = f"'{v['value']}'"
         result.append(value)
     return f", ".join(result)
 
@@ -53,7 +53,7 @@ def generate_enumerations(enumerations: List[Enumeration], overrides: Dict[str, 
 
         # add Literal types only for strings
         if kind == EnumKind.String:
-            litearal_values = format_enumeration_literal_values(enumeration['values'], kind)
+            litearal_values = format_enumeration_literal_values(enumeration['values'])
             documentation = format_comment(enumeration.get('documentation'), '')
             result += f"\n\n{symbol_name}Literal = Literal[{litearal_values}]"
             if documentation:
