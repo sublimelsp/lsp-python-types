@@ -5850,4 +5850,3 @@ class ClientSemanticTokensRequestFullDelta(TypedDict):
     delta: NotRequired[bool]
     """ The client will send the `textDocument/semanticTokens/full/delta` request if
     the server provides a corresponding handler. """
-

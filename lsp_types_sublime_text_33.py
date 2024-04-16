@@ -6221,4 +6221,3 @@ ClientSemanticTokensRequestFullDelta = TypedDict('ClientSemanticTokensRequestFul
 })
 """ @since 3.18.0
 @proposed """
-
