@@ -15,6 +15,7 @@ ENUM_OVERRIDES = {
     'FailureHandlingKind': 'StrEnum',
     'FileOperationPatternKind': 'StrEnum',
     'FoldingRangeKind': 'StrEnum',
+    'LanguageKind': 'StrEnum',
     'MarkupKind': 'StrEnum',
     'MonikerKind': 'StrEnum',
     'PositionEncodingKind': 'StrEnum',
