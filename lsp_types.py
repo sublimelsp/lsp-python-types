@@ -46,6 +46,14 @@ class SemanticTokenTypes(StrEnum):
     """ @since 3.17.0 """
 
 
+SemanticTokenTypesLiteral = Literal['namespace', 'type', 'class', 'enum', 'interface', 'struct', 'typeParameter', 'parameter', 'variable', 'property', 'enumMember', 'event', 'function', 'method', 'macro', 'keyword', 'modifier', 'comment', 'string', 'number', 'regexp', 'operator', 'decorator']
+""" A set of predefined token types. This set is not fixed
+an clients can specify additional token types via the
+corresponding client capabilities.
+
+@since 3.16.0 """
+
+
 class SemanticTokenModifiers(StrEnum):
     """ A set of predefined token modifiers. This set is not fixed
     an clients can specify additional token types via the
@@ -64,6 +72,14 @@ class SemanticTokenModifiers(StrEnum):
     DefaultLibrary = 'defaultLibrary'
 
 
+SemanticTokenModifiersLiteral = Literal['declaration', 'definition', 'readonly', 'static', 'deprecated', 'abstract', 'async', 'modification', 'documentation', 'defaultLibrary']
+""" A set of predefined token modifiers. This set is not fixed
+an clients can specify additional token types via the
+corresponding client capabilities.
+
+@since 3.16.0 """
+
+
 class DocumentDiagnosticReportKind(StrEnum):
     """ The document diagnostic report kinds.
 
@@ -74,6 +90,12 @@ class DocumentDiagnosticReportKind(StrEnum):
     Unchanged = 'unchanged'
     """ A report indicating that the last
     returned report is still accurate. """
+
+
+DocumentDiagnosticReportKindLiteral = Literal['full', 'unchanged']
+""" The document diagnostic report kinds.
+
+@since 3.17.0 """
 
 
 class ErrorCodes(IntEnum):
@@ -125,6 +147,10 @@ class FoldingRangeKind(StrEnum):
     """ Folding range for an import or include """
     Region = 'region'
     """ Folding range for a region (e.g. `#region`) """
+
+
+FoldingRangeKindLiteral = Literal['comment', 'imports', 'region']
+""" A set of predefined range kinds. """
 
 
 class SymbolKind(IntEnum):
@@ -181,6 +207,12 @@ class UniquenessLevel(StrEnum):
     """ The moniker is globally unique """
 
 
+UniquenessLevelLiteral = Literal['document', 'project', 'group', 'scheme', 'global']
+""" Moniker uniqueness level to define scope of the moniker.
+
+@since 3.16.0 """
+
+
 class MonikerKind(StrEnum):
     """ The moniker kind.
 
@@ -192,6 +224,12 @@ class MonikerKind(StrEnum):
     Local = 'local'
     """ The moniker represents a symbol that is local to a project (e.g. a local
     variable of a function, a class not visible outside the project, ...) """
+
+
+MonikerKindLiteral = Literal['import', 'export', 'local']
+""" The moniker kind.
+
+@since 3.16.0 """
 
 
 class InlayHintKind(IntEnum):
@@ -396,6 +434,10 @@ class CodeActionKind(StrEnum):
     @since 3.15.0 """
 
 
+CodeActionKindLiteral = Literal['', 'quickfix', 'refactor', 'refactor.extract', 'refactor.inline', 'refactor.move', 'refactor.rewrite', 'source', 'source.organizeImports', 'source.fixAll']
+""" A set of predefined code action kinds """
+
+
 class TraceValue(Enum):
     Off = 'off'
     """ Turn tracing off. """
@@ -404,6 +446,8 @@ class TraceValue(Enum):
     Verbose = 'verbose'
     """ Verbose message tracing. """
 
+
+TraceValueLiteral = Literal['off', 'messages', 'verbose']
 
 class MarkupKind(StrEnum):
     """ Describes the content type that a client supports in various
@@ -415,6 +459,14 @@ class MarkupKind(StrEnum):
     """ Plain text is supported as a content format """
     Markdown = 'markdown'
     """ Markdown is supported as a content format """
+
+
+MarkupKindLiteral = Literal['plaintext', 'markdown']
+""" Describes the content type that a client supports in various
+result literals like `Hover`, `ParameterInfo` or `CompletionItem`.
+
+Please note that `MarkupKinds` must not start with a `$`. This kinds
+are reserved for internal usage. """
 
 
 class LanguageKind(StrEnum):
@@ -489,6 +541,12 @@ class LanguageKind(StrEnum):
     YAML = 'yaml'
 
 
+LanguageKindLiteral = Literal['abap', 'bat', 'bibtex', 'clojure', 'coffeescript', 'c', 'cpp', 'csharp', 'css', 'd', 'pascal', 'diff', 'dart', 'dockerfile', 'elixir', 'erlang', 'fsharp', 'git-commit', 'rebase', 'go', 'groovy', 'handlebars', 'html', 'ini', 'java', 'javascript', 'javascriptreact', 'json', 'latex', 'less', 'lua', 'makefile', 'markdown', 'objective-c', 'objective-cpp', 'pascal', 'perl', 'perl6', 'php', 'powershell', 'jade', 'python', 'r', 'razor', 'ruby', 'rust', 'scss', 'sass', 'scala', 'shaderlab', 'shellscript', 'sql', 'swift', 'typescript', 'typescriptreact', 'tex', 'vb', 'xml', 'xsl', 'yaml']
+""" Predefined Language kinds
+@since 3.18.0
+@proposed """
+
+
 class InlineCompletionTriggerKind(IntEnum):
     """ Describes how an {@link InlineCompletionItemProvider inline completion provider} was triggered.
 
@@ -517,6 +575,12 @@ class PositionEncodingKind(StrEnum):
     Implementation note: these are the same as Unicode codepoints,
     so this `PositionEncodingKind` may also be used for an
     encoding-agnostic representation of character offsets. """
+
+
+PositionEncodingKindLiteral = Literal['utf-8', 'utf-16', 'utf-32']
+""" A set of predefined position encoding kinds.
+
+@since 3.17.0 """
 
 
 class FileChangeType(IntEnum):
@@ -613,6 +677,13 @@ class FileOperationPatternKind(StrEnum):
     """ The pattern matches a folder only. """
 
 
+FileOperationPatternKindLiteral = Literal['file', 'folder']
+""" A pattern kind describing if a glob pattern matches a file a folder or
+both.
+
+@since 3.16.0 """
+
+
 class NotebookCellKind(IntEnum):
     """ A notebook cell kind.
 
@@ -632,6 +703,8 @@ class ResourceOperationKind(StrEnum):
     """ Supports deleting existing files and folders. """
 
 
+ResourceOperationKindLiteral = Literal['create', 'rename', 'delete']
+
 class FailureHandlingKind(StrEnum):
     Abort = 'abort'
     """ Applying the workspace change is simply aborted if one of the changes provided
@@ -648,6 +721,8 @@ class FailureHandlingKind(StrEnum):
     guarantee that this is succeeding. """
 
 
+FailureHandlingKindLiteral = Literal['abort', 'transactional', 'textOnlyTransactional', 'undo']
+
 class PrepareSupportDefaultBehavior(IntEnum):
     Identifier = 1
     """ The client's default behavior is to select the identifier
@@ -656,6 +731,9 @@ class PrepareSupportDefaultBehavior(IntEnum):
 
 class TokenFormat(StrEnum):
     Relative = 'relative'
+
+
+TokenFormatLiteral = Literal['relative']
 
 
 Definition = Union['Location', List['Location']]
@@ -5850,3 +5928,4 @@ class ClientSemanticTokensRequestFullDelta(TypedDict):
     delta: NotRequired[bool]
     """ The client will send the `textDocument/semanticTokens/full/delta` request if
     the server provides a corresponding handler. """
+
