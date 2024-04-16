@@ -12,7 +12,7 @@ Uint = int
 RegExp = str
 
 
-class SemanticTokenTypes(Enum):
+class SemanticTokenTypes(StrEnum):
     """ A set of predefined token types. This set is not fixed
     an clients can specify additional token types via the
     corresponding client capabilities.
@@ -46,7 +46,7 @@ class SemanticTokenTypes(Enum):
     """ @since 3.17.0 """
 
 
-class SemanticTokenModifiers(Enum):
+class SemanticTokenModifiers(StrEnum):
     """ A set of predefined token modifiers. This set is not fixed
     an clients can specify additional token types via the
     corresponding client capabilities.
@@ -64,7 +64,7 @@ class SemanticTokenModifiers(Enum):
     DefaultLibrary = 'defaultLibrary'
 
 
-class DocumentDiagnosticReportKind(Enum):
+class DocumentDiagnosticReportKind(StrEnum):
     """ The document diagnostic report kinds.
 
     @since 3.17.0 """
@@ -165,7 +165,7 @@ class SymbolTag(IntEnum):
     """ Render a symbol as obsolete, usually using a strike-out. """
 
 
-class UniquenessLevel(Enum):
+class UniquenessLevel(StrEnum):
     """ Moniker uniqueness level to define scope of the moniker.
 
     @since 3.16.0 """
@@ -181,7 +181,7 @@ class UniquenessLevel(Enum):
     """ The moniker is globally unique """
 
 
-class MonikerKind(Enum):
+class MonikerKind(StrEnum):
     """ The moniker kind.
 
     @since 3.16.0 """
@@ -405,7 +405,7 @@ class TraceValue(Enum):
     """ Verbose message tracing. """
 
 
-class MarkupKind(Enum):
+class MarkupKind(StrEnum):
     """ Describes the content type that a client supports in various
     result literals like `Hover`, `ParameterInfo` or `CompletionItem`.
 
@@ -417,7 +417,7 @@ class MarkupKind(Enum):
     """ Markdown is supported as a content format """
 
 
-class LanguageKind(Enum):
+class LanguageKind(StrEnum):
     """ Predefined Language kinds
     @since 3.18.0
     @proposed """
@@ -500,7 +500,7 @@ class InlineCompletionTriggerKind(IntEnum):
     """ Completion was triggered automatically while editing. """
 
 
-class PositionEncodingKind(Enum):
+class PositionEncodingKind(StrEnum):
     """ A set of predefined position encoding kinds.
 
     @since 3.17.0 """
@@ -602,7 +602,7 @@ class CodeActionTriggerKind(IntEnum):
     also be triggered when file content changes. """
 
 
-class FileOperationPatternKind(Enum):
+class FileOperationPatternKind(StrEnum):
     """ A pattern kind describing if a glob pattern matches a file a folder or
     both.
 
@@ -623,7 +623,7 @@ class NotebookCellKind(IntEnum):
     """ A code-cell is source code. """
 
 
-class ResourceOperationKind(Enum):
+class ResourceOperationKind(StrEnum):
     Create = 'create'
     """ Supports creating new files and folders. """
     Rename = 'rename'
@@ -632,7 +632,7 @@ class ResourceOperationKind(Enum):
     """ Supports deleting existing files and folders. """
 
 
-class FailureHandlingKind(Enum):
+class FailureHandlingKind(StrEnum):
     Abort = 'abort'
     """ Applying the workspace change is simply aborted if one of the changes provided
     fails. All operations executed before the failing operation stay executed. """
@@ -654,7 +654,7 @@ class PrepareSupportDefaultBehavior(IntEnum):
     according the to language's syntax rule. """
 
 
-class TokenFormat(Enum):
+class TokenFormat(StrEnum):
     Relative = 'relative'
 
 
