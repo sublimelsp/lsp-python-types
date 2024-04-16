@@ -12,6 +12,14 @@ Uint = int
 RegExp = str
 
 
+SemanticTokenTypesLiteral = Literal['namespace', 'type', 'class', 'enum', 'interface', 'struct', 'typeParameter', 'parameter', 'variable', 'property', 'enumMember', 'event', 'function', 'method', 'macro', 'keyword', 'modifier', 'comment', 'string', 'number', 'regexp', 'operator', 'decorator']
+""" A set of predefined token types. This set is not fixed
+an clients can specify additional token types via the
+corresponding client capabilities.
+
+@since 3.16.0 """
+
+
 class SemanticTokenTypes(StrEnum):
     """ A set of predefined token types. This set is not fixed
     an clients can specify additional token types via the
@@ -46,8 +54,8 @@ class SemanticTokenTypes(StrEnum):
     """ @since 3.17.0 """
 
 
-SemanticTokenTypesLiteral = Literal['namespace', 'type', 'class', 'enum', 'interface', 'struct', 'typeParameter', 'parameter', 'variable', 'property', 'enumMember', 'event', 'function', 'method', 'macro', 'keyword', 'modifier', 'comment', 'string', 'number', 'regexp', 'operator', 'decorator']
-""" A set of predefined token types. This set is not fixed
+SemanticTokenModifiersLiteral = Literal['declaration', 'definition', 'readonly', 'static', 'deprecated', 'abstract', 'async', 'modification', 'documentation', 'defaultLibrary']
+""" A set of predefined token modifiers. This set is not fixed
 an clients can specify additional token types via the
 corresponding client capabilities.
 
@@ -72,12 +80,10 @@ class SemanticTokenModifiers(StrEnum):
     DefaultLibrary = 'defaultLibrary'
 
 
-SemanticTokenModifiersLiteral = Literal['declaration', 'definition', 'readonly', 'static', 'deprecated', 'abstract', 'async', 'modification', 'documentation', 'defaultLibrary']
-""" A set of predefined token modifiers. This set is not fixed
-an clients can specify additional token types via the
-corresponding client capabilities.
+DocumentDiagnosticReportKindLiteral = Literal['full', 'unchanged']
+""" The document diagnostic report kinds.
 
-@since 3.16.0 """
+@since 3.17.0 """
 
 
 class DocumentDiagnosticReportKind(StrEnum):
@@ -90,12 +96,6 @@ class DocumentDiagnosticReportKind(StrEnum):
     Unchanged = 'unchanged'
     """ A report indicating that the last
     returned report is still accurate. """
-
-
-DocumentDiagnosticReportKindLiteral = Literal['full', 'unchanged']
-""" The document diagnostic report kinds.
-
-@since 3.17.0 """
 
 
 class ErrorCodes(IntEnum):
@@ -139,6 +139,10 @@ class LSPErrorCodes(IntEnum):
     the cancel. """
 
 
+FoldingRangeKindLiteral = Literal['comment', 'imports', 'region']
+""" A set of predefined range kinds. """
+
+
 class FoldingRangeKind(StrEnum):
     """ A set of predefined range kinds. """
     Comment = 'comment'
@@ -147,10 +151,6 @@ class FoldingRangeKind(StrEnum):
     """ Folding range for an import or include """
     Region = 'region'
     """ Folding range for a region (e.g. `#region`) """
-
-
-FoldingRangeKindLiteral = Literal['comment', 'imports', 'region']
-""" A set of predefined range kinds. """
 
 
 class SymbolKind(IntEnum):
@@ -191,6 +191,12 @@ class SymbolTag(IntEnum):
     """ Render a symbol as obsolete, usually using a strike-out. """
 
 
+UniquenessLevelLiteral = Literal['document', 'project', 'group', 'scheme', 'global']
+""" Moniker uniqueness level to define scope of the moniker.
+
+@since 3.16.0 """
+
+
 class UniquenessLevel(StrEnum):
     """ Moniker uniqueness level to define scope of the moniker.
 
@@ -207,8 +213,8 @@ class UniquenessLevel(StrEnum):
     """ The moniker is globally unique """
 
 
-UniquenessLevelLiteral = Literal['document', 'project', 'group', 'scheme', 'global']
-""" Moniker uniqueness level to define scope of the moniker.
+MonikerKindLiteral = Literal['import', 'export', 'local']
+""" The moniker kind.
 
 @since 3.16.0 """
 
@@ -224,12 +230,6 @@ class MonikerKind(StrEnum):
     Local = 'local'
     """ The moniker represents a symbol that is local to a project (e.g. a local
     variable of a function, a class not visible outside the project, ...) """
-
-
-MonikerKindLiteral = Literal['import', 'export', 'local']
-""" The moniker kind.
-
-@since 3.16.0 """
 
 
 class InlayHintKind(IntEnum):
@@ -369,6 +369,10 @@ class DocumentHighlightKind(IntEnum):
     """ Write-access of a symbol, like writing to a variable. """
 
 
+CodeActionKindLiteral = Literal['', 'quickfix', 'refactor', 'refactor.extract', 'refactor.inline', 'refactor.move', 'refactor.rewrite', 'source', 'source.organizeImports', 'source.fixAll', 'notebook']
+""" A set of predefined code action kinds """
+
+
 class CodeActionKind(StrEnum):
     """ A set of predefined code action kinds """
     Empty = ''
@@ -439,8 +443,7 @@ class CodeActionKind(StrEnum):
     @since 3.18.0 """
 
 
-CodeActionKindLiteral = Literal['', 'quickfix', 'refactor', 'refactor.extract', 'refactor.inline', 'refactor.move', 'refactor.rewrite', 'source', 'source.organizeImports', 'source.fixAll', 'notebook']
-""" A set of predefined code action kinds """
+TraceValueLiteral = Literal['off', 'messages', 'verbose']
 
 
 class TraceValue(Enum):
@@ -452,7 +455,13 @@ class TraceValue(Enum):
     """ Verbose message tracing. """
 
 
-TraceValueLiteral = Literal['off', 'messages', 'verbose']
+MarkupKindLiteral = Literal['plaintext', 'markdown']
+""" Describes the content type that a client supports in various
+result literals like `Hover`, `ParameterInfo` or `CompletionItem`.
+
+Please note that `MarkupKinds` must not start with a `$`. This kinds
+are reserved for internal usage. """
+
 
 class MarkupKind(StrEnum):
     """ Describes the content type that a client supports in various
@@ -466,12 +475,10 @@ class MarkupKind(StrEnum):
     """ Markdown is supported as a content format """
 
 
-MarkupKindLiteral = Literal['plaintext', 'markdown']
-""" Describes the content type that a client supports in various
-result literals like `Hover`, `ParameterInfo` or `CompletionItem`.
-
-Please note that `MarkupKinds` must not start with a `$`. This kinds
-are reserved for internal usage. """
+LanguageKindLiteral = Literal['abap', 'bat', 'bibtex', 'clojure', 'coffeescript', 'c', 'cpp', 'csharp', 'css', 'd', 'pascal', 'diff', 'dart', 'dockerfile', 'elixir', 'erlang', 'fsharp', 'git-commit', 'rebase', 'go', 'groovy', 'handlebars', 'haskell', 'html', 'ini', 'java', 'javascript', 'javascriptreact', 'json', 'latex', 'less', 'lua', 'makefile', 'markdown', 'objective-c', 'objective-cpp', 'pascal', 'perl', 'perl6', 'php', 'powershell', 'jade', 'python', 'r', 'razor', 'ruby', 'rust', 'scss', 'sass', 'scala', 'shaderlab', 'shellscript', 'sql', 'swift', 'typescript', 'typescriptreact', 'tex', 'vb', 'xml', 'xsl', 'yaml']
+""" Predefined Language kinds
+@since 3.18.0
+@proposed """
 
 
 class LanguageKind(StrEnum):
@@ -547,12 +554,6 @@ class LanguageKind(StrEnum):
     YAML = 'yaml'
 
 
-LanguageKindLiteral = Literal['abap', 'bat', 'bibtex', 'clojure', 'coffeescript', 'c', 'cpp', 'csharp', 'css', 'd', 'pascal', 'diff', 'dart', 'dockerfile', 'elixir', 'erlang', 'fsharp', 'git-commit', 'rebase', 'go', 'groovy', 'handlebars', 'haskell', 'html', 'ini', 'java', 'javascript', 'javascriptreact', 'json', 'latex', 'less', 'lua', 'makefile', 'markdown', 'objective-c', 'objective-cpp', 'pascal', 'perl', 'perl6', 'php', 'powershell', 'jade', 'python', 'r', 'razor', 'ruby', 'rust', 'scss', 'sass', 'scala', 'shaderlab', 'shellscript', 'sql', 'swift', 'typescript', 'typescriptreact', 'tex', 'vb', 'xml', 'xsl', 'yaml']
-""" Predefined Language kinds
-@since 3.18.0
-@proposed """
-
-
 class InlineCompletionTriggerKind(IntEnum):
     """ Describes how an {@link InlineCompletionItemProvider inline completion provider} was triggered.
 
@@ -562,6 +563,12 @@ class InlineCompletionTriggerKind(IntEnum):
     """ Completion was triggered explicitly by a user gesture. """
     Automatic = 2
     """ Completion was triggered automatically while editing. """
+
+
+PositionEncodingKindLiteral = Literal['utf-8', 'utf-16', 'utf-32']
+""" A set of predefined position encoding kinds.
+
+@since 3.17.0 """
 
 
 class PositionEncodingKind(StrEnum):
@@ -581,12 +588,6 @@ class PositionEncodingKind(StrEnum):
     Implementation note: these are the same as Unicode codepoints,
     so this `PositionEncodingKind` may also be used for an
     encoding-agnostic representation of character offsets. """
-
-
-PositionEncodingKindLiteral = Literal['utf-8', 'utf-16', 'utf-32']
-""" A set of predefined position encoding kinds.
-
-@since 3.17.0 """
 
 
 class FileChangeType(IntEnum):
@@ -672,6 +673,13 @@ class CodeActionTriggerKind(IntEnum):
     also be triggered when file content changes. """
 
 
+FileOperationPatternKindLiteral = Literal['file', 'folder']
+""" A pattern kind describing if a glob pattern matches a file a folder or
+both.
+
+@since 3.16.0 """
+
+
 class FileOperationPatternKind(StrEnum):
     """ A pattern kind describing if a glob pattern matches a file a folder or
     both.
@@ -681,13 +689,6 @@ class FileOperationPatternKind(StrEnum):
     """ The pattern matches a file only. """
     Folder = 'folder'
     """ The pattern matches a folder only. """
-
-
-FileOperationPatternKindLiteral = Literal['file', 'folder']
-""" A pattern kind describing if a glob pattern matches a file a folder or
-both.
-
-@since 3.16.0 """
 
 
 class NotebookCellKind(IntEnum):
@@ -700,6 +701,9 @@ class NotebookCellKind(IntEnum):
     """ A code-cell is source code. """
 
 
+ResourceOperationKindLiteral = Literal['create', 'rename', 'delete']
+
+
 class ResourceOperationKind(StrEnum):
     Create = 'create'
     """ Supports creating new files and folders. """
@@ -709,7 +713,8 @@ class ResourceOperationKind(StrEnum):
     """ Supports deleting existing files and folders. """
 
 
-ResourceOperationKindLiteral = Literal['create', 'rename', 'delete']
+FailureHandlingKindLiteral = Literal['abort', 'transactional', 'textOnlyTransactional', 'undo']
+
 
 class FailureHandlingKind(StrEnum):
     Abort = 'abort'
@@ -727,19 +732,17 @@ class FailureHandlingKind(StrEnum):
     guarantee that this is succeeding. """
 
 
-FailureHandlingKindLiteral = Literal['abort', 'transactional', 'textOnlyTransactional', 'undo']
-
 class PrepareSupportDefaultBehavior(IntEnum):
     Identifier = 1
     """ The client's default behavior is to select the identifier
     according the to language's syntax rule. """
 
 
+TokenFormatLiteral = Literal['relative']
+
+
 class TokenFormat(StrEnum):
     Relative = 'relative'
-
-
-TokenFormatLiteral = Literal['relative']
 
 
 Definition = Union['Location', List['Location']]

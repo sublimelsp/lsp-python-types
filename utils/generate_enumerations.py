@@ -40,8 +40,17 @@ def generate_enumerations(enumerations: List[Enumeration], overrides: Dict[str, 
     def toString(enumeration: Enumeration) -> str:
         result = ''
         symbol_name = enumeration['name']
-        documentation = format_comment(enumeration.get('documentation'), indentation)
         kind = EnumKind.String if enumeration['type']['name'] == 'string' else EnumKind.Number
+
+        # add Literal types only for strings
+        if kind == EnumKind.String:
+            litearal_values = format_enumeration_literal_values(enumeration['values'])
+            documentation = format_comment(enumeration.get('documentation'), '')
+            result += f"{symbol_name}Literal = Literal[{litearal_values}]\n"
+            if documentation:
+                result += f"{documentation}\n"
+            result += '\n\n'
+        documentation = format_comment(enumeration.get('documentation'), indentation)
         enum_class_override = overrides.get(symbol_name)
         enum_class = enum_class_override or ('Enum' if kind == EnumKind.String else 'IntEnum')
         values = format_enumeration_values(enumeration['values'], kind)
@@ -49,15 +58,6 @@ def generate_enumerations(enumerations: List[Enumeration], overrides: Dict[str, 
         if documentation:
             result += f"{documentation}\n"
         result += f'{indentation}' + values
-        result += '\n'
-
-        # add Literal types only for strings
-        if kind == EnumKind.String:
-            litearal_values = format_enumeration_literal_values(enumeration['values'])
-            documentation = format_comment(enumeration.get('documentation'), '')
-            result += f"\n\n{symbol_name}Literal = Literal[{litearal_values}]"
-            if documentation:
-                result += f"\n{documentation}\n"
         return result
 
     return [toString(enumeration) for enumeration in enumerations]

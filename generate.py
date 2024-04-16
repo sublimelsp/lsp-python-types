@@ -49,7 +49,7 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
         ])
 
         content += '\n\n\n'
-        content += '\n\n'.join(generate_enumerations(lsp_json['enumerations'], ENUM_OVERRIDES))
+        content += '\n\n\n'.join(generate_enumerations(lsp_json['enumerations'], ENUM_OVERRIDES))
         content += '\n\n'
         content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], preferred_structure_kind))
         content += '\n\n\n'
