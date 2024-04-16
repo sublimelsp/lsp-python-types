@@ -32,7 +32,7 @@ def format_enumeration_literal_values(values: List[EnumerationEntry]) -> str:
     for v in values:
         value = f"'{v['value']}'"
         result.append(value)
-    return f", ".join(result)
+    return ", ".join(result)
 
 
 def generate_enumerations(enumerations: List[Enumeration], overrides: Dict[str, Literal['StrEnum', 'IntFlag']]) -> List[str]:
