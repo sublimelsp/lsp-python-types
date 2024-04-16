@@ -11,7 +11,19 @@ from utils.helpers import get_new_literal_structures, reset_new_literal_structur
 
 ENUM_OVERRIDES = {
     'CodeActionKind': 'StrEnum',
+    'DocumentDiagnosticReportKind': 'StrEnum',
+    'FailureHandlingKind': 'StrEnum',
+    'FileOperationPatternKind': 'StrEnum',
     'FoldingRangeKind': 'StrEnum',
+    'MarkupKind': 'StrEnum',
+    'MonikerKind': 'StrEnum',
+    'PositionEncodingKind': 'StrEnum',
+    'ResourceOperationKind': 'StrEnum',
+    'SemanticTokenModifiers': 'StrEnum',
+    'SemanticTokenTypes': 'StrEnum',
+    'TokenFormat': 'StrEnum',
+    'TraceValues': 'StrEnum',
+    'UniquenessLevel': 'StrEnum',
     'WatchKind': 'IntFlag',
 }  # type: Dict[str, Literal['StrEnum', 'IntFlag']]
 
