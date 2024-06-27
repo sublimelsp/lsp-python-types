@@ -6326,4 +6326,3 @@ ClientSemanticTokensRequestFullDelta = TypedDict('ClientSemanticTokensRequestFul
     'delta': NotRequired[bool],
 })
 """ @since 3.18.0 """
-
