@@ -394,6 +394,11 @@ class CodeActionKind(StrEnum):
     They should not suppress errors or perform unsafe fixes such as generating new types or classes.
 
     @since 3.15.0 """
+    Notebook = 'notebook'
+    """ Base kind for all code actions applying to the entire notebook's scope. CodeActionKinds using
+    this should always begin with `notebook.`
+
+    @since 3.18.0 """
 
 
 class TraceValue(Enum):
@@ -447,6 +452,7 @@ class LanguageKind(StrEnum):
     Go = 'go'
     Groovy = 'groovy'
     Handlebars = 'handlebars'
+    Haskell = 'haskell'
     HTML = 'html'
     Ini = 'ini'
     Java = 'java'
@@ -2576,6 +2582,11 @@ CodeActionParams = TypedDict('CodeActionParams', {
 Command = TypedDict('Command', {
     # Title of the command, like `save`.
     'title': str,
+    # An optional tooltip.
+    #
+    # @since 3.18.0
+    # @proposed
+    'tooltip': NotRequired[str],
     # The identifier of the actual command handler.
     'command': str,
     # Arguments that the command handler should be
@@ -2648,6 +2659,22 @@ CodeActionRegistrationOptions = TypedDict('CodeActionRegistrationOptions', {
     # The list of kinds may be generic, such as `CodeActionKind.Refactor`, or the server
     # may list out every specific kind they provide.
     'codeActionKinds': NotRequired[List['CodeActionKind']],
+    # Static documentation for a class of code actions.
+    #
+    # Documentation from the provider should be shown in the code actions menu if either:
+    #
+    # - Code actions of `kind` are requested by the editor. In this case, the editor will show the documentation that
+    #   most closely matches the requested code action kind. For example, if a provider has documentation for
+    #   both `Refactor` and `RefactorExtract`, when the user requests code actions for `RefactorExtract`,
+    #   the editor will use the documentation for `RefactorExtract` instead of the documentation for `Refactor`.
+    #
+    # - Any code actions of `kind` are returned by the provider.
+    #
+    # At most one documentation entry should be shown per provider.
+    #
+    # @since 3.18.0
+    # @proposed
+    'documentation': NotRequired[List['CodeActionKindDocumentation']],
     # The server provides support to resolve additional
     # information for a code action.
     #
@@ -2945,6 +2972,11 @@ ApplyWorkspaceEditParams = TypedDict('ApplyWorkspaceEditParams', {
     'label': NotRequired[str],
     # The edits to apply.
     'edit': 'WorkspaceEdit',
+    # Additional data about the edit.
+    #
+    # @since 3.18.0
+    # @proposed
+    'metadata': NotRequired['WorkspaceEditMetadata'],
 })
 """ The parameters passed via an apply workspace edit request. """
 
@@ -3284,7 +3316,10 @@ TextDocumentEdit = TypedDict('TextDocumentEdit', {
     #
     # @since 3.16.0 - support for AnnotatedTextEdit. This is guarded using a
     # client capability.
-    'edits': List[Union['TextEdit', 'AnnotatedTextEdit']],
+    #
+    # @since 3.18.0 - support for SnippetTextEdit. This is guarded using a
+    # client capability.
+    'edits': List[Union['TextEdit', 'AnnotatedTextEdit', 'SnippetTextEdit']],
 })
 """ Describes textual changes on a text document. A TextDocumentEdit describes all changes
 on a document version Si and after they are applied move the document to version Si+1.
@@ -3924,8 +3959,7 @@ ServerInfo = TypedDict('ServerInfo', {
 """ Information about the server
 
 @since 3.15.0
-@since 3.18.0 ServerInfo type name added.
-@proposed """
+@since 3.18.0 ServerInfo type name added. """
 
 
 VersionedTextDocumentIdentifier = TypedDict('VersionedTextDocumentIdentifier', {
@@ -4261,8 +4295,7 @@ CodeActionDisabled = TypedDict('CodeActionDisabled', {
 })
 """ Captures why the code action is currently disabled.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 CodeActionOptions = TypedDict('CodeActionOptions', {
@@ -4271,6 +4304,22 @@ CodeActionOptions = TypedDict('CodeActionOptions', {
     # The list of kinds may be generic, such as `CodeActionKind.Refactor`, or the server
     # may list out every specific kind they provide.
     'codeActionKinds': NotRequired[List['CodeActionKind']],
+    # Static documentation for a class of code actions.
+    #
+    # Documentation from the provider should be shown in the code actions menu if either:
+    #
+    # - Code actions of `kind` are requested by the editor. In this case, the editor will show the documentation that
+    #   most closely matches the requested code action kind. For example, if a provider has documentation for
+    #   both `Refactor` and `RefactorExtract`, when the user requests code actions for `RefactorExtract`,
+    #   the editor will use the documentation for `RefactorExtract` instead of the documentation for `Refactor`.
+    #
+    # - Any code actions of `kind` are returned by the provider.
+    #
+    # At most one documentation entry should be shown per provider.
+    #
+    # @since 3.18.0
+    # @proposed
+    'documentation': NotRequired[List['CodeActionKindDocumentation']],
     # The server provides support to resolve additional
     # information for a code action.
     #
@@ -4286,8 +4335,7 @@ LocationUriOnly = TypedDict('LocationUriOnly', {
 })
 """ Location with only uri and does not include range.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 WorkspaceSymbolOptions = TypedDict('WorkspaceSymbolOptions', {
@@ -4378,15 +4426,13 @@ PrepareRenamePlaceholder = TypedDict('PrepareRenamePlaceholder', {
     'range': 'Range',
     'placeholder': str,
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 PrepareRenameDefaultBehavior = TypedDict('PrepareRenameDefaultBehavior', {
     'defaultBehavior': bool,
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ExecuteCommandOptions = TypedDict('ExecuteCommandOptions', {
@@ -4395,6 +4441,16 @@ ExecuteCommandOptions = TypedDict('ExecuteCommandOptions', {
     'workDoneProgress': NotRequired[bool],
 })
 """ The server capabilities of a {@link ExecuteCommandRequest}. """
+
+
+WorkspaceEditMetadata = TypedDict('WorkspaceEditMetadata', {
+    # Signal to the editor that this edit is a refactoring.
+    'isRefactoring': NotRequired[bool],
+})
+""" Additional data about a workspace edit.
+
+@since 3.18.0
+@proposed """
 
 
 SemanticTokensLegend = TypedDict('SemanticTokensLegend', {
@@ -4412,8 +4468,7 @@ SemanticTokensFullDelta = TypedDict('SemanticTokensFullDelta', {
 })
 """ Semantic tokens options to support deltas for full documents
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 OptionalVersionedTextDocumentIdentifier = TypedDict('OptionalVersionedTextDocumentIdentifier', {
@@ -4442,6 +4497,20 @@ AnnotatedTextEdit = TypedDict('AnnotatedTextEdit', {
 """ A special text edit with an additional change annotation.
 
 @since 3.16.0. """
+
+
+SnippetTextEdit = TypedDict('SnippetTextEdit', {
+    # The range of the text document to be manipulated.
+    'range': 'Range',
+    # The snippet to be inserted.
+    'snippet': 'StringValue',
+    # The actual identifier of the snippet edit.
+    'annotationId': NotRequired['ChangeAnnotationIdentifier'],
+})
+""" An interactive text edit.
+
+@since 3.18.0
+@proposed """
 
 
 ResourceOperation = TypedDict('ResourceOperation', {
@@ -4575,8 +4644,7 @@ NotebookDocumentFilterWithNotebook = TypedDict('NotebookDocumentFilterWithNotebo
     # The cells of the matching notebook to be synced.
     'cells': NotRequired[List['NotebookCellLanguage']],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 NotebookDocumentFilterWithCells = TypedDict('NotebookDocumentFilterWithCells', {
@@ -4587,8 +4655,7 @@ NotebookDocumentFilterWithCells = TypedDict('NotebookDocumentFilterWithCells', {
     # The cells of the matching notebook to be synced.
     'cells': List['NotebookCellLanguage'],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 NotebookDocumentCellChanges = TypedDict('NotebookDocumentCellChanges', {
@@ -4603,8 +4670,7 @@ NotebookDocumentCellChanges = TypedDict('NotebookDocumentCellChanges', {
 })
 """ Cell changes to a notebook document.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 SelectedCompletionInfo = TypedDict('SelectedCompletionInfo', {
@@ -4628,8 +4694,7 @@ ClientInfo = TypedDict('ClientInfo', {
 """ Information about the client
 
 @since 3.15.0
-@since 3.18.0 ClientInfo type name added.
-@proposed """
+@since 3.18.0 ClientInfo type name added. """
 
 
 ClientCapabilities = TypedDict('ClientCapabilities', {
@@ -4684,8 +4749,7 @@ WorkspaceOptions = TypedDict('WorkspaceOptions', {
 })
 """ Defines workspace specific capabilities of the server.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 TextDocumentContentChangePartial = TypedDict('TextDocumentContentChangePartial', {
@@ -4698,16 +4762,14 @@ TextDocumentContentChangePartial = TypedDict('TextDocumentContentChangePartial',
     # The new text for the provided range.
     'text': str,
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 TextDocumentContentChangeWholeDocument = TypedDict('TextDocumentContentChangeWholeDocument', {
     # The new text of the whole document.
     'text': str,
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 CodeDescription = TypedDict('CodeDescription', {
@@ -4736,8 +4798,7 @@ EditRangeWithInsertReplace = TypedDict('EditRangeWithInsertReplace', {
 })
 """ Edit range variant that includes ranges for insert and replace operations.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 ServerCompletionItemOptions = TypedDict('ServerCompletionItemOptions', {
@@ -4748,8 +4809,7 @@ ServerCompletionItemOptions = TypedDict('ServerCompletionItemOptions', {
     # @since 3.17.0
     'labelDetailsSupport': NotRequired[bool],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 MarkedStringWithLanguage = TypedDict('MarkedStringWithLanguage', {
@@ -4757,7 +4817,6 @@ MarkedStringWithLanguage = TypedDict('MarkedStringWithLanguage', {
     'value': str,
 })
 """ @since 3.18.0
-@proposed
 @deprecated use MarkupContent instead. """
 
 
@@ -4768,6 +4827,10 @@ ParameterInformation = TypedDict('ParameterInformation', {
     # signature label. (see SignatureInformation.label). The offsets are based on a UTF-16
     # string representation as `Position` and `Range` does.
     #
+    # To avoid ambiguities a server should use the [start, end] offset value instead of using
+    # a substring. Whether a client support this is controlled via `labelOffsetSupport` client
+    # capability.
+    #
     # *Note*: a label of type string should be a substring of its containing signature label.
     # Its intended use case is to highlight the parameter label part in the `SignatureInformation.label`.
     'label': Union[str, List[Union[Uint, Uint]]],
@@ -4777,6 +4840,24 @@ ParameterInformation = TypedDict('ParameterInformation', {
 })
 """ Represents a parameter of a callable-signature. A parameter can
 have a label and a doc-comment. """
+
+
+CodeActionKindDocumentation = TypedDict('CodeActionKindDocumentation', {
+    # The kind of the code action being documented.
+    #
+    # If the kind is generic, such as `CodeActionKind.Refactor`, the documentation will be shown whenever any
+    # refactorings are returned. If the kind if more specific, such as `CodeActionKind.RefactorExtract`, the
+    # documentation will only be shown when extract refactoring code actions are returned.
+    'kind': 'CodeActionKind',
+    # Command that is ued to display the documentation to the user.
+    #
+    # The title of this documentation code action is taken from {@linkcode Command.title}
+    'command': 'Command',
+})
+""" Documentation for a class of code actions.
+
+@since 3.18.0
+@proposed """
 
 
 NotebookCellTextDocumentFilter = TypedDict('NotebookCellTextDocumentFilter', {
@@ -4820,8 +4901,7 @@ ExecutionSummary = TypedDict('ExecutionSummary', {
 NotebookCellLanguage = TypedDict('NotebookCellLanguage', {
     'language': str,
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 NotebookDocumentCellChangeStructure = TypedDict('NotebookDocumentCellChangeStructure', {
@@ -4834,8 +4914,7 @@ NotebookDocumentCellChangeStructure = TypedDict('NotebookDocumentCellChangeStruc
 })
 """ Structural changes to cells in a notebook document.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 NotebookDocumentCellContentChanges = TypedDict('NotebookDocumentCellContentChanges', {
@@ -4844,8 +4923,7 @@ NotebookDocumentCellContentChanges = TypedDict('NotebookDocumentCellContentChang
 })
 """ Content changes to a cell in a notebook document.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 WorkspaceClientCapabilities = TypedDict('WorkspaceClientCapabilities', {
@@ -5139,8 +5217,7 @@ TextDocumentFilterLanguage = TypedDict('TextDocumentFilterLanguage', {
 })
 """ A document filter where `language` is required field.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 TextDocumentFilterScheme = TypedDict('TextDocumentFilterScheme', {
@@ -5153,8 +5230,7 @@ TextDocumentFilterScheme = TypedDict('TextDocumentFilterScheme', {
 })
 """ A document filter where `scheme` is required field.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 TextDocumentFilterPattern = TypedDict('TextDocumentFilterPattern', {
@@ -5167,8 +5243,7 @@ TextDocumentFilterPattern = TypedDict('TextDocumentFilterPattern', {
 })
 """ A document filter where `pattern` is required field.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 NotebookDocumentFilterNotebookType = TypedDict('NotebookDocumentFilterNotebookType', {
@@ -5181,8 +5256,7 @@ NotebookDocumentFilterNotebookType = TypedDict('NotebookDocumentFilterNotebookTy
 })
 """ A notebook document filter where `notebookType` is required field.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 NotebookDocumentFilterScheme = TypedDict('NotebookDocumentFilterScheme', {
@@ -5195,8 +5269,7 @@ NotebookDocumentFilterScheme = TypedDict('NotebookDocumentFilterScheme', {
 })
 """ A notebook document filter where `scheme` is required field.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 NotebookDocumentFilterPattern = TypedDict('NotebookDocumentFilterPattern', {
@@ -5209,8 +5282,7 @@ NotebookDocumentFilterPattern = TypedDict('NotebookDocumentFilterPattern', {
 })
 """ A notebook document filter where `pattern` is required field.
 
-@since 3.18.0
-@proposed """
+@since 3.18.0 """
 
 
 NotebookCellArrayChange = TypedDict('NotebookCellArrayChange', {
@@ -5253,6 +5325,16 @@ WorkspaceEditClientCapabilities = TypedDict('WorkspaceEditClientCapabilities', {
     #
     # @since 3.16.0
     'changeAnnotationSupport': NotRequired['ChangeAnnotationsSupportOptions'],
+    # Whether the client supports `WorkspaceEditMetadata` in `WorkspaceEdit`s.
+    #
+    # @since 3.18.0
+    # @proposed
+    'metadataSupport': NotRequired[bool],
+    # Whether the client supports snippets as text edits.
+    #
+    # @since 3.18.0
+    # @proposed
+    'snippetEditSupport': NotRequired[bool],
 })
 
 
@@ -5602,6 +5684,12 @@ CodeActionClientCapabilities = TypedDict('CodeActionClientCapabilities', {
     #
     # @since 3.16.0
     'honorsChangeAnnotations': NotRequired[bool],
+    # Whether the client supports documentation for a class of
+    # code actions.
+    #
+    # @since 3.18.0
+    # @proposed
+    'documentationSupport': NotRequired[bool],
 })
 """ The Client Capabilities of a {@link CodeActionRequest}. """
 
@@ -5718,6 +5806,11 @@ SelectionRangeClientCapabilities = TypedDict('SelectionRangeClientCapabilities',
 
 
 PublishDiagnosticsClientCapabilities = TypedDict('PublishDiagnosticsClientCapabilities', {
+    # Whether the client interprets the version property of the
+    # `textDocument/publishDiagnostics` notification's parameter.
+    #
+    # @since 3.15.0
+    'versionSupport': NotRequired[bool],
     # Whether the clients accepts diagnostics with related information.
     'relatedInformation': NotRequired[bool],
     # Client supports the tag property to provide meta data about a diagnostic.
@@ -5725,11 +5818,6 @@ PublishDiagnosticsClientCapabilities = TypedDict('PublishDiagnosticsClientCapabi
     #
     # @since 3.15.0
     'tagSupport': NotRequired['ClientDiagnosticsTagOptions'],
-    # Whether the client interprets the version property of the
-    # `textDocument/publishDiagnostics` notification's parameter.
-    #
-    # @since 3.15.0
-    'versionSupport': NotRequired[bool],
     # Client supports a codeDescription property
     #
     # @since 3.16.0
@@ -5858,6 +5946,23 @@ DiagnosticClientCapabilities = TypedDict('DiagnosticClientCapabilities', {
     'dynamicRegistration': NotRequired[bool],
     # Whether the clients supports related documents for document diagnostic pulls.
     'relatedDocumentSupport': NotRequired[bool],
+    # Whether the clients accepts diagnostics with related information.
+    'relatedInformation': NotRequired[bool],
+    # Client supports the tag property to provide meta data about a diagnostic.
+    # Clients supporting tags have to handle unknown tags gracefully.
+    #
+    # @since 3.15.0
+    'tagSupport': NotRequired['ClientDiagnosticsTagOptions'],
+    # Client supports a codeDescription property
+    #
+    # @since 3.16.0
+    'codeDescriptionSupport': NotRequired[bool],
+    # Whether code action supports the `data` property which is
+    # preserved between a `textDocument/publishDiagnostics` and
+    # `textDocument/codeAction` request.
+    #
+    # @since 3.16.0
+    'dataSupport': NotRequired[bool],
 })
 """ Client capabilities specific to diagnostic pull requests.
 
@@ -5913,8 +6018,7 @@ StaleRequestSupportOptions = TypedDict('StaleRequestSupportOptions', {
     # response with error code `ContentModified`
     'retryOnContentModified': List[str],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 RegularExpressionsClientCapabilities = TypedDict('RegularExpressionsClientCapabilities', {
@@ -5950,8 +6054,7 @@ ChangeAnnotationsSupportOptions = TypedDict('ChangeAnnotationsSupportOptions', {
     # be a tree node.
     'groupsOnLabel': NotRequired[bool],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientSymbolKindOptions = TypedDict('ClientSymbolKindOptions', {
@@ -5965,16 +6068,14 @@ ClientSymbolKindOptions = TypedDict('ClientSymbolKindOptions', {
     # the initial version of the protocol.
     'valueSet': NotRequired[List['SymbolKind']],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientSymbolTagOptions = TypedDict('ClientSymbolTagOptions', {
     # The tags supported by the client.
     'valueSet': List['SymbolTag'],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientSymbolResolveOptions = TypedDict('ClientSymbolResolveOptions', {
@@ -5982,8 +6083,7 @@ ClientSymbolResolveOptions = TypedDict('ClientSymbolResolveOptions', {
     # `location.range`
     'properties': List[str],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientCompletionItemOptions = TypedDict('ClientCompletionItemOptions', {
@@ -6033,8 +6133,7 @@ ClientCompletionItemOptions = TypedDict('ClientCompletionItemOptions', {
     # @since 3.17.0
     'labelDetailsSupport': NotRequired[bool],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientCompletionItemOptionsKind = TypedDict('ClientCompletionItemOptionsKind', {
@@ -6048,8 +6147,7 @@ ClientCompletionItemOptionsKind = TypedDict('ClientCompletionItemOptionsKind', {
     # the initial version of the protocol.
     'valueSet': NotRequired[List['CompletionItemKind']],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 CompletionListCapabilities = TypedDict('CompletionListCapabilities', {
@@ -6088,8 +6186,7 @@ ClientSignatureInformationOptions = TypedDict('ClientSignatureInformationOptions
     # @proposed
     'noActiveParameterSupport': NotRequired[bool],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientCodeActionLiteralOptions = TypedDict('ClientCodeActionLiteralOptions', {
@@ -6097,16 +6194,14 @@ ClientCodeActionLiteralOptions = TypedDict('ClientCodeActionLiteralOptions', {
     # set.
     'codeActionKind': 'ClientCodeActionKindOptions',
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientCodeActionResolveOptions = TypedDict('ClientCodeActionResolveOptions', {
     # The properties that a client can resolve lazily.
     'properties': List[str],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientFoldingRangeKindOptions = TypedDict('ClientFoldingRangeKindOptions', {
@@ -6116,8 +6211,7 @@ ClientFoldingRangeKindOptions = TypedDict('ClientFoldingRangeKindOptions', {
     # to a default value when unknown.
     'valueSet': NotRequired[List['FoldingRangeKind']],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientFoldingRangeOptions = TypedDict('ClientFoldingRangeOptions', {
@@ -6127,16 +6221,29 @@ ClientFoldingRangeOptions = TypedDict('ClientFoldingRangeOptions', {
     # @since 3.17.0
     'collapsedText': NotRequired[bool],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
-ClientDiagnosticsTagOptions = TypedDict('ClientDiagnosticsTagOptions', {
-    # The tags supported by the client.
-    'valueSet': List['DiagnosticTag'],
+DiagnosticsCapabilities = TypedDict('DiagnosticsCapabilities', {
+    # Whether the clients accepts diagnostics with related information.
+    'relatedInformation': NotRequired[bool],
+    # Client supports the tag property to provide meta data about a diagnostic.
+    # Clients supporting tags have to handle unknown tags gracefully.
+    #
+    # @since 3.15.0
+    'tagSupport': NotRequired['ClientDiagnosticsTagOptions'],
+    # Client supports a codeDescription property
+    #
+    # @since 3.16.0
+    'codeDescriptionSupport': NotRequired[bool],
+    # Whether code action supports the `data` property which is
+    # preserved between a `textDocument/publishDiagnostics` and
+    # `textDocument/codeAction` request.
+    #
+    # @since 3.16.0
+    'dataSupport': NotRequired[bool],
 })
-""" @since 3.18.0
-@proposed """
+""" General diagnostics capabilities for pull and push model. """
 
 
 ClientSemanticTokensRequestOptions = TypedDict('ClientSemanticTokensRequestOptions', {
@@ -6147,16 +6254,14 @@ ClientSemanticTokensRequestOptions = TypedDict('ClientSemanticTokensRequestOptio
     # the server provides a corresponding handler.
     'full': NotRequired[Union[bool, 'ClientSemanticTokensRequestFullDelta']],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientInlayHintResolveOptions = TypedDict('ClientInlayHintResolveOptions', {
     # The properties that a client can resolve lazily.
     'properties': List[str],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientShowMessageActionItemOptions = TypedDict('ClientShowMessageActionItemOptions', {
@@ -6165,31 +6270,27 @@ ClientShowMessageActionItemOptions = TypedDict('ClientShowMessageActionItemOptio
     # request's response.
     'additionalPropertiesSupport': NotRequired[bool],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 CompletionItemTagOptions = TypedDict('CompletionItemTagOptions', {
     # The tags supported by the client.
     'valueSet': List['CompletionItemTag'],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientCompletionItemResolveOptions = TypedDict('ClientCompletionItemResolveOptions', {
     # The properties that a client can resolve lazily.
     'properties': List[str],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientCompletionItemInsertTextModeOptions = TypedDict('ClientCompletionItemInsertTextModeOptions', {
     'valueSet': List['InsertTextMode'],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientSignatureParameterInformationOptions = TypedDict('ClientSignatureParameterInformationOptions', {
@@ -6199,8 +6300,7 @@ ClientSignatureParameterInformationOptions = TypedDict('ClientSignatureParameter
     # @since 3.14.0
     'labelOffsetSupport': NotRequired[bool],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
 
 
 ClientCodeActionKindOptions = TypedDict('ClientCodeActionKindOptions', {
@@ -6210,8 +6310,14 @@ ClientCodeActionKindOptions = TypedDict('ClientCodeActionKindOptions', {
     # to a default value when unknown.
     'valueSet': List['CodeActionKind'],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
+
+
+ClientDiagnosticsTagOptions = TypedDict('ClientDiagnosticsTagOptions', {
+    # The tags supported by the client.
+    'valueSet': List['DiagnosticTag'],
+})
+""" @since 3.18.0 """
 
 
 ClientSemanticTokensRequestFullDelta = TypedDict('ClientSemanticTokensRequestFullDelta', {
@@ -6219,5 +6325,5 @@ ClientSemanticTokensRequestFullDelta = TypedDict('ClientSemanticTokensRequestFul
     # the server provides a corresponding handler.
     'delta': NotRequired[bool],
 })
-""" @since 3.18.0
-@proposed """
+""" @since 3.18.0 """
+
