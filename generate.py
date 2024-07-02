@@ -23,7 +23,7 @@ ENUM_OVERRIDES = {
     'SemanticTokenModifiers': 'StrEnum',
     'SemanticTokenTypes': 'StrEnum',
     'TokenFormat': 'StrEnum',
-    'TraceValues': 'StrEnum',
+    'TraceValue': 'StrEnum',
     'UniquenessLevel': 'StrEnum',
     'WatchKind': 'IntFlag',
 }  # type: Dict[str, Literal['StrEnum', 'IntFlag']]

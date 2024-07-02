@@ -401,7 +401,7 @@ class CodeActionKind(StrEnum):
     @since 3.18.0 """
 
 
-class TraceValue(Enum):
+class TraceValue(StrEnum):
     Off = 'off'
     """ Turn tracing off. """
     Messages = 'messages'
