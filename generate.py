@@ -41,7 +41,7 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
             f"# LSP v{specification_version}\n",
             "from typing_extensions import NotRequired",
             "from typing import Dict, List, Literal, TypedDict, Union",
-            "from enum import Enum, IntEnum, IntFlag, StrEnum\n\n",
+            "from enum import IntEnum, IntFlag, StrEnum\n\n",
             "URI = str",
             "DocumentUri = str",
             "Uint = int",
