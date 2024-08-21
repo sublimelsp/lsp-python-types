@@ -54,7 +54,9 @@ method_to_symbol_name = {
     "textDocument/onTypeFormatting": "on_type_formatting",
     "textDocument/rename": "rename",
     "textDocument/prepareRename": "prepare_rename",
-    "workspace/executeCommand": "execute_command"
+    "workspace/executeCommand": "execute_command",
+    "textDocument/inlineCompletion": "inline_completion",
+    "textDocument/rangesFormatting": "ranges_formatting"
 }
 
 def generate_requests(requests: List[Request]) -> List[str]:

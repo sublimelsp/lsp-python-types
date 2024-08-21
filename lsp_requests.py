@@ -9,16 +9,14 @@ class LspRequest:
 
     async def implementation(self,  params: lsp_types.ImplementationParams) -> Union['lsp_types.Definition', List['lsp_types.LocationLink'], None]:
         """ A request to resolve the implementation locations of a symbol at a given text
-        document position. The request's parameter is of type [TextDocumentPositionParams]
-        (#TextDocumentPositionParams) the response is of type {@link Definition} or a
-        Thenable that resolves to such. """
+        document position. The request's parameter is of type {@link TextDocumentPositionParams}
+        the response is of type {@link Definition} or a Thenable that resolves to such. """
         return await self.send_request("textDocument/implementation", params)
 
     async def type_definition(self,  params: lsp_types.TypeDefinitionParams) -> Union['lsp_types.Definition', List['lsp_types.LocationLink'], None]:
         """ A request to resolve the type definition locations of a symbol at a given text
-        document position. The request's parameter is of type [TextDocumentPositionParams]
-        (#TextDocumentPositionParams) the response is of type {@link Definition} or a
-        Thenable that resolves to such. """
+        document position. The request's parameter is of type {@link TextDocumentPositionParams}
+        the response is of type {@link Definition} or a Thenable that resolves to such. """
         return await self.send_request("textDocument/typeDefinition", params)
 
     async def document_color(self,  params: lsp_types.DocumentColorParams) -> List['lsp_types.ColorInformation']:
@@ -44,10 +42,9 @@ class LspRequest:
 
     async def declaration(self,  params: lsp_types.DeclarationParams) -> Union['lsp_types.Declaration', List['lsp_types.LocationLink'], None]:
         """ A request to resolve the type definition locations of a symbol at a given text
-        document position. The request's parameter is of type [TextDocumentPositionParams]
-        (#TextDocumentPositionParams) the response is of type {@link Declaration}
-        or a typed array of {@link DeclarationLink} or a Thenable that resolves
-        to such. """
+        document position. The request's parameter is of type {@link TextDocumentPositionParams}
+        the response is of type {@link Declaration} or a typed array of {@link DeclarationLink}
+        or a Thenable that resolves to such. """
         return await self.send_request("textDocument/declaration", params)
 
     async def selection_range(self,  params: lsp_types.SelectionRangeParams) -> Union[List['lsp_types.SelectionRange'], None]:
@@ -97,6 +94,10 @@ class LspRequest:
     async def will_create_files(self,  params: lsp_types.CreateFilesParams) -> Union['lsp_types.WorkspaceEdit', None]:
         """ The will create files request is sent from the client to the server before files are actually
         created as long as the creation is triggered from within the client.
+
+        The request can return a `WorkspaceEdit` which will be applied to workspace before the
+        files are created. Hence the `WorkspaceEdit` can not manipulate the content of the file
+        to be created.
 
         @since 3.16.0 """
         return await self.send_request("workspace/willCreateFiles", params)
@@ -176,6 +177,15 @@ class LspRequest:
         @since 3.17.0 """
         return await self.send_request("workspace/diagnostic", params)
 
+    async def inline_completion(self,  params: lsp_types.InlineCompletionParams) -> Union['lsp_types.InlineCompletionList', List['lsp_types.InlineCompletionItem'], None]:
+        """ A request to provide inline completions in a document. The request's parameter is of
+        type {@link InlineCompletionParams}, the response is of type
+        {@link InlineCompletion InlineCompletion[]} or a Thenable that resolves to such.
+
+        @since 3.18.0
+        @proposed """
+        return await self.send_request("textDocument/inlineCompletion", params)
+
     async def initialize(self,  params: lsp_types.InitializeParams) -> 'lsp_types.InitializeResult':
         """ The initialize request is sent from the client to the server.
         It is sent once as the request after starting up the server.
@@ -229,10 +239,9 @@ class LspRequest:
 
     async def definition(self,  params: lsp_types.DefinitionParams) -> Union['lsp_types.Definition', List['lsp_types.LocationLink'], None]:
         """ A request to resolve the definition location of a symbol at a given text
-        document position. The request's parameter is of type [TextDocumentPosition]
-        (#TextDocumentPosition) the response is of either type {@link Definition}
-        or a typed array of {@link DefinitionLink} or a Thenable that resolves
-        to such. """
+        document position. The request's parameter is of type {@link TextDocumentPosition}
+        the response is of either type {@link Definition} or a typed array of
+        {@link DefinitionLink} or a Thenable that resolves to such. """
         return await self.send_request("textDocument/definition", params)
 
     async def references(self,  params: lsp_types.ReferenceParams) -> Union[List['lsp_types.Location'], None]:
@@ -244,9 +253,9 @@ class LspRequest:
 
     async def document_highlight(self,  params: lsp_types.DocumentHighlightParams) -> Union[List['lsp_types.DocumentHighlight'], None]:
         """ Request to resolve a {@link DocumentHighlight} for a given
-        text document position. The request's parameter is of type [TextDocumentPosition]
-        (#TextDocumentPosition) the request response is of type [DocumentHighlight[]]
-        (#DocumentHighlight) or a Thenable that resolves to such. """
+        text document position. The request's parameter is of type {@link TextDocumentPosition}
+        the request response is an array of type {@link DocumentHighlight}
+        or a Thenable that resolves to such. """
         return await self.send_request("textDocument/documentHighlight", params)
 
     async def document_symbol(self,  params: lsp_types.DocumentSymbolParams) -> Union[List['lsp_types.SymbolInformation'], List['lsp_types.DocumentSymbol'], None]:
@@ -304,12 +313,19 @@ class LspRequest:
         return await self.send_request("documentLink/resolve", params)
 
     async def formatting(self,  params: lsp_types.DocumentFormattingParams) -> Union[List['lsp_types.TextEdit'], None]:
-        """ A request to to format a whole document. """
+        """ A request to format a whole document. """
         return await self.send_request("textDocument/formatting", params)
 
     async def range_formatting(self,  params: lsp_types.DocumentRangeFormattingParams) -> Union[List['lsp_types.TextEdit'], None]:
-        """ A request to to format a range in a document. """
+        """ A request to format a range in a document. """
         return await self.send_request("textDocument/rangeFormatting", params)
+
+    async def ranges_formatting(self,  params: lsp_types.DocumentRangesFormattingParams) -> Union[List['lsp_types.TextEdit'], None]:
+        """ A request to format ranges in a document.
+
+        @since 3.18.0
+        @proposed """
+        return await self.send_request("textDocument/rangesFormatting", params)
 
     async def on_type_formatting(self,  params: lsp_types.DocumentOnTypeFormattingParams) -> Union[List['lsp_types.TextEdit'], None]:
         """ A request to format a document on type. """
