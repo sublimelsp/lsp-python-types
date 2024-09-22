@@ -44,6 +44,8 @@ class SemanticTokenTypes(StrEnum):
     Operator = 'operator'
     Decorator = 'decorator'
     """ @since 3.17.0 """
+    Label = 'label'
+    """ @since 3.18.0 """
 
 
 class SemanticTokenModifiers(StrEnum):
@@ -113,7 +115,7 @@ class LSPErrorCodes(IntEnum):
     If a client decides that a result is not of any use anymore
     the client should cancel the request. """
     RequestCancelled = -32800
-    """ The client has canceled a request and a server as detected
+    """ The client has canceled a request and a server has detected
     the cancel. """
 
 
@@ -1853,6 +1855,52 @@ InlineCompletionRegistrationOptions = TypedDict('InlineCompletionRegistrationOpt
 @proposed """
 
 
+TextDocumentContentParams = TypedDict('TextDocumentContentParams', {
+    # The uri of the text document.
+    'uri': 'DocumentUri',
+})
+""" Parameters for the `workspace/textDocumentContent` request.
+
+@since 3.18.0
+@proposed """
+
+
+TextDocumentContentResult = TypedDict('TextDocumentContentResult', {
+    # The text content of the text document. Please note, that the content of
+    # any subsequent open notifications for the text document might differ
+    # from the returned content due to whitespace and line ending
+    # normalizations done on the client
+    'text': str,
+})
+""" Result of the `workspace/textDocumentContent` request.
+
+@since 3.18.0
+@proposed """
+
+
+TextDocumentContentRegistrationOptions = TypedDict('TextDocumentContentRegistrationOptions', {
+    # The schemes for which the server provides content.
+    'schemes': List[str],
+    # The id used to register the request. The id can be used to deregister
+    # the request again. See also Registration#id.
+    'id': NotRequired[str],
+})
+""" Text document content provider registration options.
+
+@since 3.18.0
+@proposed """
+
+
+TextDocumentContentRefreshParams = TypedDict('TextDocumentContentRefreshParams', {
+    # The uri of the text document to refresh.
+    'uri': 'DocumentUri',
+})
+""" Parameters for the `workspace/textDocumentContent/refresh` request.
+
+@since 3.18.0
+@proposed """
+
+
 RegistrationParams = TypedDict('RegistrationParams', {
     'registrations': List['Registration'],
 })
@@ -2687,6 +2735,12 @@ CodeActionRegistrationOptions = TypedDict('CodeActionRegistrationOptions', {
 WorkspaceSymbolParams = TypedDict('WorkspaceSymbolParams', {
     # A query string to filter symbols by. Clients may send an empty
     # string here to request all symbols.
+    #
+    # The `query`-parameter should be interpreted in a *relaxed way* as editors
+    # will apply their own highlighting and scoring on the results. A good rule
+    # of thumb is to match case-insensitive and to simply check that the
+    # characters of *query* appear in their order in a candidate symbol.
+    # Servers shouldn't use prefix, substring, or similar strict matching.
     'query': str,
     # An optional token that a server can use to report work done progress.
     'workDoneToken': NotRequired['ProgressToken'],
@@ -3216,17 +3270,11 @@ DeclarationOptions = TypedDict('DeclarationOptions', {
 
 Position = TypedDict('Position', {
     # Line position in a document (zero-based).
-    #
-    # If a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.
-    # If a line number is negative, it defaults to 0.
     'line': Uint,
     # Character offset on a line in a document (zero-based).
     #
     # The meaning of this offset is determined by the negotiated
     # `PositionEncodingKind`.
-    #
-    # If the character value is greater than the line length it defaults back to the
-    # line length.
     'character': Uint,
 })
 """ Position in a text document expressed as zero-based line and character
@@ -3803,6 +3851,16 @@ InlineCompletionOptions = TypedDict('InlineCompletionOptions', {
 @proposed """
 
 
+TextDocumentContentOptions = TypedDict('TextDocumentContentOptions', {
+    # The schemes for which the server provides content.
+    'schemes': List[str],
+})
+""" Text document content provider options.
+
+@since 3.18.0
+@proposed """
+
+
 Registration = TypedDict('Registration', {
     # The id used to register the request. The id can be used to deregister
     # the request again.
@@ -4002,8 +4060,9 @@ FileSystemWatcher = TypedDict('FileSystemWatcher', {
 Diagnostic = TypedDict('Diagnostic', {
     # The range at which the message applies
     'range': 'Range',
-    # The diagnostic's severity. Can be omitted. If omitted it is up to the
-    # client to interpret diagnostics as error, warning, info or hint.
+    # The diagnostic's severity. To avoid interpretation mismatches when a
+    # server is used with different clients it is highly recommended that servers
+    # always provide a severity value.
     'severity': NotRequired['DiagnosticSeverity'],
     # The diagnostic's code, which usually appear in the user interface.
     'code': NotRequired[Union[int, str]],
@@ -4746,6 +4805,11 @@ WorkspaceOptions = TypedDict('WorkspaceOptions', {
     #
     # @since 3.16.0
     'fileOperations': NotRequired['FileOperationOptions'],
+    # The server supports the `workspace/textDocumentContent` request.
+    #
+    # @since 3.18.0
+    # @proposed
+    'textDocumentContent': NotRequired[Union['TextDocumentContentOptions', 'TextDocumentContentRegistrationOptions']],
 })
 """ Defines workspace specific capabilities of the server.
 
@@ -4983,6 +5047,11 @@ WorkspaceClientCapabilities = TypedDict('WorkspaceClientCapabilities', {
     # @since 3.18.0
     # @proposed
     'foldingRange': NotRequired['FoldingRangeWorkspaceClientCapabilities'],
+    # Capabilities specific to the `workspace/textDocumentContent` request.
+    #
+    # @since 3.18.0
+    # @proposed
+    'textDocumentContent': NotRequired['TextDocumentContentClientCapabilities'],
 })
 """ Workspace specific client capabilities. """
 
@@ -5213,7 +5282,9 @@ TextDocumentFilterLanguage = TypedDict('TextDocumentFilterLanguage', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.
-    'pattern': NotRequired[str],
+    #
+    # @since 3.18.0 - support for relative patterns.
+    'pattern': NotRequired['GlobPattern'],
 })
 """ A document filter where `language` is required field.
 
@@ -5226,7 +5297,9 @@ TextDocumentFilterScheme = TypedDict('TextDocumentFilterScheme', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': str,
     # A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.
-    'pattern': NotRequired[str],
+    #
+    # @since 3.18.0 - support for relative patterns.
+    'pattern': NotRequired['GlobPattern'],
 })
 """ A document filter where `scheme` is required field.
 
@@ -5239,7 +5312,9 @@ TextDocumentFilterPattern = TypedDict('TextDocumentFilterPattern', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.
-    'pattern': str,
+    #
+    # @since 3.18.0 - support for relative patterns.
+    'pattern': 'GlobPattern',
 })
 """ A document filter where `pattern` is required field.
 
@@ -5252,7 +5327,7 @@ NotebookDocumentFilterNotebookType = TypedDict('NotebookDocumentFilterNotebookTy
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern.
-    'pattern': NotRequired[str],
+    'pattern': NotRequired['GlobPattern'],
 })
 """ A notebook document filter where `notebookType` is required field.
 
@@ -5265,7 +5340,7 @@ NotebookDocumentFilterScheme = TypedDict('NotebookDocumentFilterScheme', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': str,
     # A glob pattern.
-    'pattern': NotRequired[str],
+    'pattern': NotRequired['GlobPattern'],
 })
 """ A notebook document filter where `scheme` is required field.
 
@@ -5278,7 +5353,7 @@ NotebookDocumentFilterPattern = TypedDict('NotebookDocumentFilterPattern', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern.
-    'pattern': str,
+    'pattern': 'GlobPattern',
 })
 """ A notebook document filter where `pattern` is required field.
 
@@ -5498,6 +5573,16 @@ FoldingRangeWorkspaceClientCapabilities = TypedDict('FoldingRangeWorkspaceClient
 @proposed """
 
 
+TextDocumentContentClientCapabilities = TypedDict('TextDocumentContentClientCapabilities', {
+    # Text document content provider supports dynamic registration.
+    'dynamicRegistration': NotRequired[bool],
+})
+""" Client capabilities for a text document content provider.
+
+@since 3.18.0
+@proposed """
+
+
 TextDocumentSyncClientCapabilities = TypedDict('TextDocumentSyncClientCapabilities', {
     # Whether text document synchronization supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
@@ -5697,6 +5782,11 @@ CodeActionClientCapabilities = TypedDict('CodeActionClientCapabilities', {
 CodeLensClientCapabilities = TypedDict('CodeLensClientCapabilities', {
     # Whether code lens supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
+    # Whether the client supports resolving additional code lens
+    # properties via a separate `codeLens/resolve` request.
+    #
+    # @since 3.18.0
+    'resolveSupport': NotRequired['ClientCodeLensResolveOptions'],
 })
 """ The client capabilities  of a {@link CodeLensRequest}. """
 
@@ -6204,6 +6294,13 @@ ClientCodeActionResolveOptions = TypedDict('ClientCodeActionResolveOptions', {
 """ @since 3.18.0 """
 
 
+ClientCodeLensResolveOptions = TypedDict('ClientCodeLensResolveOptions', {
+    # The properties that a client can resolve lazily.
+    'properties': List[str],
+})
+""" @since 3.18.0 """
+
+
 ClientFoldingRangeKindOptions = TypedDict('ClientFoldingRangeKindOptions', {
     # The folding range kind values the client supports. When this
     # property exists the client also guarantees that it will
@@ -6326,3 +6423,4 @@ ClientSemanticTokensRequestFullDelta = TypedDict('ClientSemanticTokensRequestFul
     'delta': NotRequired[bool],
 })
 """ @since 3.18.0 """
+

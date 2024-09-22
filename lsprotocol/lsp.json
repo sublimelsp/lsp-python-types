@@ -5,6 +5,7 @@
 	"requests": [
 		{
 			"method": "textDocument/implementation",
+			"typeName": "ImplementationRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -57,6 +58,7 @@
 		},
 		{
 			"method": "textDocument/typeDefinition",
+			"typeName": "TypeDefinitionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -109,6 +111,7 @@
 		},
 		{
 			"method": "workspace/workspaceFolders",
+			"typeName": "WorkspaceFoldersRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -130,6 +133,7 @@
 		},
 		{
 			"method": "workspace/configuration",
+			"typeName": "ConfigurationRequest",
 			"result": {
 				"kind": "array",
 				"element": {
@@ -146,6 +150,7 @@
 		},
 		{
 			"method": "textDocument/documentColor",
+			"typeName": "DocumentColorRequest",
 			"result": {
 				"kind": "array",
 				"element": {
@@ -173,6 +178,7 @@
 		},
 		{
 			"method": "textDocument/colorPresentation",
+			"typeName": "ColorPresentationRequest",
 			"result": {
 				"kind": "array",
 				"element": {
@@ -209,6 +215,7 @@
 		},
 		{
 			"method": "textDocument/foldingRange",
+			"typeName": "FoldingRangeRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -245,6 +252,7 @@
 		},
 		{
 			"method": "workspace/foldingRange/refresh",
+			"typeName": "FoldingRangeRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -256,6 +264,7 @@
 		},
 		{
 			"method": "textDocument/declaration",
+			"typeName": "DeclarationRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -308,6 +317,7 @@
 		},
 		{
 			"method": "textDocument/selectionRange",
+			"typeName": "SelectionRangeRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -344,6 +354,7 @@
 		},
 		{
 			"method": "window/workDoneProgress/create",
+			"typeName": "WorkDoneProgressCreateRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -357,6 +368,7 @@
 		},
 		{
 			"method": "textDocument/prepareCallHierarchy",
+			"typeName": "CallHierarchyPrepareRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -387,6 +399,7 @@
 		},
 		{
 			"method": "callHierarchy/incomingCalls",
+			"typeName": "CallHierarchyIncomingCallsRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -420,6 +433,7 @@
 		},
 		{
 			"method": "callHierarchy/outgoingCalls",
+			"typeName": "CallHierarchyOutgoingCallsRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -453,6 +467,7 @@
 		},
 		{
 			"method": "textDocument/semanticTokens/full",
+			"typeName": "SemanticTokensRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -485,6 +500,7 @@
 		},
 		{
 			"method": "textDocument/semanticTokens/full/delta",
+			"typeName": "SemanticTokensDeltaRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -530,6 +546,7 @@
 		},
 		{
 			"method": "textDocument/semanticTokens/range",
+			"typeName": "SemanticTokensRangeRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -558,6 +575,7 @@
 		},
 		{
 			"method": "workspace/semanticTokens/refresh",
+			"typeName": "SemanticTokensRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -568,6 +586,7 @@
 		},
 		{
 			"method": "window/showDocument",
+			"typeName": "ShowDocumentRequest",
 			"result": {
 				"kind": "reference",
 				"name": "ShowDocumentResult"
@@ -582,6 +601,7 @@
 		},
 		{
 			"method": "textDocument/linkedEditingRange",
+			"typeName": "LinkedEditingRangeRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -609,6 +629,7 @@
 		},
 		{
 			"method": "workspace/willCreateFiles",
+			"typeName": "WillCreateFilesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -636,6 +657,7 @@
 		},
 		{
 			"method": "workspace/willRenameFiles",
+			"typeName": "WillRenameFilesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -663,6 +685,7 @@
 		},
 		{
 			"method": "workspace/willDeleteFiles",
+			"typeName": "WillDeleteFilesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -690,6 +713,7 @@
 		},
 		{
 			"method": "textDocument/moniker",
+			"typeName": "MonikerRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -726,6 +750,7 @@
 		},
 		{
 			"method": "textDocument/prepareTypeHierarchy",
+			"typeName": "TypeHierarchyPrepareRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -756,6 +781,7 @@
 		},
 		{
 			"method": "typeHierarchy/supertypes",
+			"typeName": "TypeHierarchySupertypesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -789,6 +815,7 @@
 		},
 		{
 			"method": "typeHierarchy/subtypes",
+			"typeName": "TypeHierarchySubtypesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -822,6 +849,7 @@
 		},
 		{
 			"method": "textDocument/inlineValue",
+			"typeName": "InlineValueRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -859,6 +887,7 @@
 		},
 		{
 			"method": "workspace/inlineValue/refresh",
+			"typeName": "InlineValueRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -869,6 +898,7 @@
 		},
 		{
 			"method": "textDocument/inlayHint",
+			"typeName": "InlayHintRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -906,6 +936,7 @@
 		},
 		{
 			"method": "inlayHint/resolve",
+			"typeName": "InlayHintResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "InlayHint"
@@ -920,6 +951,7 @@
 		},
 		{
 			"method": "workspace/inlayHint/refresh",
+			"typeName": "InlayHintRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -930,6 +962,7 @@
 		},
 		{
 			"method": "textDocument/diagnostic",
+			"typeName": "DocumentDiagnosticRequest",
 			"result": {
 				"kind": "reference",
 				"name": "DocumentDiagnosticReport"
@@ -956,6 +989,7 @@
 		},
 		{
 			"method": "workspace/diagnostic",
+			"typeName": "WorkspaceDiagnosticRequest",
 			"result": {
 				"kind": "reference",
 				"name": "WorkspaceDiagnosticReport"
@@ -978,6 +1012,7 @@
 		},
 		{
 			"method": "workspace/diagnostic/refresh",
+			"typeName": "DiagnosticRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -988,6 +1023,7 @@
 		},
 		{
 			"method": "textDocument/inlineCompletion",
+			"typeName": "InlineCompletionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1029,7 +1065,44 @@
 			"proposed": true
 		},
 		{
+			"method": "workspace/textDocumentContent",
+			"typeName": "TextDocumentContentRequest",
+			"result": {
+				"kind": "reference",
+				"name": "TextDocumentContentResult"
+			},
+			"messageDirection": "clientToServer",
+			"params": {
+				"kind": "reference",
+				"name": "TextDocumentContentParams"
+			},
+			"registrationOptions": {
+				"kind": "reference",
+				"name": "TextDocumentContentRegistrationOptions"
+			},
+			"documentation": "The `workspace/textDocumentContent` request is sent from the client to the\nserver to request the content of a text document.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
+			"method": "workspace/textDocumentContent/refresh",
+			"typeName": "TextDocumentContentRefreshRequest",
+			"result": {
+				"kind": "base",
+				"name": "null"
+			},
+			"messageDirection": "serverToClient",
+			"params": {
+				"kind": "reference",
+				"name": "TextDocumentContentRefreshParams"
+			},
+			"documentation": "The `workspace/textDocumentContent` request is sent from the server to the client to refresh\nthe content of a specific text document.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
 			"method": "client/registerCapability",
+			"typeName": "RegistrationRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -1043,6 +1116,7 @@
 		},
 		{
 			"method": "client/unregisterCapability",
+			"typeName": "UnregistrationRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -1056,6 +1130,7 @@
 		},
 		{
 			"method": "initialize",
+			"typeName": "InitializeRequest",
 			"result": {
 				"kind": "reference",
 				"name": "InitializeResult"
@@ -1073,6 +1148,7 @@
 		},
 		{
 			"method": "shutdown",
+			"typeName": "ShutdownRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -1082,6 +1158,7 @@
 		},
 		{
 			"method": "window/showMessageRequest",
+			"typeName": "ShowMessageRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1104,6 +1181,7 @@
 		},
 		{
 			"method": "textDocument/willSaveWaitUntil",
+			"typeName": "WillSaveTextDocumentWaitUntilRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1133,6 +1211,7 @@
 		},
 		{
 			"method": "textDocument/completion",
+			"typeName": "CompletionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1173,6 +1252,7 @@
 		},
 		{
 			"method": "completionItem/resolve",
+			"typeName": "CompletionResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "CompletionItem"
@@ -1186,6 +1266,7 @@
 		},
 		{
 			"method": "textDocument/hover",
+			"typeName": "HoverRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1212,6 +1293,7 @@
 		},
 		{
 			"method": "textDocument/signatureHelp",
+			"typeName": "SignatureHelpRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1237,6 +1319,7 @@
 		},
 		{
 			"method": "textDocument/definition",
+			"typeName": "DefinitionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1289,6 +1372,7 @@
 		},
 		{
 			"method": "textDocument/references",
+			"typeName": "ReferencesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1325,6 +1409,7 @@
 		},
 		{
 			"method": "textDocument/documentHighlight",
+			"typeName": "DocumentHighlightRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1361,6 +1446,7 @@
 		},
 		{
 			"method": "textDocument/documentSymbol",
+			"typeName": "DocumentSymbolRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1416,6 +1502,7 @@
 		},
 		{
 			"method": "textDocument/codeAction",
+			"typeName": "CodeActionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1470,6 +1557,7 @@
 		},
 		{
 			"method": "codeAction/resolve",
+			"typeName": "CodeActionResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "CodeAction"
@@ -1483,6 +1571,7 @@
 		},
 		{
 			"method": "workspace/symbol",
+			"typeName": "WorkspaceSymbolRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1539,6 +1628,7 @@
 		},
 		{
 			"method": "workspaceSymbol/resolve",
+			"typeName": "WorkspaceSymbolResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "WorkspaceSymbol"
@@ -1553,6 +1643,7 @@
 		},
 		{
 			"method": "textDocument/codeLens",
+			"typeName": "CodeLensRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1589,6 +1680,7 @@
 		},
 		{
 			"method": "codeLens/resolve",
+			"typeName": "CodeLensResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "CodeLens"
@@ -1602,6 +1694,7 @@
 		},
 		{
 			"method": "workspace/codeLens/refresh",
+			"typeName": "CodeLensRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -1612,6 +1705,7 @@
 		},
 		{
 			"method": "textDocument/documentLink",
+			"typeName": "DocumentLinkRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1648,6 +1742,7 @@
 		},
 		{
 			"method": "documentLink/resolve",
+			"typeName": "DocumentLinkResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "DocumentLink"
@@ -1661,6 +1756,7 @@
 		},
 		{
 			"method": "textDocument/formatting",
+			"typeName": "DocumentFormattingRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1690,6 +1786,7 @@
 		},
 		{
 			"method": "textDocument/rangeFormatting",
+			"typeName": "DocumentRangeFormattingRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1719,6 +1816,7 @@
 		},
 		{
 			"method": "textDocument/rangesFormatting",
+			"typeName": "DocumentRangesFormattingRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1750,6 +1848,7 @@
 		},
 		{
 			"method": "textDocument/onTypeFormatting",
+			"typeName": "DocumentOnTypeFormattingRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1779,6 +1878,7 @@
 		},
 		{
 			"method": "textDocument/rename",
+			"typeName": "RenameRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1805,6 +1905,7 @@
 		},
 		{
 			"method": "textDocument/prepareRename",
+			"typeName": "PrepareRenameRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1828,6 +1929,7 @@
 		},
 		{
 			"method": "workspace/executeCommand",
+			"typeName": "ExecuteCommandRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1854,6 +1956,7 @@
 		},
 		{
 			"method": "workspace/applyEdit",
+			"typeName": "ApplyWorkspaceEditRequest",
 			"result": {
 				"kind": "reference",
 				"name": "ApplyWorkspaceEditResult"
@@ -1869,6 +1972,7 @@
 	"notifications": [
 		{
 			"method": "workspace/didChangeWorkspaceFolders",
+			"typeName": "DidChangeWorkspaceFoldersNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1878,6 +1982,7 @@
 		},
 		{
 			"method": "window/workDoneProgress/cancel",
+			"typeName": "WorkDoneProgressCancelNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1887,6 +1992,7 @@
 		},
 		{
 			"method": "workspace/didCreateFiles",
+			"typeName": "DidCreateFilesNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1901,6 +2007,7 @@
 		},
 		{
 			"method": "workspace/didRenameFiles",
+			"typeName": "DidRenameFilesNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1915,6 +2022,7 @@
 		},
 		{
 			"method": "workspace/didDeleteFiles",
+			"typeName": "DidDeleteFilesNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1929,6 +2037,7 @@
 		},
 		{
 			"method": "notebookDocument/didOpen",
+			"typeName": "DidOpenNotebookDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1944,6 +2053,7 @@
 		},
 		{
 			"method": "notebookDocument/didChange",
+			"typeName": "DidChangeNotebookDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1957,6 +2067,7 @@
 		},
 		{
 			"method": "notebookDocument/didSave",
+			"typeName": "DidSaveNotebookDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1972,6 +2083,7 @@
 		},
 		{
 			"method": "notebookDocument/didClose",
+			"typeName": "DidCloseNotebookDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1987,6 +2099,7 @@
 		},
 		{
 			"method": "initialized",
+			"typeName": "InitializedNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1996,11 +2109,13 @@
 		},
 		{
 			"method": "exit",
+			"typeName": "ExitNotification",
 			"messageDirection": "clientToServer",
 			"documentation": "The exit event is sent from the client to the server to\nask the server to exit its process."
 		},
 		{
 			"method": "workspace/didChangeConfiguration",
+			"typeName": "DidChangeConfigurationNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -2014,6 +2129,7 @@
 		},
 		{
 			"method": "window/showMessage",
+			"typeName": "ShowMessageNotification",
 			"messageDirection": "serverToClient",
 			"params": {
 				"kind": "reference",
@@ -2023,6 +2139,7 @@
 		},
 		{
 			"method": "window/logMessage",
+			"typeName": "LogMessageNotification",
 			"messageDirection": "serverToClient",
 			"params": {
 				"kind": "reference",
@@ -2032,6 +2149,7 @@
 		},
 		{
 			"method": "telemetry/event",
+			"typeName": "TelemetryEventNotification",
 			"messageDirection": "serverToClient",
 			"params": {
 				"kind": "reference",
@@ -2041,6 +2159,7 @@
 		},
 		{
 			"method": "textDocument/didOpen",
+			"typeName": "DidOpenTextDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -2054,6 +2173,7 @@
 		},
 		{
 			"method": "textDocument/didChange",
+			"typeName": "DidChangeTextDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -2067,6 +2187,7 @@
 		},
 		{
 			"method": "textDocument/didClose",
+			"typeName": "DidCloseTextDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -2080,6 +2201,7 @@
 		},
 		{
 			"method": "textDocument/didSave",
+			"typeName": "DidSaveTextDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -2093,6 +2215,7 @@
 		},
 		{
 			"method": "textDocument/willSave",
+			"typeName": "WillSaveTextDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -2106,6 +2229,7 @@
 		},
 		{
 			"method": "workspace/didChangeWatchedFiles",
+			"typeName": "DidChangeWatchedFilesNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -2119,6 +2243,7 @@
 		},
 		{
 			"method": "textDocument/publishDiagnostics",
+			"typeName": "PublishDiagnosticsNotification",
 			"messageDirection": "serverToClient",
 			"params": {
 				"kind": "reference",
@@ -2128,6 +2253,7 @@
 		},
 		{
 			"method": "$/setTrace",
+			"typeName": "SetTraceNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -2136,6 +2262,7 @@
 		},
 		{
 			"method": "$/logTrace",
+			"typeName": "LogTraceNotification",
 			"messageDirection": "serverToClient",
 			"params": {
 				"kind": "reference",
@@ -2144,6 +2271,7 @@
 		},
 		{
 			"method": "$/cancelRequest",
+			"typeName": "CancelNotification",
 			"messageDirection": "both",
 			"params": {
 				"kind": "reference",
@@ -2152,6 +2280,7 @@
 		},
 		{
 			"method": "$/progress",
+			"typeName": "ProgressNotification",
 			"messageDirection": "both",
 			"params": {
 				"kind": "reference",
@@ -4276,6 +4405,73 @@
 			"proposed": true
 		},
 		{
+			"name": "TextDocumentContentParams",
+			"properties": [
+				{
+					"name": "uri",
+					"type": {
+						"kind": "base",
+						"name": "DocumentUri"
+					},
+					"documentation": "The uri of the text document."
+				}
+			],
+			"documentation": "Parameters for the `workspace/textDocumentContent` request.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
+			"name": "TextDocumentContentResult",
+			"properties": [
+				{
+					"name": "text",
+					"type": {
+						"kind": "base",
+						"name": "string"
+					},
+					"documentation": "The text content of the text document. Please note, that the content of\nany subsequent open notifications for the text document might differ\nfrom the returned content due to whitespace and line ending\nnormalizations done on the client"
+				}
+			],
+			"documentation": "Result of the `workspace/textDocumentContent` request.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
+			"name": "TextDocumentContentRegistrationOptions",
+			"properties": [],
+			"extends": [
+				{
+					"kind": "reference",
+					"name": "TextDocumentContentOptions"
+				}
+			],
+			"mixins": [
+				{
+					"kind": "reference",
+					"name": "StaticRegistrationOptions"
+				}
+			],
+			"documentation": "Text document content provider registration options.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
+			"name": "TextDocumentContentRefreshParams",
+			"properties": [
+				{
+					"name": "uri",
+					"type": {
+						"kind": "base",
+						"name": "DocumentUri"
+					},
+					"documentation": "The uri of the text document to refresh."
+				}
+			],
+			"documentation": "Parameters for the `workspace/textDocumentContent/refresh` request.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
 			"name": "RegistrationParams",
 			"properties": [
 				{
@@ -5644,7 +5840,7 @@
 						"kind": "base",
 						"name": "string"
 					},
-					"documentation": "A query string to filter symbols by. Clients may send an empty\nstring here to request all symbols."
+					"documentation": "A query string to filter symbols by. Clients may send an empty\nstring here to request all symbols.\n\nThe `query`-parameter should be interpreted in a *relaxed way* as editors\nwill apply their own highlighting and scoring on the results. A good rule\nof thumb is to match case-insensitive and to simply check that the\ncharacters of *query* appear in their order in a candidate symbol.\nServers shouldn't use prefix, substring, or similar strict matching."
 				}
 			],
 			"mixins": [
@@ -6696,7 +6892,7 @@
 						"kind": "base",
 						"name": "uinteger"
 					},
-					"documentation": "Line position in a document (zero-based).\n\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\nIf a line number is negative, it defaults to 0."
+					"documentation": "Line position in a document (zero-based)."
 				},
 				{
 					"name": "character",
@@ -6704,7 +6900,7 @@
 						"kind": "base",
 						"name": "uinteger"
 					},
-					"documentation": "Character offset on a line in a document (zero-based).\n\nThe meaning of this offset is determined by the negotiated\n`PositionEncodingKind`.\n\nIf the character value is greater than the line length it defaults back to the\nline length."
+					"documentation": "Character offset on a line in a document (zero-based).\n\nThe meaning of this offset is determined by the negotiated\n`PositionEncodingKind`."
 				}
 			],
 			"documentation": "Position in a text document expressed as zero-based line and character\noffset. Prior to 3.17 the offsets were always based on a UTF-16 string\nrepresentation. So a string of the form `a𐐀b` the character offset of the\ncharacter `a` is 0, the character offset of `𐐀` is 1 and the character\noffset of b is 3 since `𐐀` is represented using two code units in UTF-16.\nSince 3.17 clients and servers can agree on a different string encoding\nrepresentation (e.g. UTF-8). The client announces it's supported encoding\nvia the client capability [`general.positionEncodings`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#clientCapabilities).\nThe value is an array of position encodings the client supports, with\ndecreasing preference (e.g. the encoding at index `0` is the most preferred\none). To stay backwards compatible the only mandatory encoding is UTF-16\nrepresented via the string `utf-16`. The server can pick one of the\nencodings offered by the client and signals that encoding back to the\nclient via the initialize result's property\n[`capabilities.positionEncoding`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#serverCapabilities). If the string value\n`utf-16` is missing from the client's capability `general.positionEncodings`\nservers can safely assume that the client supports UTF-16. If the server\nomits the position encoding in its initialize result the encoding defaults\nto the string value `utf-16`. Implementation considerations: since the\nconversion from one encoding into another requires the content of the\nfile / line the conversion is best done where the file is read which is\nusually on the server side.\n\nPositions are line end character agnostic. So you can not specify a position\nthat denotes `\\r|\\n` or `\\n|` where `|` represents the character offset.\n\n@since 3.17.0 - support for negotiated position encoding.",
@@ -6885,7 +7081,11 @@
 						}
 					},
 					"documentation": "The edits to be applied.\n\n@since 3.16.0 - support for AnnotatedTextEdit. This is guarded using a\nclient capability.\n\n@since 3.18.0 - support for SnippetTextEdit. This is guarded using a\nclient capability.",
-					"since": "3.18.0 - support for SnippetTextEdit. This is guarded using a\nclient capability."
+					"since": "3.18.0 - support for SnippetTextEdit. This is guarded using a\nclient capability.",
+					"sinceTags": [
+						"3.16.0 - support for AnnotatedTextEdit. This is guarded using a\nclient capability.",
+						"3.18.0 - support for SnippetTextEdit. This is guarded using a\nclient capability."
+					]
 				}
 			],
 			"documentation": "Describes textual changes on a text document. A TextDocumentEdit describes all changes\non a document version Si and after they are applied move the document to version Si+1.\nSo the creator of a TextDocumentEdit doesn't need to sort the array of edits or do any\nkind of ordering. However the edits must be non overlapping."
@@ -7783,6 +7983,25 @@
 			"proposed": true
 		},
 		{
+			"name": "TextDocumentContentOptions",
+			"properties": [
+				{
+					"name": "schemes",
+					"type": {
+						"kind": "array",
+						"element": {
+							"kind": "base",
+							"name": "string"
+						}
+					},
+					"documentation": "The schemes for which the server provides content."
+				}
+			],
+			"documentation": "Text document content provider options.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
 			"name": "Registration",
 			"properties": [
 				{
@@ -8629,7 +8848,11 @@
 				}
 			],
 			"documentation": "Information about the server\n\n@since 3.15.0\n@since 3.18.0 ServerInfo type name added.",
-			"since": "3.18.0 ServerInfo type name added."
+			"since": "3.18.0 ServerInfo type name added.",
+			"sinceTags": [
+				"3.15.0",
+				"3.18.0 ServerInfo type name added."
+			]
 		},
 		{
 			"name": "VersionedTextDocumentIdentifier",
@@ -8729,7 +8952,7 @@
 						"name": "DiagnosticSeverity"
 					},
 					"optional": true,
-					"documentation": "The diagnostic's severity. Can be omitted. If omitted it is up to the\nclient to interpret diagnostics as error, warning, info or hint."
+					"documentation": "The diagnostic's severity. To avoid interpretation mismatches when a\nserver is used with different clients it is highly recommended that servers\nalways provide a severity value."
 				},
 				{
 					"name": "code",
@@ -10204,7 +10427,11 @@
 				}
 			],
 			"documentation": "Information about the client\n\n@since 3.15.0\n@since 3.18.0 ClientInfo type name added.",
-			"since": "3.18.0 ClientInfo type name added."
+			"since": "3.18.0 ClientInfo type name added.",
+			"sinceTags": [
+				"3.15.0",
+				"3.18.0 ClientInfo type name added."
+			]
 		},
 		{
 			"name": "ClientCapabilities",
@@ -10349,6 +10576,26 @@
 					"optional": true,
 					"documentation": "The server is interested in notifications/requests for operations on files.\n\n@since 3.16.0",
 					"since": "3.16.0"
+				},
+				{
+					"name": "textDocumentContent",
+					"type": {
+						"kind": "or",
+						"items": [
+							{
+								"kind": "reference",
+								"name": "TextDocumentContentOptions"
+							},
+							{
+								"kind": "reference",
+								"name": "TextDocumentContentRegistrationOptions"
+							}
+						]
+					},
+					"optional": true,
+					"documentation": "The server supports the `workspace/textDocumentContent` request.\n\n@since 3.18.0\n@proposed",
+					"since": "3.18.0",
+					"proposed": true
 				}
 			],
 			"documentation": "Defines workspace specific capabilities of the server.\n\n@since 3.18.0",
@@ -10865,6 +11112,17 @@
 					},
 					"optional": true,
 					"documentation": "Capabilities specific to the folding range requests scoped to the workspace.\n\n@since 3.18.0\n@proposed",
+					"since": "3.18.0",
+					"proposed": true
+				},
+				{
+					"name": "textDocumentContent",
+					"type": {
+						"kind": "reference",
+						"name": "TextDocumentContentClientCapabilities"
+					},
+					"optional": true,
+					"documentation": "Capabilities specific to the `workspace/textDocumentContent` request.\n\n@since 3.18.0\n@proposed",
 					"since": "3.18.0",
 					"proposed": true
 				}
@@ -11421,11 +11679,12 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"optional": true,
-					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples."
+					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.\n\n@since 3.18.0 - support for relative patterns.",
+					"since": "3.18.0 - support for relative patterns."
 				}
 			],
 			"documentation": "A document filter where `language` is required field.\n\n@since 3.18.0",
@@ -11454,11 +11713,12 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"optional": true,
-					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples."
+					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.\n\n@since 3.18.0 - support for relative patterns.",
+					"since": "3.18.0 - support for relative patterns."
 				}
 			],
 			"documentation": "A document filter where `scheme` is required field.\n\n@since 3.18.0",
@@ -11488,10 +11748,11 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
-					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples."
+					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.\n\n@since 3.18.0 - support for relative patterns.",
+					"since": "3.18.0 - support for relative patterns."
 				}
 			],
 			"documentation": "A document filter where `pattern` is required field.\n\n@since 3.18.0",
@@ -11520,8 +11781,8 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"optional": true,
 					"documentation": "A glob pattern."
@@ -11553,8 +11814,8 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"optional": true,
 					"documentation": "A glob pattern."
@@ -11587,8 +11848,8 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"documentation": "A glob pattern."
 				}
@@ -11973,6 +12234,23 @@
 				}
 			],
 			"documentation": "Client workspace capabilities specific to folding ranges\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
+			"name": "TextDocumentContentClientCapabilities",
+			"properties": [
+				{
+					"name": "dynamicRegistration",
+					"type": {
+						"kind": "base",
+						"name": "boolean"
+					},
+					"optional": true,
+					"documentation": "Text document content provider supports dynamic registration."
+				}
+			],
+			"documentation": "Client capabilities for a text document content provider.\n\n@since 3.18.0\n@proposed",
 			"since": "3.18.0",
 			"proposed": true
 		},
@@ -12418,6 +12696,16 @@
 					},
 					"optional": true,
 					"documentation": "Whether code lens supports dynamic registration."
+				},
+				{
+					"name": "resolveSupport",
+					"type": {
+						"kind": "reference",
+						"name": "ClientCodeLensResolveOptions"
+					},
+					"optional": true,
+					"documentation": "Whether the client supports resolving additional code lens\nproperties via a separate `codeLens/resolve` request.\n\n@since 3.18.0",
+					"since": "3.18.0"
 				}
 			],
 			"documentation": "The client capabilities  of a {@link CodeLensRequest}."
@@ -13337,6 +13625,24 @@
 			"since": "3.18.0"
 		},
 		{
+			"name": "ClientCodeLensResolveOptions",
+			"properties": [
+				{
+					"name": "properties",
+					"type": {
+						"kind": "array",
+						"element": {
+							"kind": "base",
+							"name": "string"
+						}
+					},
+					"documentation": "The properties that a client can resolve lazily."
+				}
+			],
+			"documentation": "@since 3.18.0",
+			"since": "3.18.0"
+		},
+		{
 			"name": "ClientFoldingRangeKindOptions",
 			"properties": [
 				{
@@ -13721,6 +14027,12 @@
 					"value": "decorator",
 					"documentation": "@since 3.17.0",
 					"since": "3.17.0"
+				},
+				{
+					"name": "label",
+					"value": "label",
+					"documentation": "@since 3.18.0",
+					"since": "3.18.0"
 				}
 			],
 			"supportsCustomValues": true,
@@ -13867,7 +14179,7 @@
 				{
 					"name": "RequestCancelled",
 					"value": -32800,
-					"documentation": "The client has canceled a request and a server as detected\nthe cancel."
+					"documentation": "The client has canceled a request and a server has detected\nthe cancel."
 				}
 			],
 			"supportsCustomValues": true
