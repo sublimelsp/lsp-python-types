@@ -95,7 +95,7 @@ def generate_request(request: Request) -> str:
     # fix  Expected class type but received "str"
     result_type = result_type.replace("DefinitionLink", "LocationLink")
     result_type = result_type.replace("DeclarationLink", "LocationLink")
-    result += f"{indentation}async def {symbol_name}(self{formatted_params}) -> {result_type}:"
+    result += f"{indentation}async def {symbol_name}(self{formatted_params}) -> Response[{result_type}]:"
     documentation = format_comment(request.get('documentation'), indentation + indentation)
     if documentation:
         result += f'\n{documentation}'
@@ -104,4 +104,4 @@ def generate_request(request: Request) -> str:
 
 
 def prefix_lsp_types(text: str) -> str:
-    return re.sub(r"'(\w+)'", r"'lsp_types.\1'", text)
+    return re.sub(r"'(\w+)'", r"lsp_types.\1", text)

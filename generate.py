@@ -39,10 +39,11 @@ def generate(preferred_structure_kind: StructureKind, output: str) -> None:
         specification_version = lsp_json.get('metaData')['version']
 
         content = "\n".join([
+            "from __future__ import annotations",
             "# Code generated. DO NOT EDIT.",
             f"# LSP v{specification_version}\n",
             "from typing_extensions import NotRequired",
-            "from typing import Dict, List, Literal, TypedDict, Union",
+            "from typing import Dict, List, Literal, TypedDict",
             "from enum import IntEnum, IntFlag, StrEnum\n\n",
             "URI = str",
             "DocumentUri = str",
@@ -73,10 +74,15 @@ generate(preferred_structure_kind=StructureKind.Function, output="./lsp_types_su
 
 
 def generate_req(output) -> None:
-    content = f"""# Code generated. DO NOT EDIT.
+    content = f"""from __future__ import annotations
+# Code generated. DO NOT EDIT.
+from typing import List, TypeVar
 import lsp_types
-from typing import List, Union
-
+try:
+    from .response import Response
+except:
+    T = TypeVar('T')
+    Response = T
 
 class LspRequest:
 {indentation}def __init__(self, send_request):

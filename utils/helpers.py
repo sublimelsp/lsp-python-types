@@ -62,7 +62,7 @@ def format_type(type: _Type, context: FormatTypeContext, preferred_structure_kin
         return format_base_types(type)
     elif type['kind'] == 'reference':
         literal_symbol_name = type['name']
-        return f"'{literal_symbol_name}'"
+        return literal_symbol_name
     elif type['kind'] == 'array':
         literal_symbol_name = format_type(type['element'], context, preferred_structure_kind)
         return f"List[{literal_symbol_name}]"
@@ -78,12 +78,12 @@ def format_type(type: _Type, context: FormatTypeContext, preferred_structure_kin
         tuple = []
         for item in type['items']:
             tuple.append(format_type(item, context, preferred_structure_kind))
-        return f"Union[{', '.join(tuple)}]"
+        return f"{' | '.join(tuple)}"
     elif type['kind'] == 'tuple':
         tuple = []
         for item in type['items']:
             tuple.append(format_type(item, context, preferred_structure_kind))
-        return f"List[Union[{', '.join(tuple)}]]"
+        return f"List[{' | '.join(tuple)}]"
     elif type['kind'] == 'literal':
         if not type['value']['properties']:
             return 'dict'
