@@ -26,6 +26,7 @@ ENUM_OVERRIDES = {
     'TraceValue': 'StrEnum',
     'UniquenessLevel': 'StrEnum',
     'WatchKind': 'IntFlag',
+    'ApplyKind': 'StrEnum'
 }  # type: Dict[str, Literal['StrEnum', 'IntFlag']]
 
 
