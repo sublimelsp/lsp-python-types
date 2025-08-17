@@ -45,6 +45,7 @@ method_to_symbol_name = {
     "codeAction/resolve": "resolve_code_action",
     "workspace/symbol": "workspace_symbol",
     "workspaceSymbol/resolve": "resolve_workspace_symbol",
+    "workspace/textDocumentContent": "workspace_text_document_content",
     "textDocument/codeLens": "code_lens",
     "codeLens/resolve": "resolve_code_lens",
     "textDocument/documentLink": "document_link",

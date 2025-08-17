@@ -5,6 +5,7 @@
 	"requests": [
 		{
 			"method": "textDocument/implementation",
+			"typeName": "ImplementationRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -26,6 +27,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.implementation",
+			"serverCapability": "implementationProvider",
 			"params": {
 				"kind": "reference",
 				"name": "ImplementationParams"
@@ -57,6 +60,7 @@
 		},
 		{
 			"method": "textDocument/typeDefinition",
+			"typeName": "TypeDefinitionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -78,6 +82,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.typeDefinition",
+			"serverCapability": "typeDefinitionProvider",
 			"params": {
 				"kind": "reference",
 				"name": "TypeDefinitionParams"
@@ -109,6 +115,7 @@
 		},
 		{
 			"method": "workspace/workspaceFolders",
+			"typeName": "WorkspaceFoldersRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -126,10 +133,13 @@
 				]
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "workspace.workspaceFolders",
+			"serverCapability": "workspace.workspaceFolders",
 			"documentation": "The `workspace/workspaceFolders` is sent from the server to the client to fetch the open workspace folders."
 		},
 		{
 			"method": "workspace/configuration",
+			"typeName": "ConfigurationRequest",
 			"result": {
 				"kind": "array",
 				"element": {
@@ -138,6 +148,7 @@
 				}
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "workspace.configuration",
 			"params": {
 				"kind": "reference",
 				"name": "ConfigurationParams"
@@ -146,6 +157,7 @@
 		},
 		{
 			"method": "textDocument/documentColor",
+			"typeName": "DocumentColorRequest",
 			"result": {
 				"kind": "array",
 				"element": {
@@ -154,6 +166,8 @@
 				}
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.colorProvider",
+			"serverCapability": "colorProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentColorParams"
@@ -173,6 +187,7 @@
 		},
 		{
 			"method": "textDocument/colorPresentation",
+			"typeName": "ColorPresentationRequest",
 			"result": {
 				"kind": "array",
 				"element": {
@@ -181,6 +196,8 @@
 				}
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.colorProvider",
+			"serverCapability": "colorProvider",
 			"params": {
 				"kind": "reference",
 				"name": "ColorPresentationParams"
@@ -209,6 +226,7 @@
 		},
 		{
 			"method": "textDocument/foldingRange",
+			"typeName": "FoldingRangeRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -226,6 +244,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.foldingRange",
+			"serverCapability": "foldingRangeProvider",
 			"params": {
 				"kind": "reference",
 				"name": "FoldingRangeParams"
@@ -245,17 +265,20 @@
 		},
 		{
 			"method": "workspace/foldingRange/refresh",
+			"typeName": "FoldingRangeRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "workspace.foldingRange.refreshSupport",
 			"documentation": "@since 3.18.0\n@proposed",
 			"since": "3.18.0",
 			"proposed": true
 		},
 		{
 			"method": "textDocument/declaration",
+			"typeName": "DeclarationRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -277,6 +300,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.declaration",
+			"serverCapability": "declarationProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DeclarationParams"
@@ -308,6 +333,7 @@
 		},
 		{
 			"method": "textDocument/selectionRange",
+			"typeName": "SelectionRangeRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -325,6 +351,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.selectionRange",
+			"serverCapability": "selectionRangeProvider",
 			"params": {
 				"kind": "reference",
 				"name": "SelectionRangeParams"
@@ -344,11 +372,13 @@
 		},
 		{
 			"method": "window/workDoneProgress/create",
+			"typeName": "WorkDoneProgressCreateRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "window.workDoneProgress",
 			"params": {
 				"kind": "reference",
 				"name": "WorkDoneProgressCreateParams"
@@ -357,6 +387,7 @@
 		},
 		{
 			"method": "textDocument/prepareCallHierarchy",
+			"typeName": "CallHierarchyPrepareRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -374,6 +405,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.callHierarchy",
+			"serverCapability": "callHierarchyProvider",
 			"params": {
 				"kind": "reference",
 				"name": "CallHierarchyPrepareParams"
@@ -387,6 +420,7 @@
 		},
 		{
 			"method": "callHierarchy/incomingCalls",
+			"typeName": "CallHierarchyIncomingCallsRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -420,6 +454,7 @@
 		},
 		{
 			"method": "callHierarchy/outgoingCalls",
+			"typeName": "CallHierarchyOutgoingCallsRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -453,6 +488,7 @@
 		},
 		{
 			"method": "textDocument/semanticTokens/full",
+			"typeName": "SemanticTokensRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -467,6 +503,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.semanticTokens",
+			"serverCapability": "semanticTokensProvider",
 			"params": {
 				"kind": "reference",
 				"name": "SemanticTokensParams"
@@ -485,6 +523,7 @@
 		},
 		{
 			"method": "textDocument/semanticTokens/full/delta",
+			"typeName": "SemanticTokensDeltaRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -503,6 +542,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.semanticTokens.requests.full.delta",
+			"serverCapability": "semanticTokensProvider.full.delta",
 			"params": {
 				"kind": "reference",
 				"name": "SemanticTokensDeltaParams"
@@ -530,6 +571,7 @@
 		},
 		{
 			"method": "textDocument/semanticTokens/range",
+			"typeName": "SemanticTokensRangeRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -544,6 +586,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.semanticTokens.requests.range",
+			"serverCapability": "semanticTokensProvider.range",
 			"params": {
 				"kind": "reference",
 				"name": "SemanticTokensRangeParams"
@@ -558,21 +602,25 @@
 		},
 		{
 			"method": "workspace/semanticTokens/refresh",
+			"typeName": "SemanticTokensRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "workspace.semanticTokens.refreshSupport",
 			"documentation": "@since 3.16.0",
 			"since": "3.16.0"
 		},
 		{
 			"method": "window/showDocument",
+			"typeName": "ShowDocumentRequest",
 			"result": {
 				"kind": "reference",
 				"name": "ShowDocumentResult"
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "window.showDocument.support",
 			"params": {
 				"kind": "reference",
 				"name": "ShowDocumentParams"
@@ -582,6 +630,7 @@
 		},
 		{
 			"method": "textDocument/linkedEditingRange",
+			"typeName": "LinkedEditingRangeRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -596,6 +645,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.linkedEditingRange",
+			"serverCapability": "linkedEditingRangeProvider",
 			"params": {
 				"kind": "reference",
 				"name": "LinkedEditingRangeParams"
@@ -609,6 +660,7 @@
 		},
 		{
 			"method": "workspace/willCreateFiles",
+			"typeName": "WillCreateFilesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -623,6 +675,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.fileOperations.willCreate",
+			"serverCapability": "workspace.fileOperations.willCreate",
 			"params": {
 				"kind": "reference",
 				"name": "CreateFilesParams"
@@ -636,6 +690,7 @@
 		},
 		{
 			"method": "workspace/willRenameFiles",
+			"typeName": "WillRenameFilesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -650,6 +705,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.fileOperations.willRename",
+			"serverCapability": "workspace.fileOperations.willRename",
 			"params": {
 				"kind": "reference",
 				"name": "RenameFilesParams"
@@ -663,6 +720,7 @@
 		},
 		{
 			"method": "workspace/willDeleteFiles",
+			"typeName": "WillDeleteFilesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -677,6 +735,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.fileOperations.willDelete",
+			"serverCapability": "workspace.fileOperations.willDelete",
 			"params": {
 				"kind": "reference",
 				"name": "DeleteFilesParams"
@@ -690,6 +750,7 @@
 		},
 		{
 			"method": "textDocument/moniker",
+			"typeName": "MonikerRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -707,6 +768,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.moniker",
+			"serverCapability": "monikerProvider",
 			"params": {
 				"kind": "reference",
 				"name": "MonikerParams"
@@ -726,6 +789,7 @@
 		},
 		{
 			"method": "textDocument/prepareTypeHierarchy",
+			"typeName": "TypeHierarchyPrepareRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -743,6 +807,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.typeHierarchy",
+			"serverCapability": "typeHierarchyProvider",
 			"params": {
 				"kind": "reference",
 				"name": "TypeHierarchyPrepareParams"
@@ -756,6 +822,7 @@
 		},
 		{
 			"method": "typeHierarchy/supertypes",
+			"typeName": "TypeHierarchySupertypesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -789,6 +856,7 @@
 		},
 		{
 			"method": "typeHierarchy/subtypes",
+			"typeName": "TypeHierarchySubtypesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -822,6 +890,7 @@
 		},
 		{
 			"method": "textDocument/inlineValue",
+			"typeName": "InlineValueRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -839,6 +908,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.inlineValue",
+			"serverCapability": "inlineValueProvider",
 			"params": {
 				"kind": "reference",
 				"name": "InlineValueParams"
@@ -859,16 +930,19 @@
 		},
 		{
 			"method": "workspace/inlineValue/refresh",
+			"typeName": "InlineValueRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "workspace.inlineValue.refreshSupport",
 			"documentation": "@since 3.17.0",
 			"since": "3.17.0"
 		},
 		{
 			"method": "textDocument/inlayHint",
+			"typeName": "InlayHintRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -886,6 +960,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.inlayHint",
+			"serverCapability": "inlayHintProvider",
 			"params": {
 				"kind": "reference",
 				"name": "InlayHintParams"
@@ -906,11 +982,14 @@
 		},
 		{
 			"method": "inlayHint/resolve",
+			"typeName": "InlayHintResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "InlayHint"
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.inlayHint.resolveSupport",
+			"serverCapability": "inlayHintProvider.resolveProvider",
 			"params": {
 				"kind": "reference",
 				"name": "InlayHint"
@@ -920,21 +999,26 @@
 		},
 		{
 			"method": "workspace/inlayHint/refresh",
+			"typeName": "InlayHintRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "workspace.inlayHint.refreshSupport",
 			"documentation": "@since 3.17.0",
 			"since": "3.17.0"
 		},
 		{
 			"method": "textDocument/diagnostic",
+			"typeName": "DocumentDiagnosticRequest",
 			"result": {
 				"kind": "reference",
 				"name": "DocumentDiagnosticReport"
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.diagnostic",
+			"serverCapability": "diagnosticProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentDiagnosticParams"
@@ -956,11 +1040,14 @@
 		},
 		{
 			"method": "workspace/diagnostic",
+			"typeName": "WorkspaceDiagnosticRequest",
 			"result": {
 				"kind": "reference",
 				"name": "WorkspaceDiagnosticReport"
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.diagnostics",
+			"serverCapability": "diagnosticProvider.workspaceDiagnostics",
 			"params": {
 				"kind": "reference",
 				"name": "WorkspaceDiagnosticParams"
@@ -978,16 +1065,19 @@
 		},
 		{
 			"method": "workspace/diagnostic/refresh",
+			"typeName": "DiagnosticRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "workspace.diagnostics.refreshSupport",
 			"documentation": "The diagnostic refresh request definition.\n\n@since 3.17.0",
 			"since": "3.17.0"
 		},
 		{
 			"method": "textDocument/inlineCompletion",
+			"typeName": "InlineCompletionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1009,6 +1099,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.inlineCompletion",
+			"serverCapability": "inlineCompletionProvider",
 			"params": {
 				"kind": "reference",
 				"name": "InlineCompletionParams"
@@ -1029,7 +1121,46 @@
 			"proposed": true
 		},
 		{
+			"method": "workspace/textDocumentContent",
+			"typeName": "TextDocumentContentRequest",
+			"result": {
+				"kind": "reference",
+				"name": "TextDocumentContentResult"
+			},
+			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.textDocumentContent",
+			"serverCapability": "workspace.textDocumentContent",
+			"params": {
+				"kind": "reference",
+				"name": "TextDocumentContentParams"
+			},
+			"registrationOptions": {
+				"kind": "reference",
+				"name": "TextDocumentContentRegistrationOptions"
+			},
+			"documentation": "The `workspace/textDocumentContent` request is sent from the client to the\nserver to request the content of a text document.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
+			"method": "workspace/textDocumentContent/refresh",
+			"typeName": "TextDocumentContentRefreshRequest",
+			"result": {
+				"kind": "base",
+				"name": "null"
+			},
+			"messageDirection": "serverToClient",
+			"params": {
+				"kind": "reference",
+				"name": "TextDocumentContentRefreshParams"
+			},
+			"documentation": "The `workspace/textDocumentContent` request is sent from the server to the client to refresh\nthe content of a specific text document.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
 			"method": "client/registerCapability",
+			"typeName": "RegistrationRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -1043,6 +1174,7 @@
 		},
 		{
 			"method": "client/unregisterCapability",
+			"typeName": "UnregistrationRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -1056,6 +1188,7 @@
 		},
 		{
 			"method": "initialize",
+			"typeName": "InitializeRequest",
 			"result": {
 				"kind": "reference",
 				"name": "InitializeResult"
@@ -1073,6 +1206,7 @@
 		},
 		{
 			"method": "shutdown",
+			"typeName": "ShutdownRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
@@ -1082,6 +1216,7 @@
 		},
 		{
 			"method": "window/showMessageRequest",
+			"typeName": "ShowMessageRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1096,6 +1231,7 @@
 				]
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "window.showMessage",
 			"params": {
 				"kind": "reference",
 				"name": "ShowMessageRequestParams"
@@ -1104,6 +1240,7 @@
 		},
 		{
 			"method": "textDocument/willSaveWaitUntil",
+			"typeName": "WillSaveTextDocumentWaitUntilRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1121,6 +1258,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.synchronization.willSaveWaitUntil",
+			"serverCapability": "textDocumentSync.willSaveWaitUntil",
 			"params": {
 				"kind": "reference",
 				"name": "WillSaveTextDocumentParams"
@@ -1133,6 +1272,7 @@
 		},
 		{
 			"method": "textDocument/completion",
+			"typeName": "CompletionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1154,6 +1294,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.completion",
+			"serverCapability": "completionProvider",
 			"params": {
 				"kind": "reference",
 				"name": "CompletionParams"
@@ -1173,11 +1315,14 @@
 		},
 		{
 			"method": "completionItem/resolve",
+			"typeName": "CompletionResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "CompletionItem"
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.completion.completionItem.resolveSupport",
+			"serverCapability": "completionProvider.resolveProvider",
 			"params": {
 				"kind": "reference",
 				"name": "CompletionItem"
@@ -1186,6 +1331,7 @@
 		},
 		{
 			"method": "textDocument/hover",
+			"typeName": "HoverRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1200,6 +1346,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.hover",
+			"serverCapability": "hoverProvider",
 			"params": {
 				"kind": "reference",
 				"name": "HoverParams"
@@ -1212,6 +1360,7 @@
 		},
 		{
 			"method": "textDocument/signatureHelp",
+			"typeName": "SignatureHelpRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1226,6 +1375,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.signatureHelp",
+			"serverCapability": "signatureHelpProvider",
 			"params": {
 				"kind": "reference",
 				"name": "SignatureHelpParams"
@@ -1237,6 +1388,7 @@
 		},
 		{
 			"method": "textDocument/definition",
+			"typeName": "DefinitionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1258,6 +1410,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.definition",
+			"serverCapability": "definitionProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DefinitionParams"
@@ -1289,6 +1443,7 @@
 		},
 		{
 			"method": "textDocument/references",
+			"typeName": "ReferencesRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1306,6 +1461,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.references",
+			"serverCapability": "referencesProvider",
 			"params": {
 				"kind": "reference",
 				"name": "ReferenceParams"
@@ -1325,6 +1482,7 @@
 		},
 		{
 			"method": "textDocument/documentHighlight",
+			"typeName": "DocumentHighlightRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1342,6 +1500,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.documentHighlight",
+			"serverCapability": "documentHighlightProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentHighlightParams"
@@ -1361,6 +1521,7 @@
 		},
 		{
 			"method": "textDocument/documentSymbol",
+			"typeName": "DocumentSymbolRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1385,6 +1546,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.documentSymbol",
+			"serverCapability": "documentSymbolProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentSymbolParams"
@@ -1416,6 +1579,7 @@
 		},
 		{
 			"method": "textDocument/codeAction",
+			"typeName": "CodeActionRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1442,6 +1606,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.codeAction",
+			"serverCapability": "codeActionProvider",
 			"params": {
 				"kind": "reference",
 				"name": "CodeActionParams"
@@ -1470,11 +1636,14 @@
 		},
 		{
 			"method": "codeAction/resolve",
+			"typeName": "CodeActionResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "CodeAction"
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.codeAction.resolveSupport",
+			"serverCapability": "codeActionProvider.resolveProvider",
 			"params": {
 				"kind": "reference",
 				"name": "CodeAction"
@@ -1483,6 +1652,7 @@
 		},
 		{
 			"method": "workspace/symbol",
+			"typeName": "WorkspaceSymbolRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1507,6 +1677,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.symbol",
+			"serverCapability": "workspaceSymbolProvider",
 			"params": {
 				"kind": "reference",
 				"name": "WorkspaceSymbolParams"
@@ -1539,11 +1711,14 @@
 		},
 		{
 			"method": "workspaceSymbol/resolve",
+			"typeName": "WorkspaceSymbolResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "WorkspaceSymbol"
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.symbol.resolveSupport",
+			"serverCapability": "workspaceSymbolProvider.resolveProvider",
 			"params": {
 				"kind": "reference",
 				"name": "WorkspaceSymbol"
@@ -1553,6 +1728,7 @@
 		},
 		{
 			"method": "textDocument/codeLens",
+			"typeName": "CodeLensRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1570,6 +1746,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.codeLens",
+			"serverCapability": "codeLensProvider",
 			"params": {
 				"kind": "reference",
 				"name": "CodeLensParams"
@@ -1589,11 +1767,14 @@
 		},
 		{
 			"method": "codeLens/resolve",
+			"typeName": "CodeLensResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "CodeLens"
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.codeLens.resolveSupport",
+			"serverCapability": "codeLensProvider.resolveProvider",
 			"params": {
 				"kind": "reference",
 				"name": "CodeLens"
@@ -1602,16 +1783,19 @@
 		},
 		{
 			"method": "workspace/codeLens/refresh",
+			"typeName": "CodeLensRefreshRequest",
 			"result": {
 				"kind": "base",
 				"name": "null"
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "workspace.codeLens",
 			"documentation": "A request to refresh all code actions\n\n@since 3.16.0",
 			"since": "3.16.0"
 		},
 		{
 			"method": "textDocument/documentLink",
+			"typeName": "DocumentLinkRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1629,6 +1813,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.documentLink",
+			"serverCapability": "documentLinkProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentLinkParams"
@@ -1648,11 +1834,14 @@
 		},
 		{
 			"method": "documentLink/resolve",
+			"typeName": "DocumentLinkResolveRequest",
 			"result": {
 				"kind": "reference",
 				"name": "DocumentLink"
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.documentLink",
+			"serverCapability": "documentLinkProvider.resolveProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentLink"
@@ -1661,6 +1850,7 @@
 		},
 		{
 			"method": "textDocument/formatting",
+			"typeName": "DocumentFormattingRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1678,6 +1868,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.formatting",
+			"serverCapability": "documentFormattingProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentFormattingParams"
@@ -1690,6 +1882,7 @@
 		},
 		{
 			"method": "textDocument/rangeFormatting",
+			"typeName": "DocumentRangeFormattingRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1707,6 +1900,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.rangeFormatting",
+			"serverCapability": "documentRangeFormattingProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentRangeFormattingParams"
@@ -1719,6 +1914,7 @@
 		},
 		{
 			"method": "textDocument/rangesFormatting",
+			"typeName": "DocumentRangesFormattingRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1736,6 +1932,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.rangeFormatting.rangesSupport",
+			"serverCapability": "documentRangeFormattingProvider.rangesSupport",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentRangesFormattingParams"
@@ -1750,6 +1948,7 @@
 		},
 		{
 			"method": "textDocument/onTypeFormatting",
+			"typeName": "DocumentOnTypeFormattingRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1767,6 +1966,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.onTypeFormatting",
+			"serverCapability": "documentOnTypeFormattingProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentOnTypeFormattingParams"
@@ -1779,6 +1980,7 @@
 		},
 		{
 			"method": "textDocument/rename",
+			"typeName": "RenameRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1793,6 +1995,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.rename",
+			"serverCapability": "renameProvider",
 			"params": {
 				"kind": "reference",
 				"name": "RenameParams"
@@ -1805,6 +2009,7 @@
 		},
 		{
 			"method": "textDocument/prepareRename",
+			"typeName": "PrepareRenameRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1819,6 +2024,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.rename.prepareSupport",
+			"serverCapability": "renameProvider.prepareProvider",
 			"params": {
 				"kind": "reference",
 				"name": "PrepareRenameParams"
@@ -1828,6 +2035,7 @@
 		},
 		{
 			"method": "workspace/executeCommand",
+			"typeName": "ExecuteCommandRequest",
 			"result": {
 				"kind": "or",
 				"items": [
@@ -1842,6 +2050,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.executeCommand",
+			"serverCapability": "executeCommandProvider",
 			"params": {
 				"kind": "reference",
 				"name": "ExecuteCommandParams"
@@ -1854,11 +2064,13 @@
 		},
 		{
 			"method": "workspace/applyEdit",
+			"typeName": "ApplyWorkspaceEditRequest",
 			"result": {
 				"kind": "reference",
 				"name": "ApplyWorkspaceEditResult"
 			},
 			"messageDirection": "serverToClient",
+			"clientCapability": "workspace.applyEdit",
 			"params": {
 				"kind": "reference",
 				"name": "ApplyWorkspaceEditParams"
@@ -1869,7 +2081,9 @@
 	"notifications": [
 		{
 			"method": "workspace/didChangeWorkspaceFolders",
+			"typeName": "DidChangeWorkspaceFoldersNotification",
 			"messageDirection": "clientToServer",
+			"serverCapability": "workspace.workspaceFolders.changeNotifications",
 			"params": {
 				"kind": "reference",
 				"name": "DidChangeWorkspaceFoldersParams"
@@ -1878,6 +2092,7 @@
 		},
 		{
 			"method": "window/workDoneProgress/cancel",
+			"typeName": "WorkDoneProgressCancelNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1887,7 +2102,10 @@
 		},
 		{
 			"method": "workspace/didCreateFiles",
+			"typeName": "DidCreateFilesNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.fileOperations.didCreate",
+			"serverCapability": "workspace.fileOperations.didCreate",
 			"params": {
 				"kind": "reference",
 				"name": "CreateFilesParams"
@@ -1901,7 +2119,10 @@
 		},
 		{
 			"method": "workspace/didRenameFiles",
+			"typeName": "DidRenameFilesNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.fileOperations.didRename",
+			"serverCapability": "workspace.fileOperations.didRename",
 			"params": {
 				"kind": "reference",
 				"name": "RenameFilesParams"
@@ -1915,7 +2136,10 @@
 		},
 		{
 			"method": "workspace/didDeleteFiles",
+			"typeName": "DidDeleteFilesNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.fileOperations.didDelete",
+			"serverCapability": "workspace.fileOperations.didDelete",
 			"params": {
 				"kind": "reference",
 				"name": "DeleteFilesParams"
@@ -1929,6 +2153,7 @@
 		},
 		{
 			"method": "notebookDocument/didOpen",
+			"typeName": "DidOpenNotebookDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1944,6 +2169,7 @@
 		},
 		{
 			"method": "notebookDocument/didChange",
+			"typeName": "DidChangeNotebookDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1957,6 +2183,7 @@
 		},
 		{
 			"method": "notebookDocument/didSave",
+			"typeName": "DidSaveNotebookDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1972,6 +2199,7 @@
 		},
 		{
 			"method": "notebookDocument/didClose",
+			"typeName": "DidCloseNotebookDocumentNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1987,6 +2215,7 @@
 		},
 		{
 			"method": "initialized",
+			"typeName": "InitializedNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -1996,12 +2225,15 @@
 		},
 		{
 			"method": "exit",
+			"typeName": "ExitNotification",
 			"messageDirection": "clientToServer",
 			"documentation": "The exit event is sent from the client to the server to\nask the server to exit its process."
 		},
 		{
 			"method": "workspace/didChangeConfiguration",
+			"typeName": "DidChangeConfigurationNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.didChangeConfiguration",
 			"params": {
 				"kind": "reference",
 				"name": "DidChangeConfigurationParams"
@@ -2014,7 +2246,9 @@
 		},
 		{
 			"method": "window/showMessage",
+			"typeName": "ShowMessageNotification",
 			"messageDirection": "serverToClient",
+			"clientCapability": "window.showMessage",
 			"params": {
 				"kind": "reference",
 				"name": "ShowMessageParams"
@@ -2023,6 +2257,7 @@
 		},
 		{
 			"method": "window/logMessage",
+			"typeName": "LogMessageNotification",
 			"messageDirection": "serverToClient",
 			"params": {
 				"kind": "reference",
@@ -2032,6 +2267,7 @@
 		},
 		{
 			"method": "telemetry/event",
+			"typeName": "TelemetryEventNotification",
 			"messageDirection": "serverToClient",
 			"params": {
 				"kind": "reference",
@@ -2041,7 +2277,10 @@
 		},
 		{
 			"method": "textDocument/didOpen",
+			"typeName": "DidOpenTextDocumentNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.synchronization",
+			"serverCapability": "textDocumentSync.openClose",
 			"params": {
 				"kind": "reference",
 				"name": "DidOpenTextDocumentParams"
@@ -2054,7 +2293,10 @@
 		},
 		{
 			"method": "textDocument/didChange",
+			"typeName": "DidChangeTextDocumentNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.synchronization",
+			"serverCapability": "textDocumentSync",
 			"params": {
 				"kind": "reference",
 				"name": "DidChangeTextDocumentParams"
@@ -2067,7 +2309,10 @@
 		},
 		{
 			"method": "textDocument/didClose",
+			"typeName": "DidCloseTextDocumentNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.synchronization",
+			"serverCapability": "textDocumentSync.openClose",
 			"params": {
 				"kind": "reference",
 				"name": "DidCloseTextDocumentParams"
@@ -2080,7 +2325,10 @@
 		},
 		{
 			"method": "textDocument/didSave",
+			"typeName": "DidSaveTextDocumentNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.synchronization.didSave",
+			"serverCapability": "textDocumentSync.save",
 			"params": {
 				"kind": "reference",
 				"name": "DidSaveTextDocumentParams"
@@ -2093,7 +2341,10 @@
 		},
 		{
 			"method": "textDocument/willSave",
+			"typeName": "WillSaveTextDocumentNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.synchronization.willSave",
+			"serverCapability": "textDocumentSync.willSave",
 			"params": {
 				"kind": "reference",
 				"name": "WillSaveTextDocumentParams"
@@ -2106,7 +2357,9 @@
 		},
 		{
 			"method": "workspace/didChangeWatchedFiles",
+			"typeName": "DidChangeWatchedFilesNotification",
 			"messageDirection": "clientToServer",
+			"clientCapability": "workspace.didChangeWatchedFiles",
 			"params": {
 				"kind": "reference",
 				"name": "DidChangeWatchedFilesParams"
@@ -2119,7 +2372,9 @@
 		},
 		{
 			"method": "textDocument/publishDiagnostics",
+			"typeName": "PublishDiagnosticsNotification",
 			"messageDirection": "serverToClient",
+			"clientCapability": "textDocument.publishDiagnostics",
 			"params": {
 				"kind": "reference",
 				"name": "PublishDiagnosticsParams"
@@ -2128,6 +2383,7 @@
 		},
 		{
 			"method": "$/setTrace",
+			"typeName": "SetTraceNotification",
 			"messageDirection": "clientToServer",
 			"params": {
 				"kind": "reference",
@@ -2136,6 +2392,7 @@
 		},
 		{
 			"method": "$/logTrace",
+			"typeName": "LogTraceNotification",
 			"messageDirection": "serverToClient",
 			"params": {
 				"kind": "reference",
@@ -2144,6 +2401,7 @@
 		},
 		{
 			"method": "$/cancelRequest",
+			"typeName": "CancelNotification",
 			"messageDirection": "both",
 			"params": {
 				"kind": "reference",
@@ -2152,6 +2410,7 @@
 		},
 		{
 			"method": "$/progress",
+			"typeName": "ProgressNotification",
 			"messageDirection": "both",
 			"params": {
 				"kind": "reference",
@@ -4276,6 +4535,73 @@
 			"proposed": true
 		},
 		{
+			"name": "TextDocumentContentParams",
+			"properties": [
+				{
+					"name": "uri",
+					"type": {
+						"kind": "base",
+						"name": "DocumentUri"
+					},
+					"documentation": "The uri of the text document."
+				}
+			],
+			"documentation": "Parameters for the `workspace/textDocumentContent` request.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
+			"name": "TextDocumentContentResult",
+			"properties": [
+				{
+					"name": "text",
+					"type": {
+						"kind": "base",
+						"name": "string"
+					},
+					"documentation": "The text content of the text document. Please note, that the content of\nany subsequent open notifications for the text document might differ\nfrom the returned content due to whitespace and line ending\nnormalizations done on the client"
+				}
+			],
+			"documentation": "Result of the `workspace/textDocumentContent` request.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
+			"name": "TextDocumentContentRegistrationOptions",
+			"properties": [],
+			"extends": [
+				{
+					"kind": "reference",
+					"name": "TextDocumentContentOptions"
+				}
+			],
+			"mixins": [
+				{
+					"kind": "reference",
+					"name": "StaticRegistrationOptions"
+				}
+			],
+			"documentation": "Text document content provider registration options.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
+			"name": "TextDocumentContentRefreshParams",
+			"properties": [
+				{
+					"name": "uri",
+					"type": {
+						"kind": "base",
+						"name": "DocumentUri"
+					},
+					"documentation": "The uri of the text document to refresh."
+				}
+			],
+			"documentation": "Parameters for the `workspace/textDocumentContent/refresh` request.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
 			"name": "RegistrationParams",
 			"properties": [
 				{
@@ -4972,8 +5298,18 @@
 						"name": "CompletionItemDefaults"
 					},
 					"optional": true,
-					"documentation": "In many cases the items of an actual completion result share the same\nvalue for properties like `commitCharacters` or the range of a text\nedit. A completion list can therefore define item defaults which will\nbe used if a completion item itself doesn't specify the value.\n\nIf a completion list specifies a default value and a completion item\nalso specifies a corresponding value the one from the item is used.\n\nServers are only allowed to return default values if the client\nsignals support for this via the `completionList.itemDefaults`\ncapability.\n\n@since 3.17.0",
+					"documentation": "In many cases the items of an actual completion result share the same\nvalue for properties like `commitCharacters` or the range of a text\nedit. A completion list can therefore define item defaults which will\nbe used if a completion item itself doesn't specify the value.\n\nIf a completion list specifies a default value and a completion item\nalso specifies a corresponding value, the rules for combining these are\ndefined by `applyKinds` (if the client supports it), defaulting to\nApplyKind.Replace.\n\nServers are only allowed to return default values if the client\nsignals support for this via the `completionList.itemDefaults`\ncapability.\n\n@since 3.17.0",
 					"since": "3.17.0"
+				},
+				{
+					"name": "applyKind",
+					"type": {
+						"kind": "reference",
+						"name": "CompletionItemApplyKinds"
+					},
+					"optional": true,
+					"documentation": "Specifies how fields from a completion item should be combined with those\nfrom `completionList.itemDefaults`.\n\nIf unspecified, all fields will be treated as ApplyKind.Replace.\n\nIf a field's value is ApplyKind.Replace, the value from a completion item\n(if provided and not `null`) will always be used instead of the value\nfrom `completionItem.itemDefaults`.\n\nIf a field's value is ApplyKind.Merge, the values will be merged using\nthe rules defined against each field below.\n\nServers are only allowed to return `applyKind` if the client\nsignals support for this via the `completionList.applyKindSupport`\ncapability.\n\n@since 3.18.0",
+					"since": "3.18.0"
 				},
 				{
 					"name": "items",
@@ -5616,6 +5952,19 @@
 					"optional": true,
 					"documentation": "A data entry field that is preserved on a code action between\na `textDocument/codeAction` and a `codeAction/resolve` request.\n\n@since 3.16.0",
 					"since": "3.16.0"
+				},
+				{
+					"name": "tags",
+					"type": {
+						"kind": "array",
+						"element": {
+							"kind": "reference",
+							"name": "CodeActionTag"
+						}
+					},
+					"optional": true,
+					"documentation": "Tags for this code action.\n\n@since 3.18.0 - proposed",
+					"since": "3.18.0 - proposed"
 				}
 			],
 			"documentation": "A code action represents a change that can be performed in code, e.g. to fix a problem or\nto refactor code.\n\nA CodeAction must set either `edit` and/or a `command`. If both are supplied, the `edit` is applied first, then the `command` is executed."
@@ -5644,7 +5993,7 @@
 						"kind": "base",
 						"name": "string"
 					},
-					"documentation": "A query string to filter symbols by. Clients may send an empty\nstring here to request all symbols."
+					"documentation": "A query string to filter symbols by. Clients may send an empty\nstring here to request all symbols.\n\nThe `query`-parameter should be interpreted in a *relaxed way* as editors\nwill apply their own highlighting and scoring on the results. A good rule\nof thumb is to match case-insensitive and to simply check that the\ncharacters of *query* appear in their order in a candidate symbol.\nServers shouldn't use prefix, substring, or similar strict matching."
 				}
 			],
 			"mixins": [
@@ -6696,7 +7045,7 @@
 						"kind": "base",
 						"name": "uinteger"
 					},
-					"documentation": "Line position in a document (zero-based).\n\nIf a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.\nIf a line number is negative, it defaults to 0."
+					"documentation": "Line position in a document (zero-based)."
 				},
 				{
 					"name": "character",
@@ -6704,7 +7053,7 @@
 						"kind": "base",
 						"name": "uinteger"
 					},
-					"documentation": "Character offset on a line in a document (zero-based).\n\nThe meaning of this offset is determined by the negotiated\n`PositionEncodingKind`.\n\nIf the character value is greater than the line length it defaults back to the\nline length."
+					"documentation": "Character offset on a line in a document (zero-based).\n\nThe meaning of this offset is determined by the negotiated\n`PositionEncodingKind`."
 				}
 			],
 			"documentation": "Position in a text document expressed as zero-based line and character\noffset. Prior to 3.17 the offsets were always based on a UTF-16 string\nrepresentation. So a string of the form `a𐐀b` the character offset of the\ncharacter `a` is 0, the character offset of `𐐀` is 1 and the character\noffset of b is 3 since `𐐀` is represented using two code units in UTF-16.\nSince 3.17 clients and servers can agree on a different string encoding\nrepresentation (e.g. UTF-8). The client announces it's supported encoding\nvia the client capability [`general.positionEncodings`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#clientCapabilities).\nThe value is an array of position encodings the client supports, with\ndecreasing preference (e.g. the encoding at index `0` is the most preferred\none). To stay backwards compatible the only mandatory encoding is UTF-16\nrepresented via the string `utf-16`. The server can pick one of the\nencodings offered by the client and signals that encoding back to the\nclient via the initialize result's property\n[`capabilities.positionEncoding`](https://microsoft.github.io/language-server-protocol/specifications/specification-current/#serverCapabilities). If the string value\n`utf-16` is missing from the client's capability `general.positionEncodings`\nservers can safely assume that the client supports UTF-16. If the server\nomits the position encoding in its initialize result the encoding defaults\nto the string value `utf-16`. Implementation considerations: since the\nconversion from one encoding into another requires the content of the\nfile / line the conversion is best done where the file is read which is\nusually on the server side.\n\nPositions are line end character agnostic. So you can not specify a position\nthat denotes `\\r|\\n` or `\\n|` where `|` represents the character offset.\n\n@since 3.17.0 - support for negotiated position encoding.",
@@ -6885,7 +7234,11 @@
 						}
 					},
 					"documentation": "The edits to be applied.\n\n@since 3.16.0 - support for AnnotatedTextEdit. This is guarded using a\nclient capability.\n\n@since 3.18.0 - support for SnippetTextEdit. This is guarded using a\nclient capability.",
-					"since": "3.18.0 - support for SnippetTextEdit. This is guarded using a\nclient capability."
+					"since": "3.18.0 - support for SnippetTextEdit. This is guarded using a\nclient capability.",
+					"sinceTags": [
+						"3.16.0 - support for AnnotatedTextEdit. This is guarded using a\nclient capability.",
+						"3.18.0 - support for SnippetTextEdit. This is guarded using a\nclient capability."
+					]
 				}
 			],
 			"documentation": "Describes textual changes on a text document. A TextDocumentEdit describes all changes\non a document version Si and after they are applied move the document to version Si+1.\nSo the creator of a TextDocumentEdit doesn't need to sort the array of edits or do any\nkind of ordering. However the edits must be non overlapping."
@@ -7783,6 +8136,25 @@
 			"proposed": true
 		},
 		{
+			"name": "TextDocumentContentOptions",
+			"properties": [
+				{
+					"name": "schemes",
+					"type": {
+						"kind": "array",
+						"element": {
+							"kind": "base",
+							"name": "string"
+						}
+					},
+					"documentation": "The schemes for which the server provides content."
+				}
+			],
+			"documentation": "Text document content provider options.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
 			"name": "Registration",
 			"properties": [
 				{
@@ -8629,7 +9001,11 @@
 				}
 			],
 			"documentation": "Information about the server\n\n@since 3.15.0\n@since 3.18.0 ServerInfo type name added.",
-			"since": "3.18.0 ServerInfo type name added."
+			"since": "3.18.0 ServerInfo type name added.",
+			"sinceTags": [
+				"3.15.0",
+				"3.18.0 ServerInfo type name added."
+			]
 		},
 		{
 			"name": "VersionedTextDocumentIdentifier",
@@ -8729,7 +9105,7 @@
 						"name": "DiagnosticSeverity"
 					},
 					"optional": true,
-					"documentation": "The diagnostic's severity. Can be omitted. If omitted it is up to the\nclient to interpret diagnostics as error, warning, info or hint."
+					"documentation": "The diagnostic's severity. To avoid interpretation mismatches when a\nserver is used with different clients it is highly recommended that servers\nalways provide a severity value."
 				},
 				{
 					"name": "code",
@@ -8959,8 +9335,35 @@
 					"since": "3.17.0"
 				}
 			],
-			"documentation": "In many cases the items of an actual completion result share the same\nvalue for properties like `commitCharacters` or the range of a text\nedit. A completion list can therefore define item defaults which will\nbe used if a completion item itself doesn't specify the value.\n\nIf a completion list specifies a default value and a completion item\nalso specifies a corresponding value the one from the item is used.\n\nServers are only allowed to return default values if the client\nsignals support for this via the `completionList.itemDefaults`\ncapability.\n\n@since 3.17.0",
+			"documentation": "In many cases the items of an actual completion result share the same\nvalue for properties like `commitCharacters` or the range of a text\nedit. A completion list can therefore define item defaults which will\nbe used if a completion item itself doesn't specify the value.\n\nIf a completion list specifies a default value and a completion item\nalso specifies a corresponding value, the rules for combining these are\ndefined by `applyKinds` (if the client supports it), defaulting to\nApplyKind.Replace.\n\nServers are only allowed to return default values if the client\nsignals support for this via the `completionList.itemDefaults`\ncapability.\n\n@since 3.17.0",
 			"since": "3.17.0"
+		},
+		{
+			"name": "CompletionItemApplyKinds",
+			"properties": [
+				{
+					"name": "commitCharacters",
+					"type": {
+						"kind": "reference",
+						"name": "ApplyKind"
+					},
+					"optional": true,
+					"documentation": "Specifies whether commitCharacters on a completion will replace or be\nmerged with those in `completionList.itemDefaults.commitCharacters`.\n\nIf ApplyKind.Replace, the commit characters from the completion item will\nalways be used unless not provided, in which case those from\n`completionList.itemDefaults.commitCharacters` will be used. An\nempty list can be used if a completion item does not have any commit\ncharacters and also should not use those from\n`completionList.itemDefaults.commitCharacters`.\n\nIf ApplyKind.Merge the commitCharacters for the completion will be the\nunion of all values in both `completionList.itemDefaults.commitCharacters`\nand the completion's own `commitCharacters`.\n\n@since 3.18.0",
+					"since": "3.18.0"
+				},
+				{
+					"name": "data",
+					"type": {
+						"kind": "reference",
+						"name": "ApplyKind"
+					},
+					"optional": true,
+					"documentation": "Specifies whether the `data` field on a completion will replace or\nbe merged with data from `completionList.itemDefaults.data`.\n\nIf ApplyKind.Replace, the data from the completion item will be used if\nprovided (and not `null`), otherwise\n`completionList.itemDefaults.data` will be used. An empty object can\nbe used if a completion item does not have any data but also should\nnot use the value from `completionList.itemDefaults.data`.\n\nIf ApplyKind.Merge, a shallow merge will be performed between\n`completionList.itemDefaults.data` and the completion's own data\nusing the following rules:\n\n- If a completion's `data` field is not provided (or `null`), the\n  entire `data` field from `completionList.itemDefaults.data` will be\n  used as-is.\n- If a completion's `data` field is provided, each field will\n  overwrite the field of the same name in\n  `completionList.itemDefaults.data` but no merging of nested fields\n  within that value will occur.\n\n@since 3.18.0",
+					"since": "3.18.0"
+				}
+			],
+			"documentation": "Specifies how fields from a completion item should be combined with those\nfrom `completionList.itemDefaults`.\n\nIf unspecified, all fields will be treated as ApplyKind.Replace.\n\nIf a field's value is ApplyKind.Replace, the value from a completion item (if\nprovided and not `null`) will always be used instead of the value from\n`completionItem.itemDefaults`.\n\nIf a field's value is ApplyKind.Merge, the values will be merged using the rules\ndefined against each field below.\n\nServers are only allowed to return `applyKind` if the client\nsignals support for this via the `completionList.applyKindSupport`\ncapability.\n\n@since 3.18.0",
+			"since": "3.18.0"
 		},
 		{
 			"name": "CompletionOptions",
@@ -10204,7 +10607,11 @@
 				}
 			],
 			"documentation": "Information about the client\n\n@since 3.15.0\n@since 3.18.0 ClientInfo type name added.",
-			"since": "3.18.0 ClientInfo type name added."
+			"since": "3.18.0 ClientInfo type name added.",
+			"sinceTags": [
+				"3.15.0",
+				"3.18.0 ClientInfo type name added."
+			]
 		},
 		{
 			"name": "ClientCapabilities",
@@ -10349,6 +10756,26 @@
 					"optional": true,
 					"documentation": "The server is interested in notifications/requests for operations on files.\n\n@since 3.16.0",
 					"since": "3.16.0"
+				},
+				{
+					"name": "textDocumentContent",
+					"type": {
+						"kind": "or",
+						"items": [
+							{
+								"kind": "reference",
+								"name": "TextDocumentContentOptions"
+							},
+							{
+								"kind": "reference",
+								"name": "TextDocumentContentRegistrationOptions"
+							}
+						]
+					},
+					"optional": true,
+					"documentation": "The server supports the `workspace/textDocumentContent` request.\n\n@since 3.18.0\n@proposed",
+					"since": "3.18.0",
+					"proposed": true
 				}
 			],
 			"documentation": "Defines workspace specific capabilities of the server.\n\n@since 3.18.0",
@@ -10867,6 +11294,17 @@
 					"documentation": "Capabilities specific to the folding range requests scoped to the workspace.\n\n@since 3.18.0\n@proposed",
 					"since": "3.18.0",
 					"proposed": true
+				},
+				{
+					"name": "textDocumentContent",
+					"type": {
+						"kind": "reference",
+						"name": "TextDocumentContentClientCapabilities"
+					},
+					"optional": true,
+					"documentation": "Capabilities specific to the `workspace/textDocumentContent` request.\n\n@since 3.18.0\n@proposed",
+					"since": "3.18.0",
+					"proposed": true
 				}
 			],
 			"documentation": "Workspace specific client capabilities."
@@ -10882,6 +11320,16 @@
 					},
 					"optional": true,
 					"documentation": "Defines which synchronization capabilities the client supports."
+				},
+				{
+					"name": "filters",
+					"type": {
+						"kind": "reference",
+						"name": "TextDocumentFilterClientCapabilities"
+					},
+					"optional": true,
+					"documentation": "Defines which filters the client supports.\n\n@since 3.18.0",
+					"since": "3.18.0"
 				},
 				{
 					"name": "completion",
@@ -11421,11 +11869,12 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"optional": true,
-					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples."
+					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.\n\n@since 3.18.0 - support for relative patterns. Whether clients support\nrelative patterns depends on the client capability\n`textDocuments.filters.relativePatternSupport`.",
+					"since": "3.18.0 - support for relative patterns. Whether clients support\nrelative patterns depends on the client capability\n`textDocuments.filters.relativePatternSupport`."
 				}
 			],
 			"documentation": "A document filter where `language` is required field.\n\n@since 3.18.0",
@@ -11454,11 +11903,12 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"optional": true,
-					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples."
+					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.\n\n@since 3.18.0 - support for relative patterns. Whether clients support\nrelative patterns depends on the client capability\n`textDocuments.filters.relativePatternSupport`.",
+					"since": "3.18.0 - support for relative patterns. Whether clients support\nrelative patterns depends on the client capability\n`textDocuments.filters.relativePatternSupport`."
 				}
 			],
 			"documentation": "A document filter where `scheme` is required field.\n\n@since 3.18.0",
@@ -11488,10 +11938,11 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
-					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples."
+					"documentation": "A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.\n\n@since 3.18.0 - support for relative patterns. Whether clients support\nrelative patterns depends on the client capability\n`textDocuments.filters.relativePatternSupport`.",
+					"since": "3.18.0 - support for relative patterns. Whether clients support\nrelative patterns depends on the client capability\n`textDocuments.filters.relativePatternSupport`."
 				}
 			],
 			"documentation": "A document filter where `pattern` is required field.\n\n@since 3.18.0",
@@ -11520,8 +11971,8 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"optional": true,
 					"documentation": "A glob pattern."
@@ -11553,8 +12004,8 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"optional": true,
 					"documentation": "A glob pattern."
@@ -11587,8 +12038,8 @@
 				{
 					"name": "pattern",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "reference",
+						"name": "GlobPattern"
 					},
 					"documentation": "A glob pattern."
 				}
@@ -11977,6 +12428,23 @@
 			"proposed": true
 		},
 		{
+			"name": "TextDocumentContentClientCapabilities",
+			"properties": [
+				{
+					"name": "dynamicRegistration",
+					"type": {
+						"kind": "base",
+						"name": "boolean"
+					},
+					"optional": true,
+					"documentation": "Text document content provider supports dynamic registration."
+				}
+			],
+			"documentation": "Client capabilities for a text document content provider.\n\n@since 3.18.0\n@proposed",
+			"since": "3.18.0",
+			"proposed": true
+		},
+		{
 			"name": "TextDocumentSyncClientCapabilities",
 			"properties": [
 				{
@@ -12014,6 +12482,21 @@
 					},
 					"optional": true,
 					"documentation": "The client supports did save notifications."
+				}
+			]
+		},
+		{
+			"name": "TextDocumentFilterClientCapabilities",
+			"properties": [
+				{
+					"name": "relativePatternSupport",
+					"type": {
+						"kind": "base",
+						"name": "boolean"
+					},
+					"optional": true,
+					"documentation": "The client supports Relative Patterns.\n\n@since 3.18.0",
+					"since": "3.18.0"
 				}
 			]
 		},
@@ -12403,6 +12886,16 @@
 					"documentation": "Whether the client supports documentation for a class of\ncode actions.\n\n@since 3.18.0\n@proposed",
 					"since": "3.18.0",
 					"proposed": true
+				},
+				{
+					"name": "tagSupport",
+					"type": {
+						"kind": "reference",
+						"name": "CodeActionTagOptions"
+					},
+					"optional": true,
+					"documentation": "Client supports the tag property on a code action. Clients\nsupporting tags have to handle unknown tags gracefully.\n\n@since 3.18.0 - proposed",
+					"since": "3.18.0 - proposed"
 				}
 			],
 			"documentation": "The Client Capabilities of a {@link CodeActionRequest}."
@@ -12418,6 +12911,16 @@
 					},
 					"optional": true,
 					"documentation": "Whether code lens supports dynamic registration."
+				},
+				{
+					"name": "resolveSupport",
+					"type": {
+						"kind": "reference",
+						"name": "ClientCodeLensResolveOptions"
+					},
+					"optional": true,
+					"documentation": "Whether the client supports resolving additional code lens\nproperties via a separate `codeLens/resolve` request.\n\n@since 3.18.0",
+					"since": "3.18.0"
 				}
 			],
 			"documentation": "The client capabilities  of a {@link CodeLensRequest}."
@@ -13249,6 +13752,16 @@
 					"optional": true,
 					"documentation": "The client supports the following itemDefaults on\na completion list.\n\nThe value lists the supported property names of the\n`CompletionList.itemDefaults` object. If omitted\nno properties are supported.\n\n@since 3.17.0",
 					"since": "3.17.0"
+				},
+				{
+					"name": "applyKindSupport",
+					"type": {
+						"kind": "base",
+						"name": "boolean"
+					},
+					"optional": true,
+					"documentation": "Specifies whether the client supports `CompletionList.applyKind` to\nindicate how supported values from `completionList.itemDefaults`\nand `completion` will be combined.\n\nIf a client supports `applyKind` it must support it for all fields\nthat it supports that are listed in `CompletionList.applyKind`. This\nmeans when clients add support for new/future fields in completion\nitems the MUST also support merge for them if those fields are\ndefined in `CompletionList.applyKind`.\n\n@since 3.18.0",
+					"since": "3.18.0"
 				}
 			],
 			"documentation": "The client supports the following `CompletionList` specific\ncapabilities.\n\n@since 3.17.0",
@@ -13320,6 +13833,42 @@
 		},
 		{
 			"name": "ClientCodeActionResolveOptions",
+			"properties": [
+				{
+					"name": "properties",
+					"type": {
+						"kind": "array",
+						"element": {
+							"kind": "base",
+							"name": "string"
+						}
+					},
+					"documentation": "The properties that a client can resolve lazily."
+				}
+			],
+			"documentation": "@since 3.18.0",
+			"since": "3.18.0"
+		},
+		{
+			"name": "CodeActionTagOptions",
+			"properties": [
+				{
+					"name": "valueSet",
+					"type": {
+						"kind": "array",
+						"element": {
+							"kind": "reference",
+							"name": "CodeActionTag"
+						}
+					},
+					"documentation": "The tags supported by the client."
+				}
+			],
+			"documentation": "@since 3.18.0 - proposed",
+			"since": "3.18.0 - proposed"
+		},
+		{
+			"name": "ClientCodeLensResolveOptions",
 			"properties": [
 				{
 					"name": "properties",
@@ -13721,6 +14270,12 @@
 					"value": "decorator",
 					"documentation": "@since 3.17.0",
 					"since": "3.17.0"
+				},
+				{
+					"name": "label",
+					"value": "label",
+					"documentation": "@since 3.18.0",
+					"since": "3.18.0"
 				}
 			],
 			"supportsCustomValues": true,
@@ -13867,7 +14422,7 @@
 				{
 					"name": "RequestCancelled",
 					"value": -32800,
-					"documentation": "The client has canceled a request and a server as detected\nthe cancel."
+					"documentation": "The client has canceled a request and a server has detected\nthe cancel."
 				}
 			],
 			"supportsCustomValues": true
@@ -14461,6 +15016,22 @@
 			"documentation": "A set of predefined code action kinds"
 		},
 		{
+			"name": "CodeActionTag",
+			"type": {
+				"kind": "base",
+				"name": "uinteger"
+			},
+			"values": [
+				{
+					"name": "LLMGenerated",
+					"value": 1,
+					"documentation": "Marks the code action as LLM-generated."
+				}
+			],
+			"documentation": "Code action tags are extra annotations that tweak the behavior of a code action.\n\n@since 3.18.0 - proposed",
+			"since": "3.18.0 - proposed"
+		},
+		{
 			"name": "TraceValue",
 			"type": {
 				"kind": "base",
@@ -14766,9 +15337,8 @@
 				}
 			],
 			"supportsCustomValues": true,
-			"documentation": "Predefined Language kinds\n@since 3.18.0\n@proposed",
-			"since": "3.18.0",
-			"proposed": true
+			"documentation": "Predefined Language kinds\n@since 3.18.0",
+			"since": "3.18.0"
 		},
 		{
 			"name": "InlineCompletionTriggerKind",
@@ -14944,6 +15514,27 @@
 				}
 			],
 			"documentation": "How a completion was triggered"
+		},
+		{
+			"name": "ApplyKind",
+			"type": {
+				"kind": "base",
+				"name": "uinteger"
+			},
+			"values": [
+				{
+					"name": "Replace",
+					"value": 1,
+					"documentation": "The value from the individual item (if provided and not `null`) will be\nused instead of the default."
+				},
+				{
+					"name": "Merge",
+					"value": 2,
+					"documentation": "The value from the item will be merged with the default.\n\nThe specific rules for mergeing values are defined against each field\nthat supports merging."
+				}
+			],
+			"documentation": "Defines how values from a set of defaults and an individual item will be\nmerged.\n\n@since 3.18.0",
+			"since": "3.18.0"
 		},
 		{
 			"name": "SignatureHelpTriggerKind",
@@ -15390,8 +15981,8 @@
 					}
 				]
 			},
-			"documentation": "A document filter describes a top level text document or\na notebook cell document.\n\n@since 3.17.0 - proposed support for NotebookCellTextDocumentFilter.",
-			"since": "3.17.0 - proposed support for NotebookCellTextDocumentFilter."
+			"documentation": "A document filter describes a top level text document or\na notebook cell document.\n\n@since 3.17.0 - support for NotebookCellTextDocumentFilter.",
+			"since": "3.17.0 - support for NotebookCellTextDocumentFilter."
 		},
 		{
 			"name": "LSPObject",

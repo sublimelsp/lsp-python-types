@@ -7,6 +7,7 @@ try:
 except:
     T = TypeVar('T')
     Response = T
+
 class LspRequest:
     def __init__(self, send_request):
         self.send_request = send_request
@@ -61,19 +62,19 @@ class LspRequest:
     async def prepare_call_hierarchy(self,  params: lsp_types.CallHierarchyPrepareParams) -> Response[List[CallHierarchyItem] | None]:
         """ A request to result a `CallHierarchyItem` in a document at a given position.
         Can be used as an input to an incoming or outgoing call hierarchy.
-
+        
         @since 3.16.0 """
         return await self.send_request("textDocument/prepareCallHierarchy", params)
 
     async def incoming_calls(self,  params: lsp_types.CallHierarchyIncomingCallsParams) -> Response[List[CallHierarchyIncomingCall] | None]:
         """ A request to resolve the incoming calls for a given `CallHierarchyItem`.
-
+        
         @since 3.16.0 """
         return await self.send_request("callHierarchy/incomingCalls", params)
 
     async def outgoing_calls(self,  params: lsp_types.CallHierarchyOutgoingCallsParams) -> Response[List[CallHierarchyOutgoingCall] | None]:
         """ A request to resolve the outgoing calls for a given `CallHierarchyItem`.
-
+        
         @since 3.16.0 """
         return await self.send_request("callHierarchy/outgoingCalls", params)
 
@@ -91,32 +92,32 @@ class LspRequest:
 
     async def linked_editing_range(self,  params: lsp_types.LinkedEditingRangeParams) -> Response[LinkedEditingRanges | None]:
         """ A request to provide ranges that can be edited together.
-
+        
         @since 3.16.0 """
         return await self.send_request("textDocument/linkedEditingRange", params)
 
     async def will_create_files(self,  params: lsp_types.CreateFilesParams) -> Response[WorkspaceEdit | None]:
         """ The will create files request is sent from the client to the server before files are actually
         created as long as the creation is triggered from within the client.
-
+        
         The request can return a `WorkspaceEdit` which will be applied to workspace before the
         files are created. Hence the `WorkspaceEdit` can not manipulate the content of the file
         to be created.
-
+        
         @since 3.16.0 """
         return await self.send_request("workspace/willCreateFiles", params)
 
     async def will_rename_files(self,  params: lsp_types.RenameFilesParams) -> Response[WorkspaceEdit | None]:
         """ The will rename files request is sent from the client to the server before files are actually
         renamed as long as the rename is triggered from within the client.
-
+        
         @since 3.16.0 """
         return await self.send_request("workspace/willRenameFiles", params)
 
     async def will_delete_files(self,  params: lsp_types.DeleteFilesParams) -> Response[WorkspaceEdit | None]:
         """ The did delete files notification is sent from the client to the server when
         files were deleted from within the client.
-
+        
         @since 3.16.0 """
         return await self.send_request("workspace/willDeleteFiles", params)
 
@@ -129,19 +130,19 @@ class LspRequest:
     async def prepare_type_hierarchy(self,  params: lsp_types.TypeHierarchyPrepareParams) -> Response[List[TypeHierarchyItem] | None]:
         """ A request to result a `TypeHierarchyItem` in a document at a given position.
         Can be used as an input to a subtypes or supertypes type hierarchy.
-
+        
         @since 3.17.0 """
         return await self.send_request("textDocument/prepareTypeHierarchy", params)
 
     async def type_hierarchy_supertypes(self,  params: lsp_types.TypeHierarchySupertypesParams) -> Response[List[TypeHierarchyItem] | None]:
         """ A request to resolve the supertypes for a given `TypeHierarchyItem`.
-
+        
         @since 3.17.0 """
         return await self.send_request("typeHierarchy/supertypes", params)
 
     async def type_hierarchy_subtypes(self,  params: lsp_types.TypeHierarchySubtypesParams) -> Response[List[TypeHierarchyItem] | None]:
         """ A request to resolve the subtypes for a given `TypeHierarchyItem`.
-
+        
         @since 3.17.0 """
         return await self.send_request("typeHierarchy/subtypes", params)
 
@@ -149,7 +150,7 @@ class LspRequest:
         """ A request to provide inline values in a document. The request's parameter is of
         type {@link InlineValueParams}, the response is of type
         {@link InlineValue InlineValue[]} or a Thenable that resolves to such.
-
+        
         @since 3.17.0 """
         return await self.send_request("textDocument/inlineValue", params)
 
@@ -157,7 +158,7 @@ class LspRequest:
         """ A request to provide inlay hints in a document. The request's parameter is of
         type {@link InlayHintsParams}, the response is of type
         {@link InlayHint InlayHint[]} or a Thenable that resolves to such.
-
+        
         @since 3.17.0 """
         return await self.send_request("textDocument/inlayHint", params)
 
@@ -165,19 +166,19 @@ class LspRequest:
         """ A request to resolve additional properties for an inlay hint.
         The request's parameter is of type {@link InlayHint}, the response is
         of type {@link InlayHint} or a Thenable that resolves to such.
-
+        
         @since 3.17.0 """
         return await self.send_request("inlayHint/resolve", params)
 
     async def text_document_diagnostic(self,  params: lsp_types.DocumentDiagnosticParams) -> Response[DocumentDiagnosticReport]:
         """ The document diagnostic request definition.
-
+        
         @since 3.17.0 """
         return await self.send_request("textDocument/diagnostic", params)
 
     async def workspace_diagnostic(self,  params: lsp_types.WorkspaceDiagnosticParams) -> Response[WorkspaceDiagnosticReport]:
         """ The workspace diagnostic request definition.
-
+        
         @since 3.17.0 """
         return await self.send_request("workspace/diagnostic", params)
 
@@ -185,10 +186,18 @@ class LspRequest:
         """ A request to provide inline completions in a document. The request's parameter is of
         type {@link InlineCompletionParams}, the response is of type
         {@link InlineCompletion InlineCompletion[]} or a Thenable that resolves to such.
-
+        
         @since 3.18.0
         @proposed """
         return await self.send_request("textDocument/inlineCompletion", params)
+
+    async def workspace_text_document_content(self,  params: lsp_types.TextDocumentContentParams) -> Response[TextDocumentContentResult]:
+        """ The `workspace/textDocumentContent` request is sent from the client to the
+        server to request the content of a text document.
+        
+        @since 3.18.0
+        @proposed """
+        return await self.send_request("workspace/textDocumentContent", params)
 
     async def initialize(self,  params: lsp_types.InitializeParams) -> Response[InitializeResult]:
         """ The initialize request is sent from the client to the server.
@@ -219,7 +228,7 @@ class LspRequest:
         parameter is of type {@link TextDocumentPosition} the response
         is of type {@link CompletionItem CompletionItem[]} or {@link CompletionList}
         or a Thenable that resolves to such.
-
+        
         The request can delay the computation of the {@link CompletionItem.detail `detail`}
         and {@link CompletionItem.documentation `documentation`} properties to the `completionItem/resolve`
         request. However, properties that are needed for the initial sorting and filtering, like `sortText`,
@@ -284,7 +293,7 @@ class LspRequest:
         by the {@link WorkspaceSymbolParams}. The response is
         of type {@link SymbolInformation SymbolInformation[]} or a Thenable that
         resolves to such.
-
+        
         @since 3.17.0 - support for WorkspaceSymbol in the returned data. Clients
          need to advertise support for WorkspaceSymbols via the client capability
          `workspace.symbol.resolveSupport`.
@@ -294,7 +303,7 @@ class LspRequest:
     async def resolve_workspace_symbol(self,  params: lsp_types.WorkspaceSymbol) -> Response[WorkspaceSymbol]:
         """ A request to resolve the range inside the workspace
         symbol's location.
-
+        
         @since 3.17.0 """
         return await self.send_request("workspaceSymbol/resolve", params)
 
@@ -326,7 +335,7 @@ class LspRequest:
 
     async def ranges_formatting(self,  params: lsp_types.DocumentRangesFormattingParams) -> Response[List[TextEdit] | None]:
         """ A request to format ranges in a document.
-
+        
         @since 3.18.0
         @proposed """
         return await self.send_request("textDocument/rangesFormatting", params)
@@ -341,7 +350,7 @@ class LspRequest:
 
     async def prepare_rename(self,  params: lsp_types.PrepareRenameParams) -> Response[PrepareRenameResult | None]:
         """ A request to test and perform the setup necessary for a rename.
-
+        
         @since 3.16 - support for default behavior """
         return await self.send_request("textDocument/prepareRename", params)
 
@@ -368,27 +377,27 @@ class LspNotification:
     def did_create_files(self,  params: lsp_types.CreateFilesParams) -> None:
         """ The did create files notification is sent from the client to the server when
         files were created from within the client.
-
+        
         @since 3.16.0 """
         return self.send_notification("workspace/didCreateFiles", params)
 
     def did_rename_files(self,  params: lsp_types.RenameFilesParams) -> None:
         """ The did rename files notification is sent from the client to the server when
         files were renamed from within the client.
-
+        
         @since 3.16.0 """
         return self.send_notification("workspace/didRenameFiles", params)
 
     def did_delete_files(self,  params: lsp_types.DeleteFilesParams) -> None:
         """ The will delete files request is sent from the client to the server before files are actually
         deleted as long as the deletion is triggered from within the client.
-
+        
         @since 3.16.0 """
         return self.send_notification("workspace/didDeleteFiles", params)
 
     def did_open_notebook_document(self,  params: lsp_types.DidOpenNotebookDocumentParams) -> None:
         """ A notification sent when a notebook opens.
-
+        
         @since 3.17.0 """
         return self.send_notification("notebookDocument/didOpen", params)
 
@@ -397,13 +406,13 @@ class LspNotification:
 
     def did_save_notebook_document(self,  params: lsp_types.DidSaveNotebookDocumentParams) -> None:
         """ A notification sent when a notebook document is saved.
-
+        
         @since 3.17.0 """
         return self.send_notification("notebookDocument/didSave", params)
 
     def did_close_notebook_document(self,  params: lsp_types.DidCloseNotebookDocumentParams) -> None:
         """ A notification sent when a notebook closes.
-
+        
         @since 3.17.0 """
         return self.send_notification("notebookDocument/didClose", params)
 

@@ -45,6 +45,8 @@ class SemanticTokenTypes(StrEnum):
     Operator = 'operator'
     Decorator = 'decorator'
     """ @since 3.17.0 """
+    Label = 'label'
+    """ @since 3.18.0 """
 
 
 class SemanticTokenModifiers(StrEnum):
@@ -114,7 +116,7 @@ class LSPErrorCodes(IntEnum):
     If a client decides that a result is not of any use anymore
     the client should cancel the request. """
     RequestCancelled = -32800
-    """ The client has canceled a request and a server as detected
+    """ The client has canceled a request and a server has detected
     the cancel. """
 
 
@@ -402,6 +404,14 @@ class CodeActionKind(StrEnum):
     @since 3.18.0 """
 
 
+class CodeActionTag(IntEnum):
+    """ Code action tags are extra annotations that tweak the behavior of a code action.
+
+    @since 3.18.0 - proposed """
+    LLMGenerated = 1
+    """ Marks the code action as LLM-generated. """
+
+
 class TraceValue(StrEnum):
     Off = 'off'
     """ Turn tracing off. """
@@ -425,8 +435,7 @@ class MarkupKind(StrEnum):
 
 class LanguageKind(StrEnum):
     """ Predefined Language kinds
-    @since 3.18.0
-    @proposed """
+    @since 3.18.0 """
     ABAP = 'abap'
     WindowsBat = 'bat'
     BibTeX = 'bibtex'
@@ -582,6 +591,21 @@ class CompletionTriggerKind(IntEnum):
     the `triggerCharacters` properties of the `CompletionRegistrationOptions`. """
     TriggerForIncompleteCompletions = 3
     """ Completion was re-triggered as current completion list is incomplete """
+
+
+class ApplyKind(IntFlag):
+    """ Defines how values from a set of defaults and an individual item will be
+    merged.
+
+    @since 3.18.0 """
+    Replace = 1
+    """ The value from the individual item (if provided and not `null`) will be
+    used instead of the default. """
+    Merge = 2
+    """ The value from the item will be merged with the default.
+
+    The specific rules for mergeing values are defined against each field
+    that supports merging. """
 
 
 class SignatureHelpTriggerKind(IntEnum):
@@ -762,7 +786,7 @@ DocumentFilter = TextDocumentFilter | NotebookCellTextDocumentFilter
 """ A document filter describes a top level text document or
 a notebook cell document.
 
-@since 3.17.0 - proposed support for NotebookCellTextDocumentFilter. """
+@since 3.17.0 - support for NotebookCellTextDocumentFilter. """
 
 LSPObject = Dict[str, LSPAny]
 """ LSP object definition.
@@ -1854,6 +1878,52 @@ InlineCompletionRegistrationOptions = TypedDict('InlineCompletionRegistrationOpt
 @proposed """
 
 
+TextDocumentContentParams = TypedDict('TextDocumentContentParams', {
+    # The uri of the text document.
+    'uri': 'DocumentUri',
+})
+""" Parameters for the `workspace/textDocumentContent` request.
+
+@since 3.18.0
+@proposed """
+
+
+TextDocumentContentResult = TypedDict('TextDocumentContentResult', {
+    # The text content of the text document. Please note, that the content of
+    # any subsequent open notifications for the text document might differ
+    # from the returned content due to whitespace and line ending
+    # normalizations done on the client
+    'text': str,
+})
+""" Result of the `workspace/textDocumentContent` request.
+
+@since 3.18.0
+@proposed """
+
+
+TextDocumentContentRegistrationOptions = TypedDict('TextDocumentContentRegistrationOptions', {
+    # The schemes for which the server provides content.
+    'schemes': List[str],
+    # The id used to register the request. The id can be used to deregister
+    # the request again. See also Registration#id.
+    'id': NotRequired[str],
+})
+""" Text document content provider registration options.
+
+@since 3.18.0
+@proposed """
+
+
+TextDocumentContentRefreshParams = TypedDict('TextDocumentContentRefreshParams', {
+    # The uri of the text document to refresh.
+    'uri': 'DocumentUri',
+})
+""" Parameters for the `workspace/textDocumentContent/refresh` request.
+
+@since 3.18.0
+@proposed """
+
+
 RegistrationParams = TypedDict('RegistrationParams', {
     'registrations': List[Registration],
 })
@@ -2249,7 +2319,9 @@ CompletionList = TypedDict('CompletionList', {
     # be used if a completion item itself doesn't specify the value.
     #
     # If a completion list specifies a default value and a completion item
-    # also specifies a corresponding value the one from the item is used.
+    # also specifies a corresponding value, the rules for combining these are
+    # defined by `applyKinds` (if the client supports it), defaulting to
+    # ApplyKind.Replace.
     #
     # Servers are only allowed to return default values if the client
     # signals support for this via the `completionList.itemDefaults`
@@ -2257,6 +2329,24 @@ CompletionList = TypedDict('CompletionList', {
     #
     # @since 3.17.0
     'itemDefaults': NotRequired[CompletionItemDefaults],
+    # Specifies how fields from a completion item should be combined with those
+    # from `completionList.itemDefaults`.
+    #
+    # If unspecified, all fields will be treated as ApplyKind.Replace.
+    #
+    # If a field's value is ApplyKind.Replace, the value from a completion item
+    # (if provided and not `null`) will always be used instead of the value
+    # from `completionItem.itemDefaults`.
+    #
+    # If a field's value is ApplyKind.Merge, the values will be merged using
+    # the rules defined against each field below.
+    #
+    # Servers are only allowed to return `applyKind` if the client
+    # signals support for this via the `completionList.applyKindSupport`
+    # capability.
+    #
+    # @since 3.18.0
+    'applyKind': NotRequired[CompletionItemApplyKinds],
     # The completion items.
     'items': List[CompletionItem],
 })
@@ -2644,6 +2734,10 @@ CodeAction = TypedDict('CodeAction', {
     #
     # @since 3.16.0
     'data': NotRequired[LSPAny],
+    # Tags for this code action.
+    #
+    # @since 3.18.0 - proposed
+    'tags': NotRequired[List[CodeActionTag]],
 })
 """ A code action represents a change that can be performed in code, e.g. to fix a problem or
 to refactor code.
@@ -2688,6 +2782,12 @@ CodeActionRegistrationOptions = TypedDict('CodeActionRegistrationOptions', {
 WorkspaceSymbolParams = TypedDict('WorkspaceSymbolParams', {
     # A query string to filter symbols by. Clients may send an empty
     # string here to request all symbols.
+    #
+    # The `query`-parameter should be interpreted in a *relaxed way* as editors
+    # will apply their own highlighting and scoring on the results. A good rule
+    # of thumb is to match case-insensitive and to simply check that the
+    # characters of *query* appear in their order in a candidate symbol.
+    # Servers shouldn't use prefix, substring, or similar strict matching.
     'query': str,
     # An optional token that a server can use to report work done progress.
     'workDoneToken': NotRequired[ProgressToken],
@@ -3217,17 +3317,11 @@ DeclarationOptions = TypedDict('DeclarationOptions', {
 
 Position = TypedDict('Position', {
     # Line position in a document (zero-based).
-    #
-    # If a line number is greater than the number of lines in a document, it defaults back to the number of lines in the document.
-    # If a line number is negative, it defaults to 0.
     'line': Uint,
     # Character offset on a line in a document (zero-based).
     #
     # The meaning of this offset is determined by the negotiated
     # `PositionEncodingKind`.
-    #
-    # If the character value is greater than the line length it defaults back to the
-    # line length.
     'character': Uint,
 })
 """ Position in a text document expressed as zero-based line and character
@@ -3804,6 +3898,16 @@ InlineCompletionOptions = TypedDict('InlineCompletionOptions', {
 @proposed """
 
 
+TextDocumentContentOptions = TypedDict('TextDocumentContentOptions', {
+    # The schemes for which the server provides content.
+    'schemes': List[str],
+})
+""" Text document content provider options.
+
+@since 3.18.0
+@proposed """
+
+
 Registration = TypedDict('Registration', {
     # The id used to register the request. The id can be used to deregister
     # the request again.
@@ -4003,8 +4107,9 @@ FileSystemWatcher = TypedDict('FileSystemWatcher', {
 Diagnostic = TypedDict('Diagnostic', {
     # The range at which the message applies
     'range': Range,
-    # The diagnostic's severity. Can be omitted. If omitted it is up to the
-    # client to interpret diagnostics as error, warning, info or hint.
+    # The diagnostic's severity. To avoid interpretation mismatches when a
+    # server is used with different clients it is highly recommended that servers
+    # always provide a severity value.
     'severity': NotRequired[DiagnosticSeverity],
     # The diagnostic's code, which usually appear in the user interface.
     'code': NotRequired[int | str],
@@ -4100,13 +4205,75 @@ edit. A completion list can therefore define item defaults which will
 be used if a completion item itself doesn't specify the value.
 
 If a completion list specifies a default value and a completion item
-also specifies a corresponding value the one from the item is used.
+also specifies a corresponding value, the rules for combining these are
+defined by `applyKinds` (if the client supports it), defaulting to
+ApplyKind.Replace.
 
 Servers are only allowed to return default values if the client
 signals support for this via the `completionList.itemDefaults`
 capability.
 
 @since 3.17.0 """
+
+
+CompletionItemApplyKinds = TypedDict('CompletionItemApplyKinds', {
+    # Specifies whether commitCharacters on a completion will replace or be
+    # merged with those in `completionList.itemDefaults.commitCharacters`.
+    #
+    # If ApplyKind.Replace, the commit characters from the completion item will
+    # always be used unless not provided, in which case those from
+    # `completionList.itemDefaults.commitCharacters` will be used. An
+    # empty list can be used if a completion item does not have any commit
+    # characters and also should not use those from
+    # `completionList.itemDefaults.commitCharacters`.
+    #
+    # If ApplyKind.Merge the commitCharacters for the completion will be the
+    # union of all values in both `completionList.itemDefaults.commitCharacters`
+    # and the completion's own `commitCharacters`.
+    #
+    # @since 3.18.0
+    'commitCharacters': NotRequired[ApplyKind],
+    # Specifies whether the `data` field on a completion will replace or
+    # be merged with data from `completionList.itemDefaults.data`.
+    #
+    # If ApplyKind.Replace, the data from the completion item will be used if
+    # provided (and not `null`), otherwise
+    # `completionList.itemDefaults.data` will be used. An empty object can
+    # be used if a completion item does not have any data but also should
+    # not use the value from `completionList.itemDefaults.data`.
+    #
+    # If ApplyKind.Merge, a shallow merge will be performed between
+    # `completionList.itemDefaults.data` and the completion's own data
+    # using the following rules:
+    #
+    # - If a completion's `data` field is not provided (or `null`), the
+    #   entire `data` field from `completionList.itemDefaults.data` will be
+    #   used as-is.
+    # - If a completion's `data` field is provided, each field will
+    #   overwrite the field of the same name in
+    #   `completionList.itemDefaults.data` but no merging of nested fields
+    #   within that value will occur.
+    #
+    # @since 3.18.0
+    'data': NotRequired[ApplyKind],
+})
+""" Specifies how fields from a completion item should be combined with those
+from `completionList.itemDefaults`.
+
+If unspecified, all fields will be treated as ApplyKind.Replace.
+
+If a field's value is ApplyKind.Replace, the value from a completion item (if
+provided and not `null`) will always be used instead of the value from
+`completionItem.itemDefaults`.
+
+If a field's value is ApplyKind.Merge, the values will be merged using the rules
+defined against each field below.
+
+Servers are only allowed to return `applyKind` if the client
+signals support for this via the `completionList.applyKindSupport`
+capability.
+
+@since 3.18.0 """
 
 
 CompletionOptions = TypedDict('CompletionOptions', {
@@ -4747,6 +4914,11 @@ WorkspaceOptions = TypedDict('WorkspaceOptions', {
     #
     # @since 3.16.0
     'fileOperations': NotRequired[FileOperationOptions],
+    # The server supports the `workspace/textDocumentContent` request.
+    #
+    # @since 3.18.0
+    # @proposed
+    'textDocumentContent': NotRequired[TextDocumentContentOptions | TextDocumentContentRegistrationOptions],
 })
 """ Defines workspace specific capabilities of the server.
 
@@ -4984,6 +5156,11 @@ WorkspaceClientCapabilities = TypedDict('WorkspaceClientCapabilities', {
     # @since 3.18.0
     # @proposed
     'foldingRange': NotRequired[FoldingRangeWorkspaceClientCapabilities],
+    # Capabilities specific to the `workspace/textDocumentContent` request.
+    #
+    # @since 3.18.0
+    # @proposed
+    'textDocumentContent': NotRequired[TextDocumentContentClientCapabilities],
 })
 """ Workspace specific client capabilities. """
 
@@ -4991,6 +5168,10 @@ WorkspaceClientCapabilities = TypedDict('WorkspaceClientCapabilities', {
 TextDocumentClientCapabilities = TypedDict('TextDocumentClientCapabilities', {
     # Defines which synchronization capabilities the client supports.
     'synchronization': NotRequired[TextDocumentSyncClientCapabilities],
+    # Defines which filters the client supports.
+    #
+    # @since 3.18.0
+    'filters': NotRequired[TextDocumentFilterClientCapabilities],
     # Capabilities specific to the `textDocument/completion` request.
     'completion': NotRequired[CompletionClientCapabilities],
     # Capabilities specific to the `textDocument/hover` request.
@@ -5214,7 +5395,11 @@ TextDocumentFilterLanguage = TypedDict('TextDocumentFilterLanguage', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.
-    'pattern': NotRequired[str],
+    #
+    # @since 3.18.0 - support for relative patterns. Whether clients support
+    # relative patterns depends on the client capability
+    # `textDocuments.filters.relativePatternSupport`.
+    'pattern': NotRequired[GlobPattern],
 })
 """ A document filter where `language` is required field.
 
@@ -5227,7 +5412,11 @@ TextDocumentFilterScheme = TypedDict('TextDocumentFilterScheme', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': str,
     # A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.
-    'pattern': NotRequired[str],
+    #
+    # @since 3.18.0 - support for relative patterns. Whether clients support
+    # relative patterns depends on the client capability
+    # `textDocuments.filters.relativePatternSupport`.
+    'pattern': NotRequired[GlobPattern],
 })
 """ A document filter where `scheme` is required field.
 
@@ -5240,7 +5429,11 @@ TextDocumentFilterPattern = TypedDict('TextDocumentFilterPattern', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern, like **​/*.{ts,js}. See TextDocumentFilter for examples.
-    'pattern': str,
+    #
+    # @since 3.18.0 - support for relative patterns. Whether clients support
+    # relative patterns depends on the client capability
+    # `textDocuments.filters.relativePatternSupport`.
+    'pattern': GlobPattern,
 })
 """ A document filter where `pattern` is required field.
 
@@ -5253,7 +5446,7 @@ NotebookDocumentFilterNotebookType = TypedDict('NotebookDocumentFilterNotebookTy
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern.
-    'pattern': NotRequired[str],
+    'pattern': NotRequired[GlobPattern],
 })
 """ A notebook document filter where `notebookType` is required field.
 
@@ -5266,7 +5459,7 @@ NotebookDocumentFilterScheme = TypedDict('NotebookDocumentFilterScheme', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': str,
     # A glob pattern.
-    'pattern': NotRequired[str],
+    'pattern': NotRequired[GlobPattern],
 })
 """ A notebook document filter where `scheme` is required field.
 
@@ -5279,7 +5472,7 @@ NotebookDocumentFilterPattern = TypedDict('NotebookDocumentFilterPattern', {
     # A Uri {@link Uri.scheme scheme}, like `file` or `untitled`.
     'scheme': NotRequired[str],
     # A glob pattern.
-    'pattern': str,
+    'pattern': GlobPattern,
 })
 """ A notebook document filter where `pattern` is required field.
 
@@ -5499,6 +5692,16 @@ FoldingRangeWorkspaceClientCapabilities = TypedDict('FoldingRangeWorkspaceClient
 @proposed """
 
 
+TextDocumentContentClientCapabilities = TypedDict('TextDocumentContentClientCapabilities', {
+    # Text document content provider supports dynamic registration.
+    'dynamicRegistration': NotRequired[bool],
+})
+""" Client capabilities for a text document content provider.
+
+@since 3.18.0
+@proposed """
+
+
 TextDocumentSyncClientCapabilities = TypedDict('TextDocumentSyncClientCapabilities', {
     # Whether text document synchronization supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
@@ -5510,6 +5713,14 @@ TextDocumentSyncClientCapabilities = TypedDict('TextDocumentSyncClientCapabiliti
     'willSaveWaitUntil': NotRequired[bool],
     # The client supports did save notifications.
     'didSave': NotRequired[bool],
+})
+
+
+TextDocumentFilterClientCapabilities = TypedDict('TextDocumentFilterClientCapabilities', {
+    # The client supports Relative Patterns.
+    #
+    # @since 3.18.0
+    'relativePatternSupport': NotRequired[bool],
 })
 
 
@@ -5691,6 +5902,11 @@ CodeActionClientCapabilities = TypedDict('CodeActionClientCapabilities', {
     # @since 3.18.0
     # @proposed
     'documentationSupport': NotRequired[bool],
+    # Client supports the tag property on a code action. Clients
+    # supporting tags have to handle unknown tags gracefully.
+    #
+    # @since 3.18.0 - proposed
+    'tagSupport': NotRequired[CodeActionTagOptions],
 })
 """ The Client Capabilities of a {@link CodeActionRequest}. """
 
@@ -5698,6 +5914,11 @@ CodeActionClientCapabilities = TypedDict('CodeActionClientCapabilities', {
 CodeLensClientCapabilities = TypedDict('CodeLensClientCapabilities', {
     # Whether code lens supports dynamic registration.
     'dynamicRegistration': NotRequired[bool],
+    # Whether the client supports resolving additional code lens
+    # properties via a separate `codeLens/resolve` request.
+    #
+    # @since 3.18.0
+    'resolveSupport': NotRequired[ClientCodeLensResolveOptions],
 })
 """ The client capabilities  of a {@link CodeLensRequest}. """
 
@@ -6161,6 +6382,18 @@ CompletionListCapabilities = TypedDict('CompletionListCapabilities', {
     #
     # @since 3.17.0
     'itemDefaults': NotRequired[List[str]],
+    # Specifies whether the client supports `CompletionList.applyKind` to
+    # indicate how supported values from `completionList.itemDefaults`
+    # and `completion` will be combined.
+    #
+    # If a client supports `applyKind` it must support it for all fields
+    # that it supports that are listed in `CompletionList.applyKind`. This
+    # means when clients add support for new/future fields in completion
+    # items the MUST also support merge for them if those fields are
+    # defined in `CompletionList.applyKind`.
+    #
+    # @since 3.18.0
+    'applyKindSupport': NotRequired[bool],
 })
 """ The client supports the following `CompletionList` specific
 capabilities.
@@ -6199,6 +6432,20 @@ ClientCodeActionLiteralOptions = TypedDict('ClientCodeActionLiteralOptions', {
 
 
 ClientCodeActionResolveOptions = TypedDict('ClientCodeActionResolveOptions', {
+    # The properties that a client can resolve lazily.
+    'properties': List[str],
+})
+""" @since 3.18.0 """
+
+
+CodeActionTagOptions = TypedDict('CodeActionTagOptions', {
+    # The tags supported by the client.
+    'valueSet': List[CodeActionTag],
+})
+""" @since 3.18.0 - proposed """
+
+
+ClientCodeLensResolveOptions = TypedDict('ClientCodeLensResolveOptions', {
     # The properties that a client can resolve lazily.
     'properties': List[str],
 })
