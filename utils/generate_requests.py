@@ -96,11 +96,11 @@ def generate_request(request: Request) -> str:
     # fix  Expected class type but received "str"
     result_type = result_type.replace("DefinitionLink", "LocationLink")
     result_type = result_type.replace("DeclarationLink", "LocationLink")
-    result += f"{indentation}async def {symbol_name}(self{formatted_params}) -> Response[{result_type}]:"
+    result += f"{indentation}def {symbol_name}(self{formatted_params}) -> Request[{result_type}]:"
     documentation = format_comment(request.get('documentation'), indentation + indentation)
     if documentation:
         result += f'\n{documentation}'
-    result += f"""\n{indentation}{indentation}return await self.send_request("{method}"{', params' if params else ''})\n"""
+    result += f"""\n{indentation}{indentation}return self.send_request("{method}"{', params' if params else ''})\n"""
     return result
 
 
