@@ -71,6 +71,7 @@ def generate_requests(requests: List[Request]) -> List[str]:
 def generate_request(request: Request) -> str:
     result = ""
     method = request['method']
+    # server_capability = request.get('serverCapability')
     symbol_name = method_to_symbol_name.get(method)
     if not symbol_name:
         raise Exception('Please define a symbol name for ', method)
@@ -100,6 +101,9 @@ def generate_request(request: Request) -> str:
     documentation = format_comment(request.get('documentation'), indentation + indentation)
     if documentation:
         result += f'\n{documentation}'
+    # if server_capability:
+    #     result += f"""\n{indentation}{indentation}if not self.server_has_capability('{server_capability}'):"""
+    #     result += f"""\n{indentation}{indentation}{indentation}return Request(-1).set_result(None)"""
     result += f"""\n{indentation}{indentation}return self.send_request("{method}"{', params' if params else ''})\n"""
     return result
 

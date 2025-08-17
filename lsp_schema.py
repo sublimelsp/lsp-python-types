@@ -134,6 +134,8 @@ class Request(TypedDict):
     registrationMethod: NotRequired[str]
     registrationOptions: NotRequired[_Type]
     result: _Type
+    clientCapability: NotRequired[str]
+    serverCapability: NotRequired[str]
     since: NotRequired[str]
 
 

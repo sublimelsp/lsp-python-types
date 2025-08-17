@@ -16,7 +16,7 @@ async def main():
     server.on_notification('window/logMessage', on_log_message)
     server.on_request('workspace/applyEdit', on_apply_edit)
 
-    response = await server.send.initialize(({
+    response = server.send.initialize(({
         'processId': os.getpid(),
         'rootUri': None,
         'capabilities': {}
@@ -31,7 +31,7 @@ async def main():
         }
     })
 
-    completions = await server.send.completion({
+    completions = server.send.completion({
         "position": {"character": 0, "line": 0},
         "textDocument": {
             "uri": 'file://' + os.path.abspath("hello.js")
@@ -40,7 +40,9 @@ async def main():
 
     if isinstance(completions, dict):
         item = completions['items'][0]
-        resolved_item = await server.send.resolve_completion_item(item)
+        resolved_item = server.send.resolve_completion_item(item)
+        resolved_item.cancel()
+        ci = await resolved_item.result
         print('resolved')
         print(resolved_item)
 
