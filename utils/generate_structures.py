@@ -15,13 +15,9 @@ if TYPE_CHECKING:
     from lsp_schema import Structure
 
 
-def generate_structures(
-    structures: list[Structure], preferred_structure_kind: StructureKind = StructureKind.Class
-) -> list[str]:
+def generate_structures(structures: list[Structure]) -> list[str]:
     def to_string(structure: Structure) -> str:
-        kind = preferred_structure_kind
-        if kind == StructureKind.Class and has_invalid_property_name(structure['properties']):
-            kind = StructureKind.Function
+        kind = StructureKind.Function if has_invalid_property_name(structure['properties']) else StructureKind.Class
         return generate_structure(structure, structures, kind)
 
     return [to_string(structure) for structure in structures if not structure['name'].startswith('_')]
