@@ -1,39 +1,53 @@
+from __future__ import annotations
 from enum import Enum
-from typing import Any, List, Optional, Set, TypedDict, Union
-from lsp_schema import _Type, BaseType, MapKeyType, Property
+from typing import Any, ClassVar, TypedDict, TYPE_CHECKING
 import keyword
 
-indentation = "    "
+if TYPE_CHECKING:
+    from lsp_schema import EveryType, BaseType, MapKeyType, Property
+
+
+indentation = '    '
 
 
 def capitalize(text: str) -> str:
     return text[0].upper() + text[1:]
 
 
-def format_comment(text: Optional[str], indent: str = "") -> str:
-    if text:
+def format_comment(text: str | None, indent: str = '') -> str:
+    if not text:
+        return ''
+    # Replace zero-width spaces.
+    text = text.replace('\u200b', '')
+    # Replace DIVISION SLASH that triggers RUF001.
+    text = text.replace('\u2215', '/')
+    is_multiline = '\n' in text
+    contains_backslashes = '\\' in text
+    raw = 'r' if contains_backslashes else ''
+    if is_multiline:
         lines = text.splitlines(keepends=True)
         text = indent.join(lines)
-    return indent + f'""" {text} """' if text else ""
+        text = f'\n{indent}{text}\n{indent}'
+    return f'{indent}{raw}"""{text}"""'
 
 
-new_literal_structures: Set[str] = set()
+new_literal_structures: set[str] = set()
 
 
 class SymbolNameTracker:
-    symbols = {
+    symbols: ClassVar[dict[str, int]] = {
         # key: symbol name
         # value: symbol count
     }
 
     @classmethod
-    def get_symbol_id(cls, symbol_name: str):
+    def get_symbol_id(cls, symbol_name: str) -> int:
         count = SymbolNameTracker.symbols.get(symbol_name) or 1
         SymbolNameTracker.symbols[symbol_name] = count + 1
         return count
 
     @classmethod
-    def clear(cls):
+    def clear(cls) -> None:
         SymbolNameTracker.symbols.clear()
 
 
@@ -42,7 +56,6 @@ def get_new_literal_structures() -> list[str]:
 
 
 def reset_new_literal_structures() -> None:
-    global new_literal_structures
     new_literal_structures.clear()
     SymbolNameTracker.clear()
 
@@ -56,42 +69,36 @@ class FormatTypeContext(TypedDict):
     root_symbol_name: str
 
 
-def format_type(type: _Type, context: FormatTypeContext, preferred_structure_kind: StructureKind) -> str:
-    result = "Any"
-    if type['kind'] == 'base':
-        return format_base_types(type)
-    elif type['kind'] == 'reference':
-        literal_symbol_name = type['name']
+def format_type(typ: EveryType, context: FormatTypeContext, preferred_structure_kind: StructureKind) -> str:
+    result = 'Any'
+    if typ['kind'] == 'base':
+        return format_base_types(typ)
+    if typ['kind'] == 'reference':
+        literal_symbol_name = typ['name']
         return f"'{literal_symbol_name}'"
-    elif type['kind'] == 'array':
-        literal_symbol_name = format_type(type['element'], context, preferred_structure_kind)
-        return f"List[{literal_symbol_name}]"
-    elif type['kind'] == 'map':
-        key = format_base_types(type['key'])
-        value = format_type(type['value'], {
-            'root_symbol_name': key
-        }, preferred_structure_kind)
-        return f"Dict[{key}, {value}]"
-    elif type['kind'] == 'and':
+    if typ['kind'] == 'array':
+        literal_symbol_name = format_type(typ['element'], context, preferred_structure_kind)
+        return f'List[{literal_symbol_name}]'
+    if typ['kind'] == 'map':
+        key = format_base_types(typ['key'])
+        value = format_type(typ['value'], {'root_symbol_name': key}, preferred_structure_kind)
+        return f'Dict[{key}, {value}]'
+    if typ['kind'] == 'and':
         pass
-    elif type['kind'] == 'or':
-        tuple = []
-        for item in type['items']:
-            tuple.append(format_type(item, context, preferred_structure_kind))
-        return f"Union[{', '.join(tuple)}]"
-    elif type['kind'] == 'tuple':
-        tuple = []
-        for item in type['items']:
-            tuple.append(format_type(item, context, preferred_structure_kind))
-        return f"List[Union[{', '.join(tuple)}]]"
-    elif type['kind'] == 'literal':
-        if not type['value']['properties']:
-            return 'dict'
+    elif typ['kind'] == 'or':
+        union = [format_type(item, context, preferred_structure_kind) for item in typ['items']]
+        return f'Union[{", ".join(union)}]'
+    elif typ['kind'] == 'tuple':
+        union = [format_type(item, context, preferred_structure_kind) for item in typ['items']]
+        return f'tuple[{", ".join(union)}]'
+    elif typ['kind'] == 'literal':
+        if not typ['value']['properties']:
+            return 'Dict[str, LSPAny]'
         root_symbol_name = capitalize(context['root_symbol_name'])
-        literal_symbol_name = f"__{root_symbol_name}_Type"
+        literal_symbol_name = f'__{root_symbol_name}_Type'
         symbol_id = SymbolNameTracker.get_symbol_id(literal_symbol_name)
-        literal_symbol_name += f"_{symbol_id}"
-        properties = get_formatted_properties(type['value']['properties'], root_symbol_name, preferred_structure_kind)
+        literal_symbol_name += f'_{symbol_id}'
+        properties = get_formatted_properties(typ['value']['properties'], root_symbol_name, preferred_structure_kind)
         if preferred_structure_kind == StructureKind.Function:
             formatted_properties = format_dict_properties(properties)
             new_literal_structures.add(f"""
@@ -106,30 +113,25 @@ class {literal_symbol_name}(TypedDict):
 {indentation}{formatted_properties or 'pass'}
 """)
         return f"'{literal_symbol_name}'"
-    elif type['kind'] == 'stringLiteral':
-        return f"Literal['{type['value']}']"
-    elif type['kind'] == "integerLiteral":
-        return f"Literal[{type['value']}]"
-    elif type['kind'] == "booleanLiteral":
-        return f"Literal[{type['value']}]"
+    elif typ['kind'] == 'stringLiteral':
+        return f"Literal['{typ['value']}']"
+    elif typ['kind'] == 'integerLiteral' or typ['kind'] == 'booleanLiteral':
+        return f'Literal[{typ["value"]}]'
     return result
 
 
-def format_base_types(base_type: Union[BaseType, MapKeyType]):
-    if base_type['name'] == 'integer':
-        return 'int'
-    if base_type['name'] == 'uinteger':
-        return 'Uint'
-    if base_type['name'] == 'decimal':
-        return 'float'
-    if base_type['name'] == 'string':
-        return 'str'
-    if base_type['name'] == 'boolean':
-        return 'bool'
-    if base_type['name'] == 'null':
-        return 'None'
+def format_base_types(base_type: BaseType | MapKeyType) -> str:
+    mapping: dict[str, str] = {
+        'integer': 'int',
+        'uinteger': 'Uint',
+        'decimal': 'float',
+        'string': 'str',
+        'boolean': 'bool',
+        'null': 'None'
+    }
+    name = base_type['name']
 
-    return f"'{base_type['name']}'"
+    return mapping.get(name, name)
 
 
 class FormattedProperty(TypedDict):
@@ -138,45 +140,38 @@ class FormattedProperty(TypedDict):
     documentation: str
 
 
-def get_formatted_properties(properties: List[Property], root_symbol_name, preferred_structure_kind: StructureKind) -> List[FormattedProperty]:
-    result: List[FormattedProperty] = []
+def get_formatted_properties(
+    properties: list[Property], root_symbol_name: str, preferred_structure_kind: StructureKind
+) -> list[FormattedProperty]:
+    result: list[FormattedProperty] = []
     for p in properties:
         key = p['name']
-        value = format_type(p['type'], {
-            'root_symbol_name': root_symbol_name + "_" + key
-        }, preferred_structure_kind)
+        value = format_type(p['type'], {'root_symbol_name': root_symbol_name + '_' + key}, preferred_structure_kind)
         if p.get('optional'):
-            value = f"NotRequired[{value}]"
-        documentation = p.get('documentation') or ""
-        result.append({
-            'name': key,
-            'value': value,
-            'documentation': documentation
-        })  # f"{key}: {value}{documentation}"
+            value = f'NotRequired[{value}]'
+        documentation = p.get('documentation') or ''
+        result.append({'name': key, 'value': value, 'documentation': documentation})  # f"{key}: {value}{documentation}"
 
     return result  # "\n\t".join(result)
 
 
-def has_invalid_property_name(properties: List[Property]):
-    for p in properties:
-        if keyword.iskeyword(p['name']):
-            return True
-    return False
+def has_invalid_property_name(properties: list[Property]) -> bool:
+    return any(keyword.iskeyword(p['name']) for p in properties)
 
 
-def format_class_properties(properties: List[FormattedProperty]) -> str:
-    result: List[str] = []
+def format_class_properties(properties: list[FormattedProperty]) -> str:
+    result: list[str] = []
     for p in properties:
-        line = f"{p['name']}: {p['value']}"
+        line = f'{p["name"]}: {p["value"]}'
         comment = format_comment(p['documentation'], indentation)
         if comment:
-            line += f"\n{comment}"
+            line += f'\n{comment}'
         result.append(line)
-    return f"\n{indentation}".join(result)
+    return f'\n{indentation}'.join(result)
 
 
-def format_dict_properties(properties: List[FormattedProperty]) -> str:
-    result: List[str] = []
+def format_dict_properties(properties: list[FormattedProperty]) -> str:
+    result: list[str] = []
     for p in properties:
         documentation = p.get('documentation')
         formatted_documentation = ''
@@ -184,4 +179,4 @@ def format_dict_properties(properties: List[FormattedProperty]) -> str:
             formatted_documentation = documentation.replace('\n', f'\n{indentation}# ')
             formatted_documentation = f'# {formatted_documentation}\n{indentation}'
         result.append(f"{formatted_documentation}'{p['name']}': {p['value']},")
-    return f"\n{indentation}".join(result)
+    return f'\n{indentation}'.join(result)
