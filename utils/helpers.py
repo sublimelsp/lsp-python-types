@@ -90,7 +90,7 @@ def format_type(typ: EveryType, context: FormatTypeContext, preferred_structure_
         return f'Union[{", ".join(union)}]'
     elif typ['kind'] == 'tuple':
         union = [format_type(item, context, preferred_structure_kind) for item in typ['items']]
-        return f'tuple[{", ".join(union)}]'
+        return f'list[{", ".join(union)}]'
     elif typ['kind'] == 'literal':
         if not typ['value']['properties']:
             return 'Dict[str, LSPAny]'

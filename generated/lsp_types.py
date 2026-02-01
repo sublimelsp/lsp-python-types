@@ -6079,7 +6079,7 @@ class ParameterInformation(TypedDict):
     have a label and a doc-comment.
     """
 
-    label: Union[str, tuple[Uint, Uint]]
+    label: Union[str, list[Uint, Uint]]
     """
     The label of this parameter information.
 
