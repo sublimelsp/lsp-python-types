@@ -33,6 +33,11 @@ ENUM_OVERRIDES: dict[str, Literal['StrEnum', 'IntFlag']] = {
     'ApplyKind': 'IntFlag',
 }
 
+ALIAS_OVERRIDES: dict[str, str] = {
+    'LSPArray': "Sequence['LSPAny']",
+    'LSPObject': 'Mapping[str, Any]'
+}
+
 
 def generate(output: str) -> None:
     reset_new_literal_structures()
@@ -48,7 +53,7 @@ def generate(output: str) -> None:
             f'# LSP v{specification_version}\n',
             'from __future__ import annotations',
             'from enum import IntEnum, IntFlag, StrEnum',
-            'from typing import Dict, List, Literal, TypedDict, Union',
+            'from typing import Any, Dict, List, Literal, Mapping, Sequence, TypedDict, Union',
             'from typing_extensions import NotRequired\n\n',
             'URI = str',
             'DocumentUri = str',
@@ -60,7 +65,7 @@ def generate(output: str) -> None:
     content += '\n\n\n'
     content += '\n\n\n'.join(generate_enumerations(lsp_json['enumerations'], ENUM_OVERRIDES))
     content += '\n\n'
-    content += '\n'.join(generate_type_aliases(lsp_json['typeAliases']))
+    content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], ALIAS_OVERRIDES))
     content += '\n\n\n'
     content += '\n\n\n'.join(generate_structures(lsp_json['structures']))
     content += '\n\n'
