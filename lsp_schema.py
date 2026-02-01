@@ -1,14 +1,13 @@
-from typing import List, Literal, TypedDict, Union
-
+from __future__ import annotations
+from typing import Literal, TypedDict
 from typing_extensions import NotRequired
 
-_Type = Union["BaseType", "ReferenceType", "ArrayType", "MapType", "AndType", "OrType", "TupleType", "StructureLiteralType", "StringLiteralType", "IntegerLiteralType", "BooleanLiteralType"]
-_BaseTypes = Literal["URI", "DocumentUri", "integer", "uinteger", "decimal", "RegExp", "string", "boolean", "null"]
+_BaseTypes = Literal['URI', 'DocumentUri', 'integer', 'uinteger', 'decimal', 'RegExp', 'string', 'boolean', 'null']
 
 
 class EnumerationType(TypedDict):
     kind: Literal['base']
-    name: Literal["string", "integer", "uinteger"]
+    name: Literal['string', 'integer', 'uinteger']
 
 
 class EnumerationEntry(TypedDict):
@@ -17,11 +16,12 @@ class EnumerationEntry(TypedDict):
     name: str
     proposed: NotRequired[bool]
     since: NotRequired[str]
-    value: Union[str, int]
+    value: str | int
 
 
 class ReferenceType(TypedDict):
-    """Represents a reference to another type (e.g. `TextDocument`). This is either a `Structure`, a `Enumeration` or a `TypeAlias` in the same meta model."""
+    """Represents a reference to another type (e.g. `TextDocument`). This is either a `Structure`, a `Enumeration` or a `TypeAlias` in the same meta model."""  # noqa: E501
+
     kind: Literal['reference']
     name: str
 
@@ -33,43 +33,49 @@ class Property(TypedDict):
     optional: NotRequired[bool]
     proposed: NotRequired[bool]
     since: NotRequired[str]
-    type: _Type
+    type: EveryType
 
 
 class StringLiteralType(TypedDict):
     """Represents a string literal type (e.g. `kind: 'rename'`)."""
+
     kind: Literal['stringLiteral']
     value: str
 
 
 class AndType(TypedDict):
-    """ Represents an `and`type (e.g. TextDocumentParams & WorkDoneProgressParams`). """
-    items: List[_Type]
-    kind: Literal["and"]
+    """Represents an `and`type (e.g. TextDocumentParams & WorkDoneProgressParams`)."""
+
+    items: list[EveryType]
+    kind: Literal['and']
 
 
 class OrType(TypedDict):
-    """Represents an `or` type (e.g. `Location | LocationLink`). """
-    items: List[_Type]
-    kind: Literal["or"]
+    """Represents an `or` type (e.g. `Location | LocationLink`)."""
+
+    items: list[EveryType]
+    kind: Literal['or']
 
 
 class ArrayType(TypedDict):
-    """ Represents an array type (e.g. `TextDocument[]`). """
-    element: _Type
-    kind: Literal["array"]
+    """Represents an array type (e.g. `TextDocument[]`)."""
+
+    element: EveryType
+    kind: Literal['array']
 
 
 class BaseType(TypedDict):
-    """Represents a base type like `string` or `DocumentUri`. """
+    """Represents a base type like `string` or `DocumentUri`."""
+
     name: _BaseTypes
-    kind: Literal["base"]
+    kind: Literal['base']
 
 
 class BooleanLiteralType(TypedDict):
-    """Represents a boolean literal type (e.g. `kind: true`). """
+    """Represents a boolean literal type (e.g. `kind: true`)."""
+
     value: bool
-    kind: Literal["booleanLiteral"]
+    kind: Literal['booleanLiteral']
 
 
 class Enumeration(TypedDict):
@@ -80,31 +86,31 @@ class Enumeration(TypedDict):
     since: NotRequired[str]
     supportsCustomValues: NotRequired[bool]
     type: EnumerationType
-    values: List[EnumerationEntry]
+    values: list[EnumerationEntry]
 
 
 class IntegerLiteralType(TypedDict):
     value: int
-    kind: Literal["integerLiteral"]
+    kind: Literal['integerLiteral']
     """Represents an integer literal type (e.g. `kind: 1`)."""
 
 
 class _MapKeyType_1(TypedDict):
-    kind: Literal["base"]
-    name: Literal["URI", "DocumentUri", "string", "integer"]
+    kind: Literal['base']
+    name: Literal['URI', 'DocumentUri', 'string', 'integer']
 
 
-MapKeyType = Union[_MapKeyType_1, ReferenceType]
-"""Represents a type that can be used as a key in a map type. If a reference type is used then the type must either resolve to a `string` or `integer` type. (e.g. `type ChangeAnnotationIdentifier === string`)."""
+MapKeyType = _MapKeyType_1 | ReferenceType
+"""Represents a type that can be used as a key in a map type. If a reference type is used then the type must either resolve to a `string` or `integer` type. (e.g. `type ChangeAnnotationIdentifier === string`)."""  # noqa: E501
 
 
 class MapType(TypedDict):
     key: MapKeyType
-    kind: Literal["map"]
-    value: _Type
+    kind: Literal['map']
+    value: EveryType
 
 
-MessageDirection = Literal["clientToServer", "serverToClient", "both"]
+MessageDirection = Literal['clientToServer', 'serverToClient', 'both']
 """Indicates in which direction a message is sent in the protocol."""
 
 
@@ -113,11 +119,11 @@ class Notification(TypedDict):
     documentation: NotRequired[str]
     messageDirection: MessageDirection
     method: str
-    params: NotRequired[Union[_Type, List[_Type]]]
+    params: NotRequired[EveryType | list[EveryType]]
     proposed: NotRequired[bool]
     registrationMethod: NotRequired[str]
     """Optional a dynamic registration method if it different from the request's method."""
-    registrationOptions: NotRequired[_Type]
+    registrationOptions: NotRequired[EveryType]
     """Optional registration options if the notification supports dynamic registration."""
     since: NotRequired[str]
 
@@ -125,63 +131,79 @@ class Notification(TypedDict):
 class Request(TypedDict):
     deprecated: NotRequired[str]
     documentation: NotRequired[str]
-    errorData: NotRequired[_Type]
+    errorData: NotRequired[EveryType]
     messageDirection: MessageDirection
     method: str
-    params: NotRequired[Union[_Type, List[_Type]]]
-    partialResult: NotRequired[_Type]
+    params: NotRequired[EveryType | list[EveryType]]
+    partialResult: NotRequired[EveryType]
     proposed: NotRequired[bool]
     registrationMethod: NotRequired[str]
-    registrationOptions: NotRequired[_Type]
-    result: _Type
+    registrationOptions: NotRequired[EveryType]
+    result: EveryType
     since: NotRequired[str]
 
 
 class Structure(TypedDict):
     deprecated: NotRequired[str]
     documentation: NotRequired[str]
-    extends: NotRequired[List[_Type]]
+    extends: NotRequired[list[EveryType]]
     """Structures extended from. This structures form a polymorphic type hierarchy."""
-    mixins: NotRequired[List[_Type]]
-    """Structures to mix in. The properties of these structures are `copied` into this structure. Mixins don't form a polymorphic type hierarchy in LSP."""
+    mixins: NotRequired[list[EveryType]]
+    """Structures to mix in. The properties of these structures are `copied` into this structure. Mixins don't form a polymorphic type hierarchy in LSP."""  # noqa: E501
     name: str
-    properties: List[Property]
+    properties: list[Property]
     proposed: NotRequired[bool]
     since: NotRequired[str]
 
 
 class StructureLiteral(TypedDict):
     """Defines a unnamed structure of an object literal."""
+
     deprecated: NotRequired[str]
     documentation: NotRequired[str]
-    properties: List[Property]
+    properties: list[Property]
     proposed: NotRequired[bool]
     since: NotRequired[str]
 
 
 class StructureLiteralType(TypedDict):
     """Represents a literal structure (e.g. `property: { start: uinteger; end: uinteger; }`)."""
-    kind: Literal["literal"]
+
+    kind: Literal['literal']
     value: StructureLiteral
 
 
 class TupleType(TypedDict):
     """Represents a `tuple` type (e.g. `[integer, integer]`)."""
-    kind: Literal["tuple"]
-    items: List[_Type]
+
+    kind: Literal['tuple']
+    items: list[EveryType]
 
 
 class TypeAlias(TypedDict):
-    """ Defines a type alias. (e.g. `type Definition = Location | LocationLink`)"""
+    """Defines a type alias. (e.g. `type Definition = Location | LocationLink`)."""
+
     deprecated: NotRequired[str]
     documentation: NotRequired[str]
     name: str
     proposed: NotRequired[bool]
     since: NotRequired[str]
-    type: _Type
+    type: EveryType
 
 
-TypeKind = Literal["base", "reference", "array", "map", "and", "or", "tuple", "literal", "stringLiteral", "integerLiteral", "booleanLiteral"]
+TypeKind = Literal[
+    'base',
+    'reference',
+    'array',
+    'map',
+    'and',
+    'or',
+    'tuple',
+    'literal',
+    'stringLiteral',
+    'integerLiteral',
+    'booleanLiteral',
+]
 
 
 class MetaData(TypedDict):
@@ -189,9 +211,12 @@ class MetaData(TypedDict):
 
 
 class MetaModel(TypedDict):
-    enumerations: List[Enumeration]
+    enumerations: list[Enumeration]
     metaData: MetaData
-    notifications: List[Notification]
-    requests: List[Request]
-    structures: List[Structure]
-    typeAliases: List[TypeAlias]
+    notifications: list[Notification]
+    requests: list[Request]
+    structures: list[Structure]
+    typeAliases: list[TypeAlias]
+
+
+EveryType = BaseType | ReferenceType | ArrayType | MapType | AndType | OrType | TupleType | StructureLiteralType | StringLiteralType | IntegerLiteralType | BooleanLiteralType  # noqa: E501

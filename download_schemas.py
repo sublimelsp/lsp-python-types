@@ -1,7 +1,11 @@
+from pathlib import Path
 from urllib.request import urlopen
 
-lsp_json_schema = urlopen("https://raw.githubusercontent.com/microsoft/vscode-languageserver-node/main/protocol/metaModel.schema.json").read().decode('utf-8')
-open("./lsprotocol/lsp.schema.json", "w").write(lsp_json_schema)
 
-lsp_meta_model = urlopen("https://raw.githubusercontent.com/microsoft/vscode-languageserver-node/main/protocol/metaModel.json").read().decode('utf-8')
-open("./lsprotocol/lsp.json", "w").write(lsp_meta_model)
+REPO_URL = 'https://raw.githubusercontent.com/microsoft/vscode-languageserver-node'
+
+with urlopen(f'{REPO_URL}/main/protocol/metaModel.schema.json') as url:
+    Path('./lsprotocol/lsp.schema.json', 'w').write_text(url.read().decode('utf-8'))
+
+with urlopen(f'{REPO_URL}/main/protocol/metaModel.json'):
+    Path('./lsprotocol/lsp.json', 'w').write_text(url.read().decode('utf-8'))
