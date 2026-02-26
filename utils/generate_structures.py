@@ -1,15 +1,14 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
-from utils.helpers import (
-    FormattedProperty,
-    format_comment,
-    indentation,
-    format_class_properties,
-    format_dict_properties,
-    get_formatted_properties,
-    has_invalid_property_name,
-    StructureKind,
-)
+from utils.helpers import format_class_properties
+from utils.helpers import format_comment
+from utils.helpers import format_dict_properties
+from utils.helpers import FormattedProperty
+from utils.helpers import get_formatted_properties
+from utils.helpers import has_invalid_property_name
+from utils.helpers import indentation
+from utils.helpers import StructureKind
 
 if TYPE_CHECKING:
     from lsp_schema import Structure

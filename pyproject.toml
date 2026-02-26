@@ -2,7 +2,7 @@
 name = "lsp-types"
 version = "1.0.0"
 license = "MIT"
-requires-python = ">=3.8"
+requires-python = ">=3.13"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [tool.pyright]
-pythonVersion = "3.11"
+pythonVersion = "3.13"
 reportUnusedCallResult = "none"
 
 [[tool.pyright.executionEnvironments]]
@@ -21,12 +21,32 @@ pythonVersion = "3.8"
 
 [tool.ruff]
 line-length = 120
+target-version = "py313"
+
+[tool.ruff.per-file-target-version]
+"generated/*.py" = "py38"
 
 [tool.ruff.format]
 quote-style = "single"
+exclude = [
+    "generated/*.py"
+]
+
+[tool.ruff.lint.isort]
+case-sensitive = false
+force-single-line = true
+from-first = true
+no-sections = true
+order-by-type = false
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
 
 [tool.ruff.lint]
 extend-select = ["ALL"]
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
 ignore = [
     "COM812",  # https://docs.astral.sh/ruff/rules/missing-trailing-comma/
     "C901",  # https://docs.astral.sh/ruff/rules/complex-structure/
@@ -41,7 +61,6 @@ ignore = [
     "D213",  # https://docs.astral.sh/ruff/rules/multi-line-summary-second-line/
     "D400",  # https://docs.astral.sh/ruff/rules/missing-trailing-period/
     "D415",  # https://docs.astral.sh/ruff/rules/missing-terminal-punctuation/
-    "I001",  # https://docs.astral.sh/ruff/rules/unsorted-imports/
     "N801",  # https://docs.astral.sh/ruff/rules/invalid-class-name/
     "PLR0911",  # https://docs.astral.sh/ruff/rules/too-many-return-statements/
     "PLR0912",  # https://docs.astral.sh/ruff/rules/too-many-branches/
@@ -51,20 +70,16 @@ ignore = [
     "UP037"  # https://docs.astral.sh/ruff/rules/quoted-annotation/
 ]
 
-[tool.ruff.lint.flake8-quotes]
-inline-quotes = "single"
-
 [tool.tox]
-legacy_tox_ini = """
-[tox]
-envlist = py3
-skipsdist = True
+env_list = ["py3"]
+skipsdist = true
 
-[testenv]
-deps =
-    pyright==1.1.407
-    ruff==0.14.14
-commands =
-    pyright .
-    ruff check .
-"""
+[tool.tox.env_run_base]
+deps = [
+    "pyright==1.1.408",
+    "ruff==0.15.0",
+]
+commands = [
+    ["pyright"],
+    ["ruff", "check"],
+]

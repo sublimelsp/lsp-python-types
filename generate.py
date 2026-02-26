@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 
 from __future__ import annotations
+
 from pathlib import Path
-from typing import Literal, cast, TYPE_CHECKING
+from typing import cast
+from typing import Literal
+from typing import TYPE_CHECKING
 from utils.generate_enumerations import generate_enumerations
 from utils.generate_notifications import generate_notifications
 from utils.generate_requests_and_responses import generate_requests_and_responses
 from utils.generate_structures import generate_structures
 from utils.generate_type_aliases import generate_type_aliases
-from utils.helpers import get_new_literal_structures, reset_new_literal_structures
+from utils.helpers import get_new_literal_structures
+from utils.helpers import reset_new_literal_structures
 import json
 
 if TYPE_CHECKING:
@@ -35,10 +39,7 @@ ENUM_OVERRIDES: dict[str, Literal['StrEnum', 'IntFlag']] = {
     'ApplyKind': 'IntFlag',
 }
 
-ALIAS_OVERRIDES: dict[str, str] = {
-    'LSPArray': "Sequence['LSPAny']",
-    'LSPObject': 'Mapping[str, Any]'
-}
+ALIAS_OVERRIDES: dict[str, str] = {'LSPArray': "Sequence['LSPAny']", 'LSPObject': 'Mapping[str, Any]'}
 
 
 def generate(output: str) -> None:
