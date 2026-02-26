@@ -4,6 +4,8 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Literal, cast, TYPE_CHECKING
 from utils.generate_enumerations import generate_enumerations
+from utils.generate_notifications import generate_notifications
+from utils.generate_requests_and_responses import generate_requests_and_responses
 from utils.generate_structures import generate_structures
 from utils.generate_type_aliases import generate_type_aliases
 from utils.helpers import get_new_literal_structures, reset_new_literal_structures
@@ -54,7 +56,7 @@ def generate(output: str) -> None:
             'from __future__ import annotations',
             'from enum import IntEnum, IntFlag, StrEnum',
             'from typing import Any, Dict, List, Literal, Mapping, Sequence, TypedDict, Union',
-            'from typing_extensions import NotRequired\n\n',
+            'from typing_extensions import NotRequired, TypeAlias\n\n',
             'URI = str',
             'DocumentUri = str',
             'Uint = int',
@@ -68,7 +70,11 @@ def generate(output: str) -> None:
     content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], ALIAS_OVERRIDES))
     content += '\n\n\n'
     content += '\n\n\n'.join(generate_structures(lsp_json['structures']))
-    content += '\n\n'
+    content += '\n\n\n'
+    content += '\n\n\n'.join(generate_requests_and_responses(lsp_json['requests']))
+    content += '\n\n\n'
+    content += '\n\n\n'.join(generate_notifications(lsp_json['notifications']))
+    content += '\n'
     content += '\n'.join(get_new_literal_structures())
 
     # Remove trailing spaces.
@@ -76,7 +82,7 @@ def generate(output: str) -> None:
     lines = [line.rstrip() for line in lines]
     content = '\n'.join(lines)
 
-    Path(output).write_text(content)
+    Path(output).write_text(content, encoding='utf-8')
 
 
 generate(output='./generated/lsp_types.py')
