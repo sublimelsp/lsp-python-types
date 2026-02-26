@@ -1,10 +1,17 @@
 from __future__ import annotations
+
 from enum import Enum
-from typing import Any, ClassVar, TypedDict, TYPE_CHECKING
+from typing import Any
+from typing import ClassVar
+from typing import TYPE_CHECKING
+from typing import TypedDict
 import keyword
 
 if TYPE_CHECKING:
-    from lsp_schema import EveryType, BaseType, MapKeyType, Property
+    from lsp_schema import BaseType
+    from lsp_schema import EveryType
+    from lsp_schema import MapKeyType
+    from lsp_schema import Property
 
 
 indentation = '    '
@@ -127,7 +134,7 @@ def format_base_types(base_type: BaseType | MapKeyType) -> str:
         'decimal': 'float',
         'string': 'str',
         'boolean': 'bool',
-        'null': 'None'
+        'null': 'None',
     }
     name = base_type['name']
 

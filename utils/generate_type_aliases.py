@@ -1,6 +1,9 @@
 from __future__ import annotations
-from utils.helpers import format_comment, format_type, StructureKind
+
 from typing import TYPE_CHECKING
+from utils.helpers import format_comment
+from utils.helpers import format_type
+from utils.helpers import StructureKind
 
 if TYPE_CHECKING:
     from lsp_schema import TypeAlias

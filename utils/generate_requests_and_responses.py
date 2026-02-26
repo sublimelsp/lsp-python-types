@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
-from utils.helpers import StructureKind, format_type, indentation
+from utils.helpers import format_type
+from utils.helpers import indentation
+from utils.helpers import StructureKind
 
 if TYPE_CHECKING:
     from lsp_schema import Request

@@ -1,11 +1,16 @@
 from __future__ import annotations
+
 from enum import Enum
-from typing import Literal, TYPE_CHECKING
-from utils.helpers import capitalize, format_comment, indentation
+from typing import Literal
+from typing import TYPE_CHECKING
+from utils.helpers import capitalize
+from utils.helpers import format_comment
+from utils.helpers import indentation
 import keyword
 
 if TYPE_CHECKING:
-    from lsp_schema import Enumeration, EnumerationEntry
+    from lsp_schema import Enumeration
+    from lsp_schema import EnumerationEntry
 
 
 class EnumKind(Enum):

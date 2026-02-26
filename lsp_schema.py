@@ -1,6 +1,8 @@
 from __future__ import annotations
-from typing import Literal, TypedDict
-from typing_extensions import NotRequired
+
+from typing import Literal
+from typing import NotRequired
+from typing import TypedDict
 
 _BaseTypes = Literal['URI', 'DocumentUri', 'integer', 'uinteger', 'decimal', 'RegExp', 'string', 'boolean', 'null']
 
@@ -221,4 +223,16 @@ class MetaModel(TypedDict):
     typeAliases: list[TypeAlias]
 
 
-EveryType = BaseType | ReferenceType | ArrayType | MapType | AndType | OrType | TupleType | StructureLiteralType | StringLiteralType | IntegerLiteralType | BooleanLiteralType  # noqa: E501
+EveryType = (
+    BaseType
+    | ReferenceType
+    | ArrayType
+    | MapType
+    | AndType
+    | OrType
+    | TupleType
+    | StructureLiteralType
+    | StringLiteralType
+    | IntegerLiteralType
+    | BooleanLiteralType
+)
