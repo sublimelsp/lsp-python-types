@@ -119,13 +119,14 @@ class Notification(TypedDict):
     documentation: NotRequired[str]
     messageDirection: MessageDirection
     method: str
-    params: NotRequired[EveryType | list[EveryType]]
+    params: NotRequired[EveryType]
     proposed: NotRequired[bool]
     registrationMethod: NotRequired[str]
     """Optional a dynamic registration method if it different from the request's method."""
     registrationOptions: NotRequired[EveryType]
     """Optional registration options if the notification supports dynamic registration."""
     since: NotRequired[str]
+    typeName: str
 
 
 class Request(TypedDict):
@@ -134,13 +135,14 @@ class Request(TypedDict):
     errorData: NotRequired[EveryType]
     messageDirection: MessageDirection
     method: str
-    params: NotRequired[EveryType | list[EveryType]]
+    params: NotRequired[EveryType]
     partialResult: NotRequired[EveryType]
     proposed: NotRequired[bool]
     registrationMethod: NotRequired[str]
     registrationOptions: NotRequired[EveryType]
     result: EveryType
     since: NotRequired[str]
+    typeName: str
 
 
 class Structure(TypedDict):

@@ -15,7 +15,7 @@ def generate_type_aliases(type_aliases: list[TypeAlias], overrides: dict[str, st
         else:
             value = format_type(type_alias['type'], {'root_symbol_name': symbol_name}, StructureKind.Class)
         result = f"""
-{symbol_name} = {value}"""
+{symbol_name}: TypeAlias = {value}"""
         if documentation:
             result += f"""\n{documentation}"""
         return result
