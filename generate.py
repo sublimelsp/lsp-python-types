@@ -42,7 +42,7 @@ ENUM_OVERRIDES: dict[str, Literal['StrEnum', 'IntFlag']] = {
 ALIAS_OVERRIDES: dict[str, str] = {'LSPArray': "Sequence['LSPAny']", 'LSPObject': 'Mapping[str, Any]'}
 
 
-def generate(output: str) -> None:
+def generate_protocol(output: str) -> None:
     reset_new_literal_structures()
 
     schema = Path('./lsprotocol/lsp.json').read_text(encoding='utf-8')
@@ -54,10 +54,20 @@ def generate(output: str) -> None:
             '# ruff: noqa: E501, UP006, UP007',
             '# Code generated. DO NOT EDIT.',
             f'# LSP v{specification_version}\n',
-            'from __future__ import annotations',
-            'from enum import IntEnum, IntFlag, StrEnum',
-            'from typing import Any, Dict, List, Literal, Mapping, Sequence, TypedDict, Union',
-            'from typing_extensions import NotRequired, TypeAlias\n\n',
+            'from __future__ import annotations\n',
+            'from enum import IntEnum',
+            'from enum import IntFlag',
+            'from enum import StrEnum',
+            'from typing import Any',
+            'from typing import Dict',
+            'from typing import List',
+            'from typing import Literal',
+            'from typing import Mapping',
+            'from typing import Sequence',
+            'from typing import TypedDict',
+            'from typing import Union',
+            'from typing_extensions import NotRequired',
+            'from typing_extensions import TypeAlias\n',
             'URI = str',
             'DocumentUri = str',
             'Uint = int',
@@ -71,10 +81,6 @@ def generate(output: str) -> None:
     content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], ALIAS_OVERRIDES))
     content += '\n\n\n'
     content += '\n\n\n'.join(generate_structures(lsp_json['structures']))
-    content += '\n\n\n'
-    content += '\n\n\n'.join(generate_requests_and_responses(lsp_json['requests']))
-    content += '\n\n\n'
-    content += '\n\n\n'.join(generate_notifications(lsp_json['notifications']))
     content += '\n'
     content += '\n'.join(get_new_literal_structures())
 
@@ -86,4 +92,37 @@ def generate(output: str) -> None:
     Path(output).write_text(content, encoding='utf-8')
 
 
-generate(output='./generated/lsp_types.py')
+def generate_custom(output: str) -> None:
+    reset_new_literal_structures()
+
+    schema = Path('./lsprotocol/lsp.json').read_text(encoding='utf-8')
+    lsp_json = cast('MetaModel', json.loads(schema))
+
+    content = '\n'.join(  # noqa: FLY002
+        [
+            'from __future__ import annotations\n',
+            'from .lsp_types import *',
+            'from typing import List',
+            'from typing import Literal',
+            'from typing import TypedDict',
+            'from typing import Union',
+            'from typing_extensions import TypeAlias',
+        ]
+    )
+
+    content += '\n\n\n'
+    content += '\n\n\n'.join(generate_requests_and_responses(lsp_json['requests']))
+    content += '\n\n\n'
+    content += '\n\n\n'.join(generate_notifications(lsp_json['notifications']))
+    content += '\n'
+
+    # Remove trailing spaces.
+    lines = content.split('\n')
+    lines = [line.rstrip() for line in lines]
+    content = '\n'.join(lines)
+
+    Path(output).write_text(content, encoding='utf-8')
+
+
+generate_protocol(output='./generated/lsp_types.py')
+generate_custom(output='./generated/custom.py')

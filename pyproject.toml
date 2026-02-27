@@ -8,6 +8,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+    "ruff>=0.15.4",
     "typing-extensions",
 ]
 
@@ -29,7 +30,13 @@ target-version = "py313"
 [tool.ruff.format]
 quote-style = "single"
 exclude = [
-    "generated/*.py"
+    "generated/lsp_types.py"
+]
+
+[tool.ruff.lint.per-file-ignores]
+"generated/custom.py" = [
+    "F403",  # https://docs.astral.sh/ruff/rules/undefined-local-with-import-star/
+    "F405",  # https://docs.astral.sh/ruff/rules/undefined-local-with-import-star-usage/
 ]
 
 [tool.ruff.lint.isort]
@@ -49,6 +56,7 @@ extend-select = ["ALL"]
 fixable = ["ALL"]
 ignore = [
     "COM812",  # https://docs.astral.sh/ruff/rules/missing-trailing-comma/
+    "CPY001",  # https://docs.astral.sh/ruff/rules/missing-copyright-notice/
     "C901",  # https://docs.astral.sh/ruff/rules/complex-structure/
     "D100",  # https://docs.astral.sh/ruff/rules/undocumented-public-module/#undocumented-public-module-d100
     "D101",  # https://docs.astral.sh/ruff/rules/undocumented-public-class/
