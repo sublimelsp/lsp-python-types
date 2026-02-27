@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from operator import itemgetter
 from pathlib import Path
 from typing import cast
 from typing import Literal
@@ -110,10 +111,14 @@ def generate_custom(output: str) -> None:
         ]
     )
 
+    # Sort by method name to avoid unstable order.
+    requests = sorted(lsp_json['requests'], key=itemgetter('typeName'))
+    notifications = sorted(lsp_json['notifications'], key=itemgetter('typeName'))
+
     content += '\n\n\n'
-    content += '\n\n\n'.join(generate_requests_and_responses(lsp_json['requests']))
+    content += '\n\n\n'.join(generate_requests_and_responses(requests))
     content += '\n\n\n'
-    content += '\n\n\n'.join(generate_notifications(lsp_json['notifications']))
+    content += '\n\n\n'.join(generate_notifications(notifications))
     content += '\n'
 
     # Remove trailing spaces.
