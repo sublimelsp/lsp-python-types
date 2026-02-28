@@ -18,16 +18,12 @@ Download the latest json schema:
 uv run download_schemas.py
 ```
 
-Generate the types:
+Generate the types and fix some issues by triggering formatting:
 ```sh
 uv run generate.py
-```
-
-And finally fix linting and formatting issues:
-```sh
-uv run ruff check --fix --unsafe-fixes
 uv run ruff format
 ```
+
 Copy the `lsp_types.py` file to your project.
 
 NOTE: Do not import types that begin with `__`. These types are internal types and are not meant to be used.

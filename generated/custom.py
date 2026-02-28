@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from .lsp_types import *
+from typing import List
 from typing import Literal
 from typing import TypedDict
 from typing import Union
@@ -436,22 +437,22 @@ class ApplyWorkspaceEditResponse(TypedDict):
 
 class CallHierarchyIncomingCallsResponse(TypedDict):
     method: Literal['callHierarchy/incomingCalls']
-    result: list['CallHierarchyIncomingCall'] | None
+    result: Union[List['CallHierarchyIncomingCall'], None]
 
 
 class CallHierarchyOutgoingCallsResponse(TypedDict):
     method: Literal['callHierarchy/outgoingCalls']
-    result: list['CallHierarchyOutgoingCall'] | None
+    result: Union[List['CallHierarchyOutgoingCall'], None]
 
 
 class CallHierarchyPrepareResponse(TypedDict):
     method: Literal['textDocument/prepareCallHierarchy']
-    result: list['CallHierarchyItem'] | None
+    result: Union[List['CallHierarchyItem'], None]
 
 
 class CodeActionResponse(TypedDict):
     method: Literal['textDocument/codeAction']
-    result: list['Command' | 'CodeAction'] | None
+    result: Union[List[Union['Command', 'CodeAction']], None]
 
 
 class CodeActionResolveResponse(TypedDict):
@@ -466,7 +467,7 @@ class CodeLensRefreshResponse(TypedDict):
 
 class CodeLensResponse(TypedDict):
     method: Literal['textDocument/codeLens']
-    result: list['CodeLens'] | None
+    result: Union[List['CodeLens'], None]
 
 
 class CodeLensResolveResponse(TypedDict):
@@ -476,12 +477,12 @@ class CodeLensResolveResponse(TypedDict):
 
 class ColorPresentationResponse(TypedDict):
     method: Literal['textDocument/colorPresentation']
-    result: list['ColorPresentation']
+    result: List['ColorPresentation']
 
 
 class CompletionResponse(TypedDict):
     method: Literal['textDocument/completion']
-    result: list['CompletionItem'] | 'CompletionList' | None
+    result: Union[List['CompletionItem'], 'CompletionList', None]
 
 
 class CompletionResolveResponse(TypedDict):
@@ -491,17 +492,17 @@ class CompletionResolveResponse(TypedDict):
 
 class ConfigurationResponse(TypedDict):
     method: Literal['workspace/configuration']
-    result: list['LSPAny']
+    result: List['LSPAny']
 
 
 class DeclarationResponse(TypedDict):
     method: Literal['textDocument/declaration']
-    result: 'Declaration' | list['DeclarationLink'] | None
+    result: Union['Declaration', List['DeclarationLink'], None]
 
 
 class DefinitionResponse(TypedDict):
     method: Literal['textDocument/definition']
-    result: 'Definition' | list['DefinitionLink'] | None
+    result: Union['Definition', List['DefinitionLink'], None]
 
 
 class DiagnosticRefreshResponse(TypedDict):
@@ -511,7 +512,7 @@ class DiagnosticRefreshResponse(TypedDict):
 
 class DocumentColorResponse(TypedDict):
     method: Literal['textDocument/documentColor']
-    result: list['ColorInformation']
+    result: List['ColorInformation']
 
 
 class DocumentDiagnosticResponse(TypedDict):
@@ -521,17 +522,17 @@ class DocumentDiagnosticResponse(TypedDict):
 
 class DocumentFormattingResponse(TypedDict):
     method: Literal['textDocument/formatting']
-    result: list['TextEdit'] | None
+    result: Union[List['TextEdit'], None]
 
 
 class DocumentHighlightResponse(TypedDict):
     method: Literal['textDocument/documentHighlight']
-    result: list['DocumentHighlight'] | None
+    result: Union[List['DocumentHighlight'], None]
 
 
 class DocumentLinkResponse(TypedDict):
     method: Literal['textDocument/documentLink']
-    result: list['DocumentLink'] | None
+    result: Union[List['DocumentLink'], None]
 
 
 class DocumentLinkResolveResponse(TypedDict):
@@ -541,27 +542,27 @@ class DocumentLinkResolveResponse(TypedDict):
 
 class DocumentOnTypeFormattingResponse(TypedDict):
     method: Literal['textDocument/onTypeFormatting']
-    result: list['TextEdit'] | None
+    result: Union[List['TextEdit'], None]
 
 
 class DocumentRangeFormattingResponse(TypedDict):
     method: Literal['textDocument/rangeFormatting']
-    result: list['TextEdit'] | None
+    result: Union[List['TextEdit'], None]
 
 
 class DocumentRangesFormattingResponse(TypedDict):
     method: Literal['textDocument/rangesFormatting']
-    result: list['TextEdit'] | None
+    result: Union[List['TextEdit'], None]
 
 
 class DocumentSymbolResponse(TypedDict):
     method: Literal['textDocument/documentSymbol']
-    result: list['SymbolInformation'] | list['DocumentSymbol'] | None
+    result: Union[List['SymbolInformation'], List['DocumentSymbol'], None]
 
 
 class ExecuteCommandResponse(TypedDict):
     method: Literal['workspace/executeCommand']
-    result: 'LSPAny' | None
+    result: Union['LSPAny', None]
 
 
 class FoldingRangeRefreshResponse(TypedDict):
@@ -571,17 +572,17 @@ class FoldingRangeRefreshResponse(TypedDict):
 
 class FoldingRangeResponse(TypedDict):
     method: Literal['textDocument/foldingRange']
-    result: list['FoldingRange'] | None
+    result: Union[List['FoldingRange'], None]
 
 
 class HoverResponse(TypedDict):
     method: Literal['textDocument/hover']
-    result: 'Hover' | None
+    result: Union['Hover', None]
 
 
 class ImplementationResponse(TypedDict):
     method: Literal['textDocument/implementation']
-    result: 'Definition' | list['DefinitionLink'] | None
+    result: Union['Definition', List['DefinitionLink'], None]
 
 
 class InitializeResponse(TypedDict):
@@ -596,7 +597,7 @@ class InlayHintRefreshResponse(TypedDict):
 
 class InlayHintResponse(TypedDict):
     method: Literal['textDocument/inlayHint']
-    result: list['InlayHint'] | None
+    result: Union[List['InlayHint'], None]
 
 
 class InlayHintResolveResponse(TypedDict):
@@ -606,7 +607,7 @@ class InlayHintResolveResponse(TypedDict):
 
 class InlineCompletionResponse(TypedDict):
     method: Literal['textDocument/inlineCompletion']
-    result: 'InlineCompletionList' | list['InlineCompletionItem'] | None
+    result: Union['InlineCompletionList', List['InlineCompletionItem'], None]
 
 
 class InlineValueRefreshResponse(TypedDict):
@@ -616,27 +617,27 @@ class InlineValueRefreshResponse(TypedDict):
 
 class InlineValueResponse(TypedDict):
     method: Literal['textDocument/inlineValue']
-    result: list['InlineValue'] | None
+    result: Union[List['InlineValue'], None]
 
 
 class LinkedEditingRangeResponse(TypedDict):
     method: Literal['textDocument/linkedEditingRange']
-    result: 'LinkedEditingRanges' | None
+    result: Union['LinkedEditingRanges', None]
 
 
 class MonikerResponse(TypedDict):
     method: Literal['textDocument/moniker']
-    result: list['Moniker'] | None
+    result: Union[List['Moniker'], None]
 
 
 class PrepareRenameResponse(TypedDict):
     method: Literal['textDocument/prepareRename']
-    result: 'PrepareRenameResult' | None
+    result: Union['PrepareRenameResult', None]
 
 
 class ReferencesResponse(TypedDict):
     method: Literal['textDocument/references']
-    result: list['Location'] | None
+    result: Union[List['Location'], None]
 
 
 class RegistrationResponse(TypedDict):
@@ -646,22 +647,22 @@ class RegistrationResponse(TypedDict):
 
 class RenameResponse(TypedDict):
     method: Literal['textDocument/rename']
-    result: 'WorkspaceEdit' | None
+    result: Union['WorkspaceEdit', None]
 
 
 class SelectionRangeResponse(TypedDict):
     method: Literal['textDocument/selectionRange']
-    result: list['SelectionRange'] | None
+    result: Union[List['SelectionRange'], None]
 
 
 class SemanticTokensDeltaResponse(TypedDict):
     method: Literal['textDocument/semanticTokens/full/delta']
-    result: 'SemanticTokens' | 'SemanticTokensDelta' | None
+    result: Union['SemanticTokens', 'SemanticTokensDelta', None]
 
 
 class SemanticTokensRangeResponse(TypedDict):
     method: Literal['textDocument/semanticTokens/range']
-    result: 'SemanticTokens' | None
+    result: Union['SemanticTokens', None]
 
 
 class SemanticTokensRefreshResponse(TypedDict):
@@ -671,7 +672,7 @@ class SemanticTokensRefreshResponse(TypedDict):
 
 class SemanticTokensResponse(TypedDict):
     method: Literal['textDocument/semanticTokens/full']
-    result: 'SemanticTokens' | None
+    result: Union['SemanticTokens', None]
 
 
 class ShowDocumentResponse(TypedDict):
@@ -681,7 +682,7 @@ class ShowDocumentResponse(TypedDict):
 
 class ShowMessageResponse(TypedDict):
     method: Literal['window/showMessageRequest']
-    result: 'MessageActionItem' | None
+    result: Union['MessageActionItem', None]
 
 
 class ShutdownResponse(TypedDict):
@@ -691,7 +692,7 @@ class ShutdownResponse(TypedDict):
 
 class SignatureHelpResponse(TypedDict):
     method: Literal['textDocument/signatureHelp']
-    result: 'SignatureHelp' | None
+    result: Union['SignatureHelp', None]
 
 
 class TextDocumentContentRefreshResponse(TypedDict):
@@ -706,22 +707,22 @@ class TextDocumentContentResponse(TypedDict):
 
 class TypeDefinitionResponse(TypedDict):
     method: Literal['textDocument/typeDefinition']
-    result: 'Definition' | list['DefinitionLink'] | None
+    result: Union['Definition', List['DefinitionLink'], None]
 
 
 class TypeHierarchyPrepareResponse(TypedDict):
     method: Literal['textDocument/prepareTypeHierarchy']
-    result: list['TypeHierarchyItem'] | None
+    result: Union[List['TypeHierarchyItem'], None]
 
 
 class TypeHierarchySubtypesResponse(TypedDict):
     method: Literal['typeHierarchy/subtypes']
-    result: list['TypeHierarchyItem'] | None
+    result: Union[List['TypeHierarchyItem'], None]
 
 
 class TypeHierarchySupertypesResponse(TypedDict):
     method: Literal['typeHierarchy/supertypes']
-    result: list['TypeHierarchyItem'] | None
+    result: Union[List['TypeHierarchyItem'], None]
 
 
 class UnregistrationResponse(TypedDict):
@@ -731,22 +732,22 @@ class UnregistrationResponse(TypedDict):
 
 class WillCreateFilesResponse(TypedDict):
     method: Literal['workspace/willCreateFiles']
-    result: 'WorkspaceEdit' | None
+    result: Union['WorkspaceEdit', None]
 
 
 class WillDeleteFilesResponse(TypedDict):
     method: Literal['workspace/willDeleteFiles']
-    result: 'WorkspaceEdit' | None
+    result: Union['WorkspaceEdit', None]
 
 
 class WillRenameFilesResponse(TypedDict):
     method: Literal['workspace/willRenameFiles']
-    result: 'WorkspaceEdit' | None
+    result: Union['WorkspaceEdit', None]
 
 
 class WillSaveTextDocumentWaitUntilResponse(TypedDict):
     method: Literal['textDocument/willSaveWaitUntil']
-    result: list['TextEdit'] | None
+    result: Union[List['TextEdit'], None]
 
 
 class WorkDoneProgressCreateResponse(TypedDict):
@@ -761,12 +762,12 @@ class WorkspaceDiagnosticResponse(TypedDict):
 
 class WorkspaceFoldersResponse(TypedDict):
     method: Literal['workspace/workspaceFolders']
-    result: list['WorkspaceFolder'] | None
+    result: Union[List['WorkspaceFolder'], None]
 
 
 class WorkspaceSymbolResponse(TypedDict):
     method: Literal['workspace/symbol']
-    result: list['SymbolInformation'] | list['WorkspaceSymbol'] | None
+    result: Union[List['SymbolInformation'], List['WorkspaceSymbol'], None]
 
 
 class WorkspaceSymbolResolveResponse(TypedDict):
