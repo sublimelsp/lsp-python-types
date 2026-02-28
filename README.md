@@ -4,22 +4,26 @@ Requires py3.8 and up.
 
 ## Setup
 
+Use UV to manage virtual environment and run scripts.
+
 Install dependecies:
 ```sh
-pip install -r requirements.txt
+uv venv
 ```
 
 ## Update types
 
 Download the latest json schema:
 ```sh
-python ./download_schemas.py
+uv run download_schemas.py
 ```
 
-Generate the types:
+Generate the types and fix some issues by triggering formatting:
 ```sh
-python ./generate.py
+uv run generate.py
+uv run ruff format
 ```
+
 Copy the `lsp_types.py` file to your project.
 
 NOTE: Do not import types that begin with `__`. These types are internal types and are not meant to be used.
