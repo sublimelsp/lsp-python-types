@@ -25,8 +25,8 @@ uv run generate.py
 
 And finally fix linting and formatting issues:
 ```sh
-uv ruff check --fix --unsafe-fixes
-uv ruff format
+uv run ruff check --fix --unsafe-fixes
+uv run ruff format
 ```
 Copy the `lsp_types.py` file to your project.
 
