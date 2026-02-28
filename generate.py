@@ -101,6 +101,7 @@ def generate_custom(output: str) -> None:
 
     content = '\n'.join(  # noqa: FLY002
         [
+            '# ruff: noqa: UP006, UP007',
             'from __future__ import annotations\n',
             'from .lsp_types import *',
             'from typing import List',
