@@ -15,7 +15,7 @@ uv venv
 
 Download the latest json schema:
 ```sh
-uv run download-schemas.py
+uv run download_schemas.py
 ```
 
 Generate the types:
