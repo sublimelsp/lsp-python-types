@@ -1,6 +1,6 @@
 {
 	"metaData": {
-		"version": "3.17.0"
+		"version": "3.18.0"
 	},
 	"requests": [
 		{
@@ -159,11 +159,20 @@
 			"method": "textDocument/documentColor",
 			"typeName": "DocumentColorRequest",
 			"result": {
-				"kind": "array",
-				"element": {
-					"kind": "reference",
-					"name": "ColorInformation"
-				}
+				"kind": "or",
+				"items": [
+					{
+						"kind": "array",
+						"element": {
+							"kind": "reference",
+							"name": "ColorInformation"
+						}
+					},
+					{
+						"kind": "base",
+						"name": "null"
+					}
+				]
 			},
 			"messageDirection": "clientToServer",
 			"clientCapability": "textDocument.colorProvider",
@@ -189,13 +198,24 @@
 			"method": "textDocument/colorPresentation",
 			"typeName": "ColorPresentationRequest",
 			"result": {
-				"kind": "array",
-				"element": {
-					"kind": "reference",
-					"name": "ColorPresentation"
-				}
+				"kind": "or",
+				"items": [
+					{
+						"kind": "array",
+						"element": {
+							"kind": "reference",
+							"name": "ColorPresentation"
+						}
+					},
+					{
+						"kind": "base",
+						"name": "null"
+					}
+				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.colorProvider",
+			"serverCapability": "colorProvider",
 			"params": {
 				"kind": "reference",
 				"name": "ColorPresentationParams"
@@ -436,6 +456,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.callHierarchy",
+			"serverCapability": "callHierarchyProvider",
 			"params": {
 				"kind": "reference",
 				"name": "CallHierarchyIncomingCallsParams"
@@ -470,6 +492,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.callHierarchy",
+			"serverCapability": "callHierarchyProvider",
 			"params": {
 				"kind": "reference",
 				"name": "CallHierarchyOutgoingCallsParams"
@@ -1898,6 +1922,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
+			"clientCapability": "textDocument.rangeFormatting",
+			"serverCapability": "documentRangeFormattingProvider",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentRangeFormattingParams"
@@ -1928,8 +1954,8 @@
 				]
 			},
 			"messageDirection": "clientToServer",
-			"clientCapability": "textDocument.rangeFormatting",
-			"serverCapability": "documentRangeFormattingProvider",
+			"clientCapability": "textDocument.rangeFormatting.rangesSupport",
+			"serverCapability": "documentRangeFormattingProvider.rangesSupport",
 			"params": {
 				"kind": "reference",
 				"name": "DocumentRangesFormattingParams"
@@ -2276,7 +2302,7 @@
 			"typeName": "DidOpenTextDocumentNotification",
 			"messageDirection": "clientToServer",
 			"clientCapability": "textDocument.synchronization",
-			"serverCapability": "textDocumentSync",
+			"serverCapability": "textDocumentSync.openClose",
 			"params": {
 				"kind": "reference",
 				"name": "DidOpenTextDocumentParams"
@@ -2308,7 +2334,7 @@
 			"typeName": "DidCloseTextDocumentNotification",
 			"messageDirection": "clientToServer",
 			"clientCapability": "textDocument.synchronization",
-			"serverCapability": "textDocumentSync",
+			"serverCapability": "textDocumentSync.openClose",
 			"params": {
 				"kind": "reference",
 				"name": "DidCloseTextDocumentParams"
@@ -6398,28 +6424,18 @@
 			"name": "RenameParams",
 			"properties": [
 				{
-					"name": "textDocument",
-					"type": {
-						"kind": "reference",
-						"name": "TextDocumentIdentifier"
-					},
-					"documentation": "The document to rename."
-				},
-				{
-					"name": "position",
-					"type": {
-						"kind": "reference",
-						"name": "Position"
-					},
-					"documentation": "The position at which this request was sent."
-				},
-				{
 					"name": "newName",
 					"type": {
 						"kind": "base",
 						"name": "string"
 					},
 					"documentation": "The new name of the symbol. If the given name is not valid the\nrequest must return a {@link ResponseError} with an\nappropriate message set."
+				}
+			],
+			"extends": [
+				{
+					"kind": "reference",
+					"name": "TextDocumentPositionParams"
 				}
 			],
 			"mixins": [
@@ -9143,10 +9159,19 @@
 				{
 					"name": "message",
 					"type": {
-						"kind": "base",
-						"name": "string"
+						"kind": "or",
+						"items": [
+							{
+								"kind": "base",
+								"name": "string"
+							},
+							{
+								"kind": "reference",
+								"name": "MarkupContent"
+							}
+						]
 					},
-					"documentation": "The diagnostic's message. It usually appears in the user interface"
+					"documentation": "The diagnostic's message. It usually appears in the user interface.\n\n@since 3.18.0 - support for `MarkupContent`. This is guarded by the client capability `textDocument.diagnostic.markupMessageSupport`."
 				},
 				{
 					"name": "tags",
