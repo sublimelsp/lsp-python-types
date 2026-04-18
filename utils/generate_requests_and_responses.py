@@ -68,9 +68,13 @@ def generate_request(request: Request) -> tuple[str, str]:
 def generate_response(request: Request) -> tuple[str, str]:
     method = request['method']
     result = request['result']
+    params = request.get('params')
     type_name = request['typeName']
     name = f'{type_name.removesuffix("Request")}Response'
     definition = f'class {name}(TypedDict):\n'
     definition += f"{indentation}method: Literal['{method}']\n"
+    if request['messageDirection'] == 'serverToClient':
+        typ = format_type(params, {'root_symbol_name': ''}, StructureKind.Class) if params else None
+        definition += f'{indentation}params: {typ}\n'
     definition += f'{indentation}result: {format_type(result, {"root_symbol_name": ""}, StructureKind.Class)}'
     return (name, definition)
