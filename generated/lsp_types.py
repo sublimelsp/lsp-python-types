@@ -16,6 +16,7 @@ from typing import Sequence
 from typing import TypedDict
 from typing import Union
 from typing_extensions import NotRequired
+from typing_extensions import override
 from typing_extensions import TypeAlias
 
 URI = str
@@ -32,6 +33,15 @@ class SemanticTokenTypes(StrEnum):
 
     @since 3.16.0
     """
+
+    @classmethod
+    @override
+    def _missing_(cls, value: object) -> str:
+        str_value = str(value)
+        obj = str.__new__(cls, str_value)
+        obj._value_ = str_value
+        obj._name_ = str_value
+        return obj
 
     Namespace = 'namespace'
     Type = 'type'
@@ -73,6 +83,15 @@ class SemanticTokenModifiers(StrEnum):
 
     @since 3.16.0
     """
+
+    @classmethod
+    @override
+    def _missing_(cls, value: object) -> str:
+        str_value = str(value)
+        obj = str.__new__(cls, str_value)
+        obj._value_ = str_value
+        obj._name_ = str_value
+        return obj
 
     Declaration = 'declaration'
     Definition = 'definition'
@@ -159,6 +178,15 @@ class LSPErrorCodes(IntEnum):
 
 class FoldingRangeKind(StrEnum):
     """A set of predefined range kinds."""
+
+    @classmethod
+    @override
+    def _missing_(cls, value: object) -> str:
+        str_value = str(value)
+        obj = str.__new__(cls, str_value)
+        obj._value_ = str_value
+        obj._name_ = str_value
+        return obj
 
     Comment = 'comment'
     """Folding range for a comment"""
@@ -420,6 +448,15 @@ class DocumentHighlightKind(IntEnum):
 class CodeActionKind(StrEnum):
     """A set of predefined code action kinds"""
 
+    @classmethod
+    @override
+    def _missing_(cls, value: object) -> str:
+        str_value = str(value)
+        obj = str.__new__(cls, str_value)
+        obj._value_ = str_value
+        obj._name_ = str_value
+        return obj
+
     Empty = ''
     """Empty kind."""
     QuickFix = 'quickfix'
@@ -543,6 +580,15 @@ class LanguageKind(StrEnum):
     @since 3.18.0
     """
 
+    @classmethod
+    @override
+    def _missing_(cls, value: object) -> str:
+        str_value = str(value)
+        obj = str.__new__(cls, str_value)
+        obj._value_ = str_value
+        obj._name_ = str_value
+        return obj
+
     ABAP = 'abap'
     WindowsBat = 'bat'
     BibTeX = 'bibtex'
@@ -638,6 +684,15 @@ class PositionEncodingKind(StrEnum):
 
     @since 3.17.0
     """
+
+    @classmethod
+    @override
+    def _missing_(cls, value: object) -> str:
+        str_value = str(value)
+        obj = str.__new__(cls, str_value)
+        obj._value_ = str_value
+        obj._name_ = str_value
+        return obj
 
     UTF8 = 'utf-8'
     """Character offsets count UTF-8 code units (e.g. bytes)."""

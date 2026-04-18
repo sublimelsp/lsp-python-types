@@ -13,6 +13,18 @@ if TYPE_CHECKING:
     from lsp_schema import EnumerationEntry
 
 
+STR_ENUM_MISSING_IMPL = f"""
+@classmethod
+@override
+def _missing_(cls, value: object) -> str:
+{indentation}str_value = str(value)
+{indentation}obj = str.__new__(cls, str_value)
+{indentation}obj._value_ = str_value
+{indentation}obj._name_ = str_value
+{indentation}return obj
+""".strip()
+
+
 class EnumKind(Enum):
     Number = 1
     String = 2
@@ -49,6 +61,10 @@ def generate_enumerations(
         result += f'class {symbol_name}({enum_class}):\n'
         if documentation:
             result += f'{documentation}\n\n'
+        if enum_class == 'StrEnum' and enumeration.get('supportsCustomValues'):
+            lines = STR_ENUM_MISSING_IMPL.splitlines()
+            formatted = '\n'.join([f'{indentation}{line}' for line in lines])
+            result += f'{formatted}\n\n'
         result += f'{indentation}' + values
         return result
 

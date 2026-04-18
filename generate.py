@@ -68,6 +68,7 @@ def generate_protocol(output: str) -> None:
             'from typing import TypedDict',
             'from typing import Union',
             'from typing_extensions import NotRequired',
+            'from typing_extensions import override',
             'from typing_extensions import TypeAlias\n',
             'URI = str',
             'DocumentUri = str',
