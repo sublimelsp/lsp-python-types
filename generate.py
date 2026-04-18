@@ -21,21 +21,6 @@ if TYPE_CHECKING:
 
 
 ENUM_OVERRIDES: dict[str, Literal['StrEnum', 'IntFlag']] = {
-    'CodeActionKind': 'StrEnum',
-    'DocumentDiagnosticReportKind': 'StrEnum',
-    'FailureHandlingKind': 'StrEnum',
-    'FileOperationPatternKind': 'StrEnum',
-    'FoldingRangeKind': 'StrEnum',
-    'LanguageKind': 'StrEnum',
-    'MarkupKind': 'StrEnum',
-    'MonikerKind': 'StrEnum',
-    'PositionEncodingKind': 'StrEnum',
-    'ResourceOperationKind': 'StrEnum',
-    'SemanticTokenModifiers': 'StrEnum',
-    'SemanticTokenTypes': 'StrEnum',
-    'TokenFormat': 'StrEnum',
-    'TraceValue': 'StrEnum',
-    'UniquenessLevel': 'StrEnum',
     'WatchKind': 'IntFlag',
     'ApplyKind': 'IntFlag',
 }

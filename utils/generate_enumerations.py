@@ -44,7 +44,7 @@ def generate_enumerations(
         documentation = format_comment(enumeration.get('documentation'), indentation)
         kind = EnumKind.String if enumeration['type']['name'] == 'string' else EnumKind.Number
         enum_class_override = overrides.get(symbol_name)
-        enum_class = enum_class_override or ('Enum' if kind == EnumKind.String else 'IntEnum')
+        enum_class = enum_class_override or ('StrEnum' if kind == EnumKind.String else 'IntEnum')
         values = format_enumeration_values(enumeration['values'], kind)
         result += f'class {symbol_name}({enum_class}):\n'
         if documentation:
