@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from utils.helpers import format_type
 from utils.helpers import indentation
-from utils.helpers import StructureKind
 
 if TYPE_CHECKING:
     from lsp_schema import Request
@@ -59,7 +58,7 @@ def generate_request(request: Request) -> tuple[str, str]:
     definition = f'class {name}(TypedDict):\n'
     definition += f"{indentation}method: Literal['{method}']\n"
     if params:
-        definition += f'{indentation}params: {format_type(params, {"root_symbol_name": ""}, StructureKind.Class)}'
+        definition += f'{indentation}params: {format_type(params, {"root_symbol_name": ""})}'
     else:
         definition += f'{indentation}params: None'
     return (name, definition)
@@ -74,7 +73,7 @@ def generate_response(request: Request) -> tuple[str, str]:
     definition = f'class {name}(TypedDict):\n'
     definition += f"{indentation}method: Literal['{method}']\n"
     if request['messageDirection'] == 'serverToClient':
-        typ = format_type(params, {'root_symbol_name': ''}, StructureKind.Class) if params else None
+        typ = format_type(params, {'root_symbol_name': ''}) if params else None
         definition += f'{indentation}params: {typ}\n'
-    definition += f'{indentation}result: {format_type(result, {"root_symbol_name": ""}, StructureKind.Class)}'
+    definition += f'{indentation}result: {format_type(result, {"root_symbol_name": ""})}'
     return (name, definition)
