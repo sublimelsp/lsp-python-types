@@ -5,17 +5,20 @@ from utils.helpers import format_comment
 from utils.helpers import format_type
 
 if TYPE_CHECKING:
+    from lsp_schema import Enumeration
     from lsp_schema import TypeAlias
 
 
-def generate_type_aliases(type_aliases: list[TypeAlias], overrides: dict[str, str]) -> list[str]:
+def generate_type_aliases(
+    type_aliases: list[TypeAlias], overrides: dict[str, str], enumerations: dict[str, Enumeration]
+) -> list[str]:
     def to_string(type_alias: TypeAlias) -> str:
         symbol_name = type_alias['name']
         documentation = format_comment(type_alias.get('documentation'))
         if symbol_name in overrides:
             value = overrides[symbol_name]
         else:
-            value = format_type(type_alias['type'], {'root_symbol_name': symbol_name})
+            value = format_type(type_alias['type'], {'enumerations': enumerations})
         result = f"""
 {symbol_name}: TypeAlias = {value}"""
         if documentation:

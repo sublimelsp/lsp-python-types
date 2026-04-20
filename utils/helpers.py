@@ -8,6 +8,8 @@ import keyword
 
 if TYPE_CHECKING:
     from lsp_schema import BaseType
+    from lsp_schema import Enumeration
+    from lsp_schema import EnumerationType
     from lsp_schema import EveryType
     from lsp_schema import MapKeyType
     from lsp_schema import Property
@@ -54,7 +56,7 @@ class StructureKind(Enum):
 
 
 class FormatTypeContext(TypedDict):
-    root_symbol_name: str
+    enumerations: dict[str, Enumeration]
 
 
 def format_type(typ: EveryType, context: FormatTypeContext) -> str:
@@ -63,13 +65,15 @@ def format_type(typ: EveryType, context: FormatTypeContext) -> str:
         return format_base_types(typ)
     if typ['kind'] == 'reference':
         literal_symbol_name = typ['name']
+        if (enum := context['enumerations'].get(literal_symbol_name)) and enum.get('supportsCustomValues'):
+            return f'Union[{format_type(enum["type"], context)}, {literal_symbol_name}]'
         return f"'{literal_symbol_name}'"
     if typ['kind'] == 'array':
         literal_symbol_name = format_type(typ['element'], context)
         return f'List[{literal_symbol_name}]'
     if typ['kind'] == 'map':
         key = format_base_types(typ['key'])
-        value = format_type(typ['value'], {'root_symbol_name': key})
+        value = format_type(typ['value'], {'enumerations': context['enumerations']})
         return f'Dict[{key}, {value}]'
     if typ['kind'] == 'and':
         pass
@@ -91,7 +95,7 @@ def format_type(typ: EveryType, context: FormatTypeContext) -> str:
     return result
 
 
-def format_base_types(base_type: BaseType | MapKeyType) -> str:
+def format_base_types(base_type: BaseType | MapKeyType | EnumerationType) -> str:
     mapping: dict[str, str] = {
         'integer': 'int',
         'uinteger': 'Uint',
@@ -111,11 +115,11 @@ class FormattedProperty(TypedDict):
     documentation: str
 
 
-def get_formatted_properties(properties: list[Property], root_symbol_name: str) -> list[FormattedProperty]:
+def get_formatted_properties(properties: list[Property], context: FormatTypeContext) -> list[FormattedProperty]:
     result: list[FormattedProperty] = []
     for p in properties:
         key = p['name']
-        value = format_type(p['type'], {'root_symbol_name': root_symbol_name + '_' + key})
+        value = format_type(p['type'], context)
         if p.get('optional'):
             value = f'NotRequired[{value}]'
         documentation = p.get('documentation') or ''

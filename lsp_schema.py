@@ -225,6 +225,7 @@ class MetaModel(TypedDict):
 
 EveryType = (
     BaseType
+    | EnumerationType
     | ReferenceType
     | ArrayType
     | MapType

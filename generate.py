@@ -61,12 +61,14 @@ def generate_protocol(output: str) -> None:
         ]
     )
 
+    enumerations = {e['name']: e for e in lsp_json['enumerations']}
+
     content += '\n\n\n'
     content += '\n\n\n'.join(generate_enumerations(lsp_json['enumerations'], ENUM_OVERRIDES))
     content += '\n\n'
-    content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], ALIAS_OVERRIDES))
+    content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], ALIAS_OVERRIDES, enumerations))
     content += '\n\n\n'
-    content += '\n\n\n'.join(generate_structures(lsp_json['structures']))
+    content += '\n\n\n'.join(generate_structures(lsp_json['structures'], enumerations))
     content += '\n'
     content += '\n'.join(get_new_literal_structures())
 
@@ -101,10 +103,12 @@ def generate_custom(output: str) -> None:
     requests = sorted(lsp_json['requests'], key=itemgetter('typeName'))
     notifications = sorted(lsp_json['notifications'], key=itemgetter('typeName'))
 
+    enumerations = {e['name']: e for e in lsp_json['enumerations']}
+
     content += '\n\n\n'
-    content += '\n\n\n'.join(generate_requests_and_responses(requests))
+    content += '\n\n\n'.join(generate_requests_and_responses(requests, enumerations))
     content += '\n\n\n'
-    content += '\n\n\n'.join(generate_notifications(notifications))
+    content += '\n\n\n'.join(generate_notifications(notifications, enumerations))
     content += '\n'
 
     # Remove trailing spaces.
