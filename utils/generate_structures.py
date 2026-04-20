@@ -22,9 +22,7 @@ def generate_structures(structures: list[Structure]) -> list[str]:
     return [to_string(structure) for structure in structures if not structure['name'].startswith('_')]
 
 
-def get_additional_properties(
-    for_structure: Structure, structures: list[Structure], structure_kind: StructureKind
-) -> list[FormattedProperty]:
+def get_additional_properties(for_structure: Structure, structures: list[Structure]) -> list[FormattedProperty]:
     """Return properties from extended and mixin types."""
     result: list[FormattedProperty] = []
     additional_structures = for_structure.get('extends') or []
@@ -35,7 +33,7 @@ def get_additional_properties(
             raise Exception(error, additional_structure['kind'])
         structure = next(structure for structure in structures if structure['name'] == additional_structure['name'])
         if structure:
-            properties = get_formatted_properties(structure['properties'], structure['name'], structure_kind)
+            properties = get_formatted_properties(structure['properties'], structure['name'])
             result.extend(properties)
     return result
 
@@ -43,8 +41,8 @@ def get_additional_properties(
 def generate_structure(structure: Structure, structures: list[Structure], structure_kind: StructureKind) -> str:
     result = ''
     symbol_name = structure['name']
-    properties = get_formatted_properties(structure['properties'], structure['name'], structure_kind)
-    additional_properties = get_additional_properties(structure, structures, structure_kind)
+    properties = get_formatted_properties(structure['properties'], structure['name'])
+    additional_properties = get_additional_properties(structure, structures)
 
     # add extended properties
     taken_property_names = [p['name'] for p in properties]
