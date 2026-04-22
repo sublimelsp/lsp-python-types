@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from enum import Enum
 from typing import Any
+from typing import Literal
 from typing import TYPE_CHECKING
 from typing import TypedDict
 import keyword
@@ -55,17 +57,24 @@ class StructureKind(Enum):
     Function = 2
 
 
-class FormatTypeContext(TypedDict):
+@dataclass
+class GeneratorContext:
+    alias_overrides: dict[str, str]
+    enum_overrides: dict[str, Literal['StrEnum', 'IntFlag']]
     enumerations: dict[str, Enumeration]
 
 
-def format_type(typ: EveryType, context: FormatTypeContext) -> str:
+def format_type(typ: EveryType, context: GeneratorContext) -> str:
     result = 'Any'
     if typ['kind'] == 'base':
         return format_base_types(typ)
     if typ['kind'] == 'reference':
         literal_symbol_name = typ['name']
-        if (enum := context['enumerations'].get(literal_symbol_name)) and enum.get('supportsCustomValues'):
+        if (
+            (enum := context.enumerations.get(literal_symbol_name))
+            and enum.get('supportsCustomValues')
+            and context.enum_overrides.get(literal_symbol_name) != 'IntFlag'
+        ):
             return f'Union[{format_type(enum["type"], context)}, {literal_symbol_name}]'
         return f"'{literal_symbol_name}'"
     if typ['kind'] == 'array':
@@ -73,7 +82,7 @@ def format_type(typ: EveryType, context: FormatTypeContext) -> str:
         return f'List[{literal_symbol_name}]'
     if typ['kind'] == 'map':
         key = format_base_types(typ['key'])
-        value = format_type(typ['value'], {'enumerations': context['enumerations']})
+        value = format_type(typ['value'], context)
         return f'Dict[{key}, {value}]'
     if typ['kind'] == 'and':
         pass
@@ -115,7 +124,7 @@ class FormattedProperty(TypedDict):
     documentation: str
 
 
-def get_formatted_properties(properties: list[Property], context: FormatTypeContext) -> list[FormattedProperty]:
+def get_formatted_properties(properties: list[Property], context: GeneratorContext) -> list[FormattedProperty]:
     result: list[FormattedProperty] = []
     for p in properties:
         key = p['name']

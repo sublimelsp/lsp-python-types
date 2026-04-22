@@ -730,7 +730,7 @@ class CompletionTriggerKind(IntEnum):
     """Completion was re-triggered as current completion list is incomplete"""
 
 
-class ApplyKind(IntFlag):
+class ApplyKind(IntEnum):
     """
     Defines how values from a set of defaults and an individual item will be
     merged.
@@ -4987,7 +4987,7 @@ class FileSystemWatcher(TypedDict):
 
     @since 3.17.0 support for relative patterns.
     """
-    kind: NotRequired[Union[Uint, WatchKind]]
+    kind: NotRequired['WatchKind']
     """
     The kind of events of interest. If omitted it defaults
     to WatchKind.Create | WatchKind.Change | WatchKind.Delete

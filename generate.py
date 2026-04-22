@@ -12,6 +12,7 @@ from utils.generate_notifications import generate_notifications
 from utils.generate_requests_and_responses import generate_requests_and_responses
 from utils.generate_structures import generate_structures
 from utils.generate_type_aliases import generate_type_aliases
+from utils.helpers import GeneratorContext
 from utils.helpers import get_new_literal_structures
 from utils.helpers import reset_new_literal_structures
 import json
@@ -22,7 +23,6 @@ if TYPE_CHECKING:
 
 ENUM_OVERRIDES: dict[str, Literal['StrEnum', 'IntFlag']] = {
     'WatchKind': 'IntFlag',
-    'ApplyKind': 'IntFlag',
 }
 
 ALIAS_OVERRIDES: dict[str, str] = {'LSPArray': "Sequence['LSPAny']", 'LSPObject': 'Mapping[str, Any]'}
@@ -61,14 +61,18 @@ def generate_protocol(output: str) -> None:
         ]
     )
 
-    enumerations = {e['name']: e for e in lsp_json['enumerations']}
+    context = GeneratorContext(
+        enumerations={e['name']: e for e in lsp_json['enumerations']},
+        enum_overrides=ENUM_OVERRIDES,
+        alias_overrides=ALIAS_OVERRIDES,
+    )
 
     content += '\n\n\n'
-    content += '\n\n\n'.join(generate_enumerations(lsp_json['enumerations'], ENUM_OVERRIDES))
+    content += '\n\n\n'.join(generate_enumerations(lsp_json['enumerations'], context))
     content += '\n\n'
-    content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], ALIAS_OVERRIDES, enumerations))
+    content += '\n'.join(generate_type_aliases(lsp_json['typeAliases'], context))
     content += '\n\n\n'
-    content += '\n\n\n'.join(generate_structures(lsp_json['structures'], enumerations))
+    content += '\n\n\n'.join(generate_structures(lsp_json['structures'], context))
     content += '\n'
     content += '\n'.join(get_new_literal_structures())
 
@@ -103,12 +107,16 @@ def generate_custom(output: str) -> None:
     requests = sorted(lsp_json['requests'], key=itemgetter('typeName'))
     notifications = sorted(lsp_json['notifications'], key=itemgetter('typeName'))
 
-    enumerations = {e['name']: e for e in lsp_json['enumerations']}
+    context = GeneratorContext(
+        enumerations={e['name']: e for e in lsp_json['enumerations']},
+        enum_overrides=ENUM_OVERRIDES,
+        alias_overrides=ALIAS_OVERRIDES,
+    )
 
     content += '\n\n\n'
-    content += '\n\n\n'.join(generate_requests_and_responses(requests, enumerations))
+    content += '\n\n\n'.join(generate_requests_and_responses(requests, context))
     content += '\n\n\n'
-    content += '\n\n\n'.join(generate_notifications(notifications, enumerations))
+    content += '\n\n\n'.join(generate_notifications(notifications, context))
     content += '\n'
 
     # Remove trailing spaces.

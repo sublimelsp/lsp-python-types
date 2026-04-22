@@ -5,26 +5,26 @@ from utils.helpers import format_class_properties
 from utils.helpers import format_comment
 from utils.helpers import format_dict_properties
 from utils.helpers import FormattedProperty
+from utils.helpers import GeneratorContext
 from utils.helpers import get_formatted_properties
 from utils.helpers import has_invalid_property_name
 from utils.helpers import indentation
 from utils.helpers import StructureKind
 
 if TYPE_CHECKING:
-    from lsp_schema import Enumeration
     from lsp_schema import Structure
 
 
-def generate_structures(structures: list[Structure], enumerations: dict[str, Enumeration]) -> list[str]:
+def generate_structures(structures: list[Structure], context: GeneratorContext) -> list[str]:
     def to_string(structure: Structure) -> str:
         kind = StructureKind.Function if has_invalid_property_name(structure['properties']) else StructureKind.Class
-        return generate_structure(structure, structures, kind, enumerations)
+        return generate_structure(structure, structures, kind, context)
 
     return [to_string(structure) for structure in structures if not structure['name'].startswith('_')]
 
 
 def get_additional_properties(
-    for_structure: Structure, structures: list[Structure], enumerations: dict[str, Enumeration]
+    for_structure: Structure, structures: list[Structure], context: GeneratorContext
 ) -> list[FormattedProperty]:
     """Return properties from extended and mixin types."""
     result: list[FormattedProperty] = []
@@ -36,7 +36,7 @@ def get_additional_properties(
             raise Exception(error, additional_structure['kind'])
         structure = next(structure for structure in structures if structure['name'] == additional_structure['name'])
         if structure:
-            properties = get_formatted_properties(structure['properties'], {'enumerations': enumerations})
+            properties = get_formatted_properties(structure['properties'], context)
             result.extend(properties)
     return result
 
@@ -45,12 +45,12 @@ def generate_structure(
     structure: Structure,
     structures: list[Structure],
     structure_kind: StructureKind,
-    enumerations: dict[str, Enumeration],
+    context: GeneratorContext,
 ) -> str:
     result = ''
     symbol_name = structure['name']
-    properties = get_formatted_properties(structure['properties'], {'enumerations': enumerations})
-    additional_properties = get_additional_properties(structure, structures, enumerations)
+    properties = get_formatted_properties(structure['properties'], context)
+    additional_properties = get_additional_properties(structure, structures, context)
 
     # add extended properties
     taken_property_names = [p['name'] for p in properties]
