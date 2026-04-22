@@ -65,7 +65,11 @@ def format_type(typ: EveryType, context: FormatTypeContext) -> str:
         return format_base_types(typ)
     if typ['kind'] == 'reference':
         literal_symbol_name = typ['name']
-        if (enum := context['enumerations'].get(literal_symbol_name)) and enum.get('supportsCustomValues'):
+        if (
+            (enum := context['enumerations'].get(literal_symbol_name))
+            and enum.get('supportsCustomValues')
+            and enum['type']['name'] == 'string'  # only for string enums, number enums are handled fine by IntEnum
+        ):
             return f'Union[{format_type(enum["type"], context)}, {literal_symbol_name}]'
         return f"'{literal_symbol_name}'"
     if typ['kind'] == 'array':
