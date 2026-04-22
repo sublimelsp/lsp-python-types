@@ -22,7 +22,6 @@ if TYPE_CHECKING:
 
 ENUM_OVERRIDES: dict[str, Literal['StrEnum', 'IntFlag']] = {
     'WatchKind': 'IntFlag',
-    'ApplyKind': 'IntFlag',
 }
 
 ALIAS_OVERRIDES: dict[str, str] = {'LSPArray': "Sequence['LSPAny']", 'LSPObject': 'Mapping[str, Any]'}
