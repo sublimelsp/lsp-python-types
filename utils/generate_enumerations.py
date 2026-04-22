@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Literal
 from typing import TYPE_CHECKING
 from utils.helpers import capitalize
 from utils.helpers import format_comment
+from utils.helpers import GeneratorContext
 from utils.helpers import indentation
 import keyword
 
@@ -35,15 +35,13 @@ def format_enumeration_values(values: list[EnumerationEntry], kind: EnumKind) ->
     return f'\n{indentation}'.join(result)
 
 
-def generate_enumerations(
-    enumerations: list[Enumeration], overrides: dict[str, Literal['StrEnum', 'IntFlag']]
-) -> list[str]:
+def generate_enumerations(enumerations: list[Enumeration], context: GeneratorContext) -> list[str]:
     def to_string(enumeration: Enumeration) -> str:
         result: str = ''
         symbol_name = enumeration['name']
         documentation = format_comment(enumeration.get('documentation'), indentation)
         kind = EnumKind.String if enumeration['type']['name'] == 'string' else EnumKind.Number
-        enum_class_override = overrides.get(symbol_name)
+        enum_class_override = context.enum_overrides.get(symbol_name)
         enum_class = enum_class_override or ('StrEnum' if kind == EnumKind.String else 'IntEnum')
         values = format_enumeration_values(enumeration['values'], kind)
         result += f'class {symbol_name}({enum_class}):\n'
