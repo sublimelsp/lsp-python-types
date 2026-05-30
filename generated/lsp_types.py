@@ -5028,7 +5028,8 @@ class Diagnostic(TypedDict):
     """
     The diagnostic's message. It usually appears in the user interface.
 
-    @since 3.18.0 - support for `MarkupContent`. This is guarded by the client capability `textDocument.diagnostic.markupMessageSupport`.
+    @since 3.18.0 - support for MarkupContent. This is guarded by the client
+    capability `textDocument.diagnostic.markupMessageSupport`.
     """
     tags: NotRequired[List['DiagnosticTag']]
     """
@@ -7543,6 +7544,13 @@ class DiagnosticClientCapabilities(TypedDict):
     """
     relatedDocumentSupport: NotRequired[bool]
     """Whether the clients supports related documents for document diagnostic pulls."""
+    markupMessageSupport: NotRequired[bool]
+    """
+    Whether the client supports `MarkupContent` in diagnostic messages.
+
+    @since 3.18.0
+    @proposed
+    """
     relatedInformation: NotRequired[bool]
     """Whether the clients accepts diagnostics with related information."""
     tagSupport: NotRequired['ClientDiagnosticsTagOptions']
