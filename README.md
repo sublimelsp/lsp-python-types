@@ -6,7 +6,7 @@ Requires py3.8 and up.
 
 Use UV to manage virtual environment and run scripts.
 
-Install dependecies:
+Install dependencies:
 ```sh
 uv venv
 ```
