@@ -63,12 +63,12 @@ def generate_structure(
         result += f"{symbol_name} = TypedDict('{symbol_name}', "
         result += '{\n'
         result += f'{indentation}{format_dict_properties(properties)}\n'
-        result += '})'
+        result += '}, closed=True)'
         if documentation:
             result += f'\n{documentation}'
     else:
         documentation = format_comment(structure.get('documentation'), indentation)
-        result += f'class {symbol_name}(TypedDict):\n'
+        result += f'class {symbol_name}(TypedDict, closed=True):\n'
         if documentation:
             result += f'{documentation}\n\n'
         result += f'{indentation}{format_class_properties(properties) or "pass"}'

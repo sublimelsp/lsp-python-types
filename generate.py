@@ -50,10 +50,10 @@ def generate_protocol(output: str) -> None:
             'from typing import Literal',
             'from typing import Mapping',
             'from typing import Sequence',
-            'from typing import TypedDict',
             'from typing import Union',
             'from typing_extensions import NotRequired',
-            'from typing_extensions import TypeAlias\n',
+            'from typing_extensions import TypeAlias',
+            'from typing_extensions import TypedDict\n',
             'URI = str',
             'DocumentUri = str',
             'Uint = int',
@@ -97,9 +97,9 @@ def generate_custom(output: str) -> None:
             'from .lsp_types import *',
             'from typing import List',
             'from typing import Literal',
-            'from typing import TypedDict',
             'from typing import Union',
             'from typing_extensions import TypeAlias',
+            'from typing_extensions import TypedDict',
         ]
     )
 
