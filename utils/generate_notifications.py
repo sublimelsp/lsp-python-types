@@ -37,7 +37,7 @@ def generate_notification(notification: Notification, context: GeneratorContext)
     method = notification['method']
     params = notification.get('params')
     name = notification['typeName']
-    definition = f'class {name}(TypedDict):\n'
+    definition = f'class {name}(TypedDict, closed=True):\n'
     definition += f"{indentation}method: Literal['{method}']\n"
     if params:
         definition += f'{indentation}params: {format_type(params, context)}'
